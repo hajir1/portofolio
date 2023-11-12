@@ -252,3 +252,8 @@ section .container .biodata .items .item:hover .tooltip {
   visibility: visible;
   opacity: 1;
 }
+@media screen and (max-width:700px) {
+  section .container{
+    width: 100%;
+  }
+}
