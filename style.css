@@ -1,0 +1,254 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Heebo:wght@100;200;300;500;600;700;800&family=Julee&family=Montserrat&family=Open+Sans&family=Oswald:wght@500&family=Playpen+Sans:wght@100;200;300;500;600;700;800&family=REM:ital,wght@0,200;0,600;0,900;1,200;1,400;1,600;1,900&family=Rajdhani:wght@300;400;500;600;700&family=Satisfy&family=Shadows+Into+Light&family=Source+Code+Pro:wght@500&display=swap");
+
+:root {
+  --fontPrimary: "Montserrat", sans-serif;
+}
+*,
+html,
+* {
+  padding: 0;
+  margin: 0;
+
+  box-sizing: border-box;
+}
+body {
+  width: 100%;
+  min-height: 100vh;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-family: var(--fontPrimary);
+}
+a{
+  color: black;
+}
+.beforeUnload{
+  width: 100%;
+  height: 100vh;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.beforeUnload > p{
+  text-align: "";
+  
+}
+section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+section .container {
+  width: 70%;
+  display: flex;
+  border: 1px solid black;
+  margin-top: 0.2rem;
+  min-height: 100vh;
+  padding: 0.8rem;
+  position: relative;
+  flex-direction: column;
+}
+section .container .potos {
+  display: flex;
+  justify-content: center;
+}
+section .container .potos .poto {
+  width: 20rem;
+  height: 20rem;
+  border: 1px solid black;
+  position: relative;
+  margin-top: 10px;
+  border-radius: 50%;
+  background-color: aqua;
+}
+section .container .potos .poto > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: contain;
+  object-position: bottom;
+}
+section .container > h1 {
+  color: black;
+  text-align: left;
+  width: 100%;
+}
+section .container > h1 > span {
+  background: linear-gradient(to right, aqua, #ca834d);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+section .container > h4 {
+  width: 100%;
+  margin: 10px 0 0.4rem 0;
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+section .container p:nth-child(4) {
+  text-align: center;
+}
+
+section .container > h3 {
+  width: 100%;
+  text-align: center;
+  margin: 1.2rem 0 5px 0;
+  background: linear-gradient(to right, rgb(89, 189, 189), #f8720b);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+section .container p:nth-child(6) {
+  text-align: center;
+}
+
+section .container .skills {
+  margin: 10px 0 10px 0;
+  width: 100%;
+  padding: 0.4rem;
+}
+
+section .container .skills > p {
+  text-align: start;
+  margin-bottom: 1rem;
+  width: 3rem;
+  border-bottom: 1px solid black;
+}
+section .container .skills .wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+section .container .skills .wrapper .contains {
+  width: calc(100% - 75% + 1rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  min-height: 6rem;
+  margin: 0.2rem;
+  position: relative;
+  height: auto;
+}
+
+section .container .skills .wrapper .contains .toolTipText {
+  position: absolute;
+  top: 0;
+  background-color: black;
+  color: white;
+  padding: 0.4rem;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  left: 50%;
+  border-radius: 7px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+section .container .skills .wrapper .contains .toolTipText::before {
+  content: "";
+  position: absolute;
+  border: 10px solid;
+  border-color: #000 #0000 #0000 #0000;
+  top: 100%;
+  transform: translateX(-50%);
+  left: 50%;
+}
+section .container .skills .wrapper .contains:hover .toolTipText {
+  top: -30%;
+  visibility: visible;
+  opacity: 1;
+}
+section .container .skills .wrapper .contains .items {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  align-items: center;
+  flex-direction: column;
+}
+
+section .container .skills .wrapper .contains > p {
+  border: none;
+  text-align: center;
+  padding: 0;
+  font-size: small;
+  margin: 0;
+  height: 2rem;
+}
+section .container .skills .wrapper .contains .items .icon {
+  font-size: 2.5rem;
+}
+
+section .container .biodata {
+  position: absolute;
+  top: 2;
+  right: 2%;
+  width: 5rem;
+  border: 1px solid black;
+}
+section .container .biodata .items {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 0.2rem;
+  flex-direction: column;
+  gap: 5px;
+}
+
+section .container .biodata .items .item {
+  width: 3rem;
+  height: 3rem;
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  border: 1px solid black;
+  border-radius: 50%;
+  position: relative;
+  justify-content: center;
+}
+
+section .container .biodata .items .item .icon {
+  font-size: 2rem;
+}
+section .container .biodata .items .item .tooltip {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  left: 50%;
+  padding: 0.4rem;
+  background-color: #000;
+  font-size: small;
+  color: white;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+section .container .biodata .items .item .tooltip::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  transform: translateX(-50%);
+  left: 50%;
+  border: 10px solid;
+  border-color: #000 #0000 #0000 #0000;
+}
+section .container .biodata .items .item:hover .tooltip {
+  top: -50%;
+  visibility: visible;
+  opacity: 1;
+}
