@@ -255,9 +255,6 @@ section .container .biodata .items .item:hover .tooltip {
 @media screen and (max-width:700px) {
   section .container{
     width: 100%;
+    border: none;
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 30481fade802976ddb18ac20ec3c8e3c5f5e0e9f
