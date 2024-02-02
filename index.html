@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap");
+      * {
+        font-family: "Lato", sans-serif;
+      }
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      .scroll {
+        z-index: 999;
+        position: fixed;
+        /* background-color: aliceblue; */
+        backdrop-filter: blur(5px);
+      }
+      .informasi::after {
+        content: "";
+        position: absolute;
+        width: 0.5rem;
+        height: 0.5rem;
+        background-color: red;
+        border-radius: 50%;
+        right: -5px;
+        top: 50%;
+      }
+      .active div:nth-child(1) {
+        @apply rotate-45 origin-top-left w-6;
+      }
+      .active div:nth-child(2) {
+        @apply scale-0;
+      }
+      .active div:nth-child(3) {
+        @apply -rotate-45 origin-top-left w-6;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- navbar start -->
+    <section id="navbar" class="w-full h-16 absolute">
+      <div class="w-full">
+        <div class="flex flex-wrap h-16 w-full shadow-md">
+          <div class="w-1/2 flex h-full items-center">
+            <h1 class="text-slate-950 text-2xl mx-5">latihan lks</h1>
+          </div>
+          <div class="w-1/2 flex justify-end items-center">
+            <div id="hamburger" class="mx-4 lg:hidden">
+              <div
+                class="bg-black w-8 h-1 mt-1 transition-all duration-700"
+              ></div>
+              <div
+                class="bg-black w-8 h-1 mt-1 transition-all duration-700"
+              ></div>
+              <div
+                class="bg-black w-8 h-1 mt-1 transition-all duration-700"
+              ></div>
+            </div>
+            <div
+              id="navbar-menu"
+              class="absolute right-0 p-4 bg-white max-w-[250px] w-full top-16 lg:static lg:max-w-full lg:block lg:bg-transparent hidden"
+            >
+              <ul class="block lg:flex">
+                <li class="w-full p-2 group">
+                  <a class="text-base mt-4 group-hover:text-green-400" href=""
+                    >home</a
+                  >
+                </li>
+                <li class="w-full p-2 group">
+                  <a class="text-base mt-4 group-hover:text-green-400" href=""
+                    >headers</a
+                  >
+                </li>
+                <li class="w-full p-2 group">
+                  <a class="text-base mt-4 group-hover:text-green-400" href=""
+                    >kehalian</a
+                  >
+                </li>
+                <li class="w-full p-2 group">
+                  <a class="text-base mt-4 group-hover:text-green-400" href=""
+                    >informasi</a
+                  >
+                </li>
+                <li class="w-full p-2 group">
+                  <a class="text-base mt-4 group-hover:text-green-400" href=""
+                    >contact</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="scrollbar" class="bg-black h-1"></div>
+    </section>
+    <!-- navbar end -->
+    <!-- headers start -->
+    <section class="w-full pt-32 relative">
+      <div class="w-full">
+        <div class="flex flex-wrap flex-row-reverse md:items-center">
+          <div class="w-full md:w-1/2">
+            <div
+              class="w-60 h-60 bg-green-400 relative left-1/2 -translate-x-1/2 rounded-full md:w-96 md:h-96"
+            >
+              <img
+                class="absolute w-full h-full object-cover"
+                src="./img/potosaya-removebg-preview.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="w-full h-40 mt-10 md:w-1/2">
+            <h1 class="text-center text-3xl md:text-4xl">
+              Hallo 🖐 ,saya
+              <span class="text-green-400 font-semibold">Usammuhajir</span>
+            </h1>
+            <p class="text-center text-2xl md:text-3xl">junior web developer</p>
+
+            <p class="text-center text-base p-2">
+              saya bisa membantu atau belajar bersama membuat website dengan
+              kalian
+            </p>
+            <button
+              class="bg-green-400 w-1/2 relative left-1/2 -translate-x-1/2 text-white p-3 rounded-full hover:bg-green-300 mt-5 transition-all duration-300"
+            >
+              contact me
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- headers end -->
+    <!-- keahlian start -->
+    <section class="w-full mt-20">
+      <div class="w-full">
+        <h3 class="text-center text-4xl my-10">keahlian saya</h3>
+        <div class="flex flex-wrap justify-evenly gap-2">
+          <div
+            class="w-[45%] shadow-xl bg-white p-2 md:w-[23%] lg:mt-10 lg:p-6"
+          >
+            <h1 class="font-bold text-2xl">html</h1>
+            <p class="first-letter:text-2xl">
+              memahami pembuatan paragraph , form , containers, dll
+            </p>
+          </div>
+          <div
+            class="w-[45%] shadow-xl bg-white p-2 md:w-[23%] lg:mt-10 lg:p-6"
+          >
+            <h1 class="font-bold text-2xl">css</h1>
+            <p class="first-letter:text-2xl">
+              memahami tentang responsive , animation , dan berbagai framework
+              seperti tailwindcss dll
+            </p>
+          </div>
+          <div
+            class="w-[45%] shadow-xl bg-white p-2 md:w-[23%] lg:mt-10 lg:p-6"
+          >
+            <h1 class="font-bold text-2xl">javascript</h1>
+            <p class="first-letter:text-2xl">
+              memahami tentang function , consume api , dll
+            </p>
+          </div>
+          <div
+            class="w-[45%] shadow-xl bg-white p-2 md:w-[23%] lg:mt-10 lg:p-6"
+          >
+            <h1 class="font-bold text-2xl">react</h1>
+            <p class="first-letter:text-2xl">
+              memahami tentang state , component , route , dll
+            </p>
+          </div>
+          <div
+            class="w-[45%] shadow-xl bg-white p-2 md:w-[23%] lg:mt-10 lg:p-6"
+          >
+            <h1 class="font-bold text-2xl">node js</h1>
+            <p class="first-letter:text-2xl">
+              memahami tentang pembuatan api , autentikasi , dll
+            </p>
+          </div>
+          <div
+            class="w-[45%] shadow-xl bg-white p-2 md:w-[23%] lg:mt-10 lg:p-6"
+          >
+            <h1 class="font-bold text-2xl">php</h1>
+            <p class="first-letter:text-2xl">
+              memahami tentang oop php , mysql database , dll
+            </p>
+          </div>
+          <div
+            class="w-[45%] shadow-xl bg-white p-2 md:w-[23%] lg:mt-10 lg:p-6"
+          >
+            <h1 class="font-bold text-2xl">laravel</h1>
+            <p class="first-letter:text-2xl">
+              memahami tentang konsep mvc laravel , route api dll
+            </p>
+          </div>
+          <div
+            class="w-[45%] shadow-xl bg-white p-2 md:w-[23%] lg:mt-10 lg:p-6"
+          >
+            <h1 class="font-bold text-2xl">mysql</h1>
+            <p class="first-letter:text-2xl">
+              memahami tentang sql query seperti table relationship, dll
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- keahlian end -->
+    <!-- informasi start -->
+    <section id="informasi" class="w-full mt-10">
+      <div class="w-full">
+        <h3 class="text-center text-4xl my-10">informasi pribadi</h3>
+        <div class="flex flex-wrap relative justify-center">
+          <div
+            class="p-7 border-r-2 border-r-black w-4/5 informasi relative lg:w-[45%]"
+          >
+            <h6 class="font-semibold">2012-2018</h6>
+            <p>sekolah dasar di sdn 06 Sawahan</p>
+          </div>
+
+          <div
+            class="p-7 border-r-2 border-r-black w-4/5 informasi relative lg:w-[45%]"
+          >
+            <h6 class="font-semibold">2018-2021</h6>
+            <p>sekolah menengah pertama di smpn 1 Gagelaran</p>
+          </div>
+          <div
+            class="p-7 border-r-2 border-r-black w-4/5 informasi relative lg:w-[45%]"
+          >
+            <h6 class="font-semibold">2012-2018</h6>
+            <p>sekolah menengah kejuruan di smkn 1 Gedangan</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- informasi end -->
+    <!-- contact start -->
+
+    <section id="contact" class="w-full mt-10">
+      <div class="w-full">
+        <h3 class="text-center text-4xl my-10">contact</h3>
+        <div class="flex flex-wrap">
+          <div class="w-full p-4">
+            <form class="flex flex-col lg:items-center">
+              <input
+                type="text"
+                class="border rounded-lg border-black outline-none p-4 placeholder:text-gray-950 w-full focus:border-green-400 focus:border focus:text-green-400 lg:w-1/2"
+                name=""
+                id="username"
+                placeholder="username"
+              />
+              <input
+                required
+                type="email"
+                class="border rounded-lg border-black outline-none p-4 placeholder:text-gray-950 w-full focus:border-green-400 focus:border focus:text-green-400 my-4 peer lg:w-1/2"
+                name=""
+                id="username"
+                placeholder="email"
+              />
+              <input
+                type="text"
+                class="border rounded-lg border-black outline-none p-4 placeholder:text-gray-950 w-full focus:border-green-400 focus:border focus:text-green-400 lg:w-1/2"
+                name=""
+                id="username"
+                placeholder="komentar"
+              />
+              <p
+                class="invisible peer-invalid:visible text-red-600 text-center"
+              >
+                email harus diisi
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- contact end-->
+    <!-- footer start -->
+    <section class="w-full mt-10">
+      <div class="w-full bg-black h-20">
+        <h1 id="timer" class="text-white text-center text-2xl"></h1>
+      </div>
+    </section>
+    <!-- footer end -->
+    <script>
+      const hamburger = document.getElementById("hamburger");
+      const navbar_menu = document.getElementById("navbar-menu");
+      const timer = document.getElementById("timer");
+      const scrollbar = document.getElementById("scrollbar");
+
+      window.addEventListener("scroll", () => {
+        const { scrollTop, scrollHeight, clientHeight } =
+          document.documentElement;
+        const scroller = (scrollTop / (scrollHeight - clientHeight)) * 100;
+        scrollbar.style.width = `${scroller}%`;
+      });
+
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navbar_menu.classList.toggle("hidden");
+      });
+      setInterval(() => {
+        const date = new Date().getFullYear();
+        timer.innerHTML = `@ ${date}`;
+      }, 1000);
+      const navbar = document.getElementById("navbar");
+      const fixed = window.offsetYTop;
+      window.addEventListener("scroll", () => {
+        if (window.pageYOffset > fixed) {
+          navbar.classList.add("scroll");
+        } else {
+          navbar.classList.add("scroll");
+        }
+      });
+    </script>
+  </body>
+</html>
