@@ -1,0 +1,34 @@
+
+
+.inputBox {
+  width: 100%;
+  position: relative;
+  background-color: white;
+  padding: 0.7rem;
+  margin-top: 1.5rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: black;
+  border-radius: 0.4rem;
+}
+.spanBox {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  font-size: 1rem;
+  margin-left: 1rem;
+  transition: 0.4s all ease;
+}
+.inputBox:focus ~ .spanBox {
+  transform: translate(5%, -80%);
+  padding: 0.6rem;
+  background-color: white;
+}
+.inputBox:valid ~ .spanBox {
+  visibility: hidden;
+}
+.inputBox:focus {
+  background: none;
+  border: 1px solid black;
+}
