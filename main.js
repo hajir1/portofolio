@@ -3,10 +3,11 @@ import "aos/dist/aos.css";
 import Typed from "typed.js";
 document.addEventListener("DOMContentLoaded", function () {
   var typed = new Typed("#typed", {
-    strings: ["junior frontEnd Developer", "junior backEnd Developer"], // Teks yang akan ditampilkan
-    typeSpeed: 50, // Kecepatan pengetikan (dalam milliseconds)
-    backSpeed: 30, // Kecepatan penghapusan teks (dalam milliseconds)
+    strings: ["junior frontend Developer", "junior backend Developer"], // Teks yang akan ditampilkan
+    typeSpeed: 100, // Kecepatan pengetikan (dalam milliseconds)
+    backSpeed: 50, // Kecepatan penghapusan teks (dalam milliseconds)
     loop: true, // Apakah teks akan diulang secara terus-menerus
+    cursorChar:""
   });
 });
 AOS.init({
