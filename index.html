@@ -52,7 +52,7 @@
   </head>
   <body>
     <!-- navbar start -->
-    <section id="navbar" class="z-50 w-full">
+    <section id="navbar" class="z-50 w-full fixed">
       <div class="w-full h-12 shadow-md relative">
         <div class="h-full flex flex-wrap items-center">
           <div class="w-1/2 flex items-center h-full p-1">
@@ -85,13 +85,19 @@
                   <a class="group-hover:text-green-400" href="#me">about me</a>
                 </li>
                 <li class="p-2 text-xl text-green-600 lg:text-black group">
-                  <a class="group-hover:text-green-400" href="#history">history</a>
+                  <a class="group-hover:text-green-400" href="#history"
+                    >history</a
+                  >
                 </li>
                 <li class="p-2 text-xl text-green-600 lg:text-black group">
-                  <a class="group-hover:text-green-400" href="#skills">skills</a>
+                  <a class="group-hover:text-green-400" href="#skills"
+                    >skills</a
+                  >
                 </li>
                 <li class="p-2 text-xl text-green-600 lg:text-black group">
-                  <a class="group-hover:text-green-400" href="#contact">footer</a>
+                  <a class="group-hover:text-green-400" href="#contact"
+                    >footer</a
+                  >
                 </li>
               </ul>
             </div>
@@ -154,7 +160,7 @@
       data-aos-mirror="true"
       data-aos-once="false"
       data-aos-anchor-placement="top-center"
-      class="w-full flex flex-col items-center "
+      class="w-full flex flex-col items-center"
       id="me"
     >
       <div class="pt-10 md:w-4/5 shadow-md p-3">
@@ -175,9 +181,7 @@
           <h1 class="text-2xl text-center lg:text-4xl">
             Hallo🖐 , I'am <span class="font-semibold">Usammuhajir</span>
           </h1>
-          <p class="text-center text-xl lg:text-3xl">
-            junior frontend developer
-          </p>
+          <span id="typed" class="text-center text-xl lg:text-3xl w-full h-10"> </span>
           <p class="text-center text-sm lg:text-xl">
             learning technology is something interesting , let's learn to create
             a website together , if you need consultation about a website ,
@@ -494,4 +498,5 @@
     <!-- footer end -->
   </body>
   <script src="main.js" type="module"></script>
+ 
 </html>

@@ -1,6 +1,14 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import Typed from "typed.js";
+document.addEventListener("DOMContentLoaded", function () {
+  var typed = new Typed("#typed", {
+    strings: ["junior frontEnd Developer", "junior backEnd Developer"], // Teks yang akan ditampilkan
+    typeSpeed: 50, // Kecepatan pengetikan (dalam milliseconds)
+    backSpeed: 30, // Kecepatan penghapusan teks (dalam milliseconds)
+    loop: true, // Apakah teks akan diulang secara terus-menerus
+  });
+});
 AOS.init({
   disable: false,
   startEvent: "DOMContentLoaded", // name of the event dispatched on the document, that AOS should initialize on
@@ -25,12 +33,9 @@ const hamburger = document.getElementById("hamburger"),
   nama = document.getElementById("nama"),
   pesan = document.getElementById("pesan"),
   wa = document.getElementById("wa"),
-  navbar = document.getElementById("navbar"),
   treeLeft = document.getElementById("treeLeft"),
   parallax = document.getElementById("paralax"),
   treeRight = document.getElementById("treeRight"),
-  gateLeft = document.getElementById("gateLeft"),
-  gateRight = document.getElementById("gateRight"),
   scrollbar = document.getElementById("scrollbar");
 hamburger.addEventListener("click", () => {
   hamburger.classList.toggle("hamburger");
@@ -51,15 +56,11 @@ setInterval(() => {
 }, 1000);
 window.addEventListener("scroll", () => {
   if (window.scrollY > 0) {
-    navbar.classList.add("fixed");
-
     treeLeft.style.right = window.scrollY + "px";
     treeRight.style.left = window.scrollY + "px";
     // gateLeft.style.right = window.scrollY + "px";
     // gateRight.style.left = window.scrollY + "px";
     parallax.style.top = window.scrollY + "px";
-  } else {
-    navbar.classList.add("fixed");
   }
   const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
   const scroll = (scrollTop / (scrollHeight - clientHeight)) * 100;
