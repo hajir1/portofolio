@@ -115,7 +115,7 @@
       <div class="flex items-center justify-center w-full h-full relative">
         <h1
           id="paralax"
-          class="text-3xl font-bold text-slate-900 relative lg:text-7xl"
+          class="text-4xl font-bold text-slate-900 relative lg:text-7xl"
         >
           Welcome visitors
         </h1>
@@ -150,20 +150,21 @@
       /> -->
     </div>
     <!-- headers end -->
-    <!-- first content start -->
-    <div
-      data-aos="fade-up"
-      data-aos-offset="50"
-      data-aos-delay="0"
-      data-aos-duration="700"
-      data-aos-easing="ease"
-      data-aos-mirror="true"
-      data-aos-once="false"
-      data-aos-anchor-placement="top-center"
-      class="w-full flex flex-col items-center"
-      id="me"
-    >
-      <div class="pt-10 md:w-4/5 shadow-md p-3">
+
+    <div class="w-full flex flex-col items-center">
+      <!-- first content start -->
+      <div
+        data-aos="fade-up"
+        data-aos-offset="50"
+        data-aos-delay="0"
+        data-aos-duration="700"
+        data-aos-easing="ease"
+        data-aos-mirror="true"
+        data-aos-once="false"
+        data-aos-anchor-placement="top-center"
+        id="me"
+        class="pt-10 md:w-4/5 shadow-md p-3"
+      >
         <h1 class="text-3xl text-center font-semibold">About Me</h1>
         <div class="w-full flex justify-center mt-8">
           <div
@@ -181,7 +182,8 @@
           <h1 class="text-2xl text-center lg:text-4xl">
             Hallo🖐 , I'am <span class="font-semibold">Usammuhajir</span>
           </h1>
-          <span id="typed" class="text-center text-xl lg:text-3xl w-full h-10"> </span>
+          <span id="typed" class="text-center text-xl lg:text-3xl w-full h-10">
+          </span>
           <p class="text-center text-sm lg:text-xl">
             learning technology is something interesting , let's learn to create
             a website together , if you need consultation about a website ,
@@ -258,7 +260,7 @@
             field of web technology, and most likely will later switch to AI
             developer, machine learning and others, here are my skills in the
             field of web technology , This is something I understood at the
-            creation of this website on April 2, 2024, and will most likely
+            creation of this website on March 2, 2024, and will most likely
             change at some point.
           </p>
           <div class="flex flex-wrap justify-center gap-4">
@@ -271,8 +273,8 @@
                 frontend Web Developer
               </h1>
               <p class="text-center">
-                understand about html5 , css3 , tailwindcss , sass , reactjs ,
-                responsive web design
+                understand about html5 , css3 ,javascript , typescript,
+                tailwindcss , sass , reactjs , responsive web design
               </p>
             </div>
             <div class="w-2/3 p-4 lg:w-[48%]">
@@ -280,12 +282,11 @@
                 Backend Web Developer
               </h1>
               <p class="text-center">
-                understand about nodejs , express , prisma , unit testing
-                (jest), laravel 10
+                understand about nodejs , express , prisma , unit testing (jest)
               </p>
             </div>
           </div>
-          <h1 class="text-3xl text-center font-semibold lg:my-10">
+          <!-- <h1 class="text-3xl text-center font-semibold lg:my-10">
             archievement
           </h1>
           <div
@@ -301,23 +302,30 @@
               class="w-4/5 h-52 md:w-1/3 lg:w-1/4"
               alt=""
             />
-          </div>
+          </div> -->
           <h1 class="text-3xl text-center font-semibold lg:my-10">project</h1>
           <div class="w-full p-3 flex flex-wrap justify-evenly">
-            <a
-              href="https://imamuslim.vercel.app"
-              target="_blank"
-              class="w-[47%] border border-black p-1 flex flex-col items-center md:w-1/4 lg:w-1/6"
+            <div
+              class="w-4/5 p-1 flex flex-col shadow-md overflow-hidden items-center md:w-1/4 lg:w-1/3"
             >
               <img
-                src="./img/iconQuran.png"
-                class="w-full object-cover"
+                src="./img/imamuslim.png"
+                class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
                 alt=""
               />
-              <div class="text-center font-semibold text-2xl w-full">
+              <h1 class="ml-4 font-semibold text-2xl w-full mt-4">
                 Im a Muslim
-              </div>
-            </a>
+              </h1>
+              <p class="w-full ml-4 tracking-wider">
+                tailwindcss | reactJs | Typescript
+              </p>
+              <a
+                href="https://imamuslim.vercel.app"
+                target="_blank"
+                class="border border-blue-800 p-1 w-2/5 rounded-md text-center my-2"
+                >visit</a
+              >
+            </div>
           </div>
         </div>
       </section>
@@ -344,18 +352,19 @@
           <form class="w-full flex flex-col items-center">
             <input
               type="text"
-              class="w-4/5 outline-none border border-black p-3 rounded-md mt-4 lg:w-1/2 peer"
+              class="w-4/5 outline-none border border-black p-3 rounded-md mt-4 lg:w-1/2"
               placeholder="nama"
               id="nama"
             />
             <input
               type="text"
-              class="w-4/5 outline-none border border-black p-3 rounded-md mt-4 lg:w-1/2"
-              placeholder="pesan"
+              class="w-4/5 outline-none border border-black p-3 rounded-md mt-4 lg:w-1/2 peer"
+              placeholder="message"
+              required
               id="pesan"
             />
-            <p class="visible text-red-700 peer-valid:invisible">
-              jika memasukan pesan email wajib diisi
+            <p class="visible text-center my-1 text-red-700 peer-valid:invisible">
+              If you want to send to WhatsApp, the message must be filled in
             </p>
             <button
               id="wa"
@@ -498,5 +507,4 @@
     <!-- footer end -->
   </body>
   <script src="main.js" type="module"></script>
- 
 </html>
