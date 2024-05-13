@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     typeSpeed: 100, // Kecepatan pengetikan (dalam milliseconds)
     backSpeed: 50, // Kecepatan penghapusan teks (dalam milliseconds)
     loop: true, // Apakah teks akan diulang secara terus-menerus
-    cursorChar:""
+    cursorChar: "",
   });
 });
 AOS.init({
@@ -69,6 +69,8 @@ window.addEventListener("scroll", () => {
 });
 wa.addEventListener("click", (e) => {
   e.preventDefault();
-  const urlToWhatsApp = `https://wa.me/6285606522246?text=hallo saya ${nama.value} \t ${pesan.value}`;
-  window.open(urlToWhatsApp, "_blank");
+  let urlToWhatsApp = `https://wa.me/6285606522246?text=hallo saya ${nama.value} \t ${pesan.value}`;
+  document.getElementById("pesan").value === ""
+    ? alert("message is required")
+    : window.open(urlToWhatsApp, "_blank");
 });
