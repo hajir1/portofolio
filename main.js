@@ -56,13 +56,6 @@ setInterval(() => {
   ).innerHTML = `@${timeZone} all right reversed`;
 }, 1000);
 window.addEventListener("scroll", () => {
-  if (window.scrollY > 0) {
-    treeLeft.style.right = window.scrollY + "px";
-    treeRight.style.left = window.scrollY + "px";
-    // gateLeft.style.right = window.scrollY + "px";
-    // gateRight.style.left = window.scrollY + "px";
-    parallax.style.top = window.scrollY + "px";
-  }
   const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
   const scroll = (scrollTop / (scrollHeight - clientHeight)) * 100;
   scrollbar.style.width = `${scroll}%`;
