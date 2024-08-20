@@ -53,7 +53,7 @@ setInterval(() => {
 
   document.getElementById(
     "footer_timer"
-  ).innerHTML = `@${timeZone} all right reverse`;
+  ).innerHTML = `@${timeZone} all right reversed`;
 }, 1000);
 window.addEventListener("scroll", () => {
   if (window.scrollY > 0) {
