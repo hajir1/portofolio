@@ -1,34 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+.console-cursor::after {
+  content: "|";
+  opacity: 1;
+  animation: blink 1s infinite;
+}
+.waveMotion path {
+  animation: waveMotion 1s infinite;
+}
+
+@keyframes waveMotion {
+  0% {
+    transform: skew(0deg);
+  }
+  50% {
+    transform: skew(5deg);
+  }
+  100% {
+    transform: skew(0deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.lambai {
+  display: inline-block;
+  transition: 1s all ease;
+  animation: lambai 1s infinite;
+}
+
+@keyframes lambai {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-25deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+.font-primary {
+  font-family: "Playwrite CU", cursive;
+}
+.font-secondary {
+  font-family: "Raleway", sans-serif;
+}
 
 
-.inputBox {
-  width: 100%;
-  position: relative;
-  background-color: white;
-  padding: 0.7rem;
-  margin-top: 1.5rem;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  color: black;
-  border-radius: 0.4rem;
+.width-title {
+  animation: width-title 20s forwards;
 }
-.spanBox {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  font-size: 1rem;
-  margin-left: 1rem;
-  transition: 0.4s all ease;
+@keyframes width-title {
+  0% {
+   width: 0;
+  }
+ 
+  100% {
+   width: 100%;
+  }
 }
-.inputBox:focus ~ .spanBox {
-  transform: translate(5%, -80%);
-  padding: 0.6rem;
-  background-color: white;
-}
-.inputBox:valid ~ .spanBox {
-  visibility: hidden;
-}
-.inputBox:focus {
-  background: none;
-  border: 1px solid black;
-}
+

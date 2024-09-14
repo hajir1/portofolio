@@ -12,100 +12,110 @@
       href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
       rel="stylesheet"
     />
-    <style>
-      body {
-        font-family: "PT Sans", sans-serif;
-      }
-      .hamburger div:nth-child(1) {
-        transform: rotate(45deg);
-        transform-origin: left;
-        width: 1.5rem;
-      }
-      .hamburger div:nth-child(2) {
-        transform: scale(0);
-      }
-      .hamburger div:nth-child(3) {
-        width: 1.5rem;
-        transform: rotate(-45deg);
-        transform-origin: left;
-      }
-      .informasi::after {
-        content: "";
-        position: absolute;
-        width: 0.6rem;
-        background-color: black;
-        height: 0.6rem;
-        right: -5px;
-        border-radius: 50%;
-        top: 50%;
-      }
-      #navbar {
-        backdrop-filter: blur(5px);
-      }
-      .headers {
-        background: url("img/background.png") no-repeat;
-        width: 100%;
-        background-position: center;
-        background-size: cover;
-      }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
   </head>
   <body>
     <!-- navbar start -->
-    <section id="navbar" class="z-50 w-full fixed">
-      <div class="w-full h-12 shadow-md relative">
-        <div class="h-full flex flex-wrap items-center">
-          <div class="w-1/2 p-1">
-            <h1 class="font-semibold mx-3 text-2xl text-black">Usammuhajir</h1>
-          </div>
-          <div class="w-1/2">
-            <div
-              id="hamburger"
-              class="flex flex-col items-end p-1 mr-4 lg:hidden"
+
+    <nav class="bg-gray-200 dark:bg-gray-900">
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+      >
+        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+          <img
+            class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+            src="../icon/code.svg"
+            alt="Bordered avatar"
+          />
+
+          <div class="relative flex flex-col">
+            <span
+              class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+              >Usam Muhajir</span
             >
-              <div
-                class="w-7 h-1 bg-black mt-1 duration-500 transition-all"
-              ></div>
-              <div
-                class="w-7 h-1 bg-black mt-1 duration-500 transition-all"
-              ></div>
-              <div
-                class="w-7 h-1 bg-black mt-1 duration-500 transition-all"
-              ></div>
-            </div>
-            <div
-              id="nav_menu"
-              class="absolute shadow-md right-0 w-full max-w-[240px] lg:static lg:max-w-full lg:shadow-none z-50 hidden lg:block mt-2 h-screen lg:h-auto bg-white lg:bg-transparent"
-            >
-              <ul class="block lg:flex lg:justify-evenly">
-                <li class="p-2 text-xl text-black group">
-                  <a class="group-hover:text-green-400" href="">home</a>
-                </li>
-                <li class="p-2 text-xl text-black group">
-                  <a class="group-hover:text-green-400" href="#me">about me</a>
-                </li>
-                <li class="p-2 text-xl text-black group">
-                  <a class="group-hover:text-green-400" href="#history"
-                    >history</a
-                  >
-                </li>
-                <li class="p-2 text-xl text-black group">
-                  <a class="group-hover:text-green-400" href="#skills"
-                    >skills</a
-                  >
-                </li>
-                <li class="p-2 text-xl text-black group">
-                  <a class="group-hover:text-green-400" href="#contact"
-                    >footer</a
-                  >
-                </li>
-              </ul>
-            </div>
+            <div class="h-1 bg-black width-title"></div>
           </div>
+        </a>
+        <button
+          data-collapse-toggle="navbar-default"
+          type="button"
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          aria-controls="navbar-default"
+          aria-expanded="false"
+        >
+          <svg
+            class="w-5 h-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 17 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15"
+            />
+          </svg>
+        </button>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+          <ul
+            class="font-medium flex flex-col gap-4 md:gap-0 p-4 md:p-0 mt-4 border rounded-lg bg-gray-200 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
+          >
+            <li>
+              <a
+                href="#"
+                class="block py-2 px-3 text-gray-900 rounded bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                aria-current="page"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="#me"
+                class="block py-2 px-3 text-gray-900 rounded bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >About</a
+              >
+            </li>
+            <li>
+              <a
+                href="#history"
+                class="block py-2 px-3 text-gray-900 rounded bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >History</a
+              >
+            </li>
+            <li>
+              <a
+                href="#skills"
+                class="block py-2 px-3 text-gray-900 rounded bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Skills</a
+              >
+            </li>
+            <li>
+              <a
+                href="#contact"
+                class="block py-2 px-3 text-gray-900 rounded bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Contact</a
+              >
+            </li>
+          </ul>
         </div>
       </div>
-      <div id="scrollbar" class="bg-black h-[1px]"></div>
-    </section>
+    </nav>
+    <!-- waves -->
+    <svg
+      class="w-full md:block md:w-auto"
+      id="wafePath"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1440 320"
+    >
+      <path
+        fill="#e5e7eb"
+        fill-opacity="1"
+        d="M0,288L7.5,272C15,256,30,224,45,176C60,128,75,64,90,53.3C105,43,120,85,135,122.7C150,160,165,192,180,218.7C195,245,210,267,225,266.7C240,267,255,245,270,250.7C285,256,300,288,315,261.3C330,235,345,149,360,112C375,75,390,85,405,117.3C420,149,435,203,450,224C465,245,480,235,495,208C510,181,525,139,540,154.7C555,171,570,245,585,240C600,235,615,149,630,128C645,107,660,149,675,160C690,171,705,149,720,165.3C735,181,750,235,765,213.3C780,192,795,96,810,53.3C825,11,840,21,855,64C870,107,885,181,900,213.3C915,245,930,235,945,208C960,181,975,139,990,112C1005,85,1020,75,1035,58.7C1050,43,1065,21,1080,48C1095,75,1110,149,1125,197.3C1140,245,1155,267,1170,229.3C1185,192,1200,96,1215,64C1230,32,1245,64,1260,74.7C1275,85,1290,75,1305,64C1320,53,1335,43,1350,58.7C1365,75,1380,117,1395,138.7C1410,160,1425,160,1433,160L1440,160L1440,0L1432.5,0C1425,0,1410,0,1395,0C1380,0,1365,0,1350,0C1335,0,1320,0,1305,0C1290,0,1275,0,1260,0C1245,0,1230,0,1215,0C1200,0,1185,0,1170,0C1155,0,1140,0,1125,0C1110,0,1095,0,1080,0C1065,0,1050,0,1035,0C1020,0,1005,0,990,0C975,0,960,0,945,0C930,0,915,0,900,0C885,0,870,0,855,0C840,0,825,0,810,0C795,0,780,0,765,0C750,0,735,0,720,0C705,0,690,0,675,0C660,0,645,0,630,0C615,0,600,0,585,0C570,0,555,0,540,0C525,0,510,0,495,0C480,0,465,0,450,0C435,0,420,0,405,0C390,0,375,0,360,0C345,0,330,0,315,0C300,0,285,0,270,0C255,0,240,0,225,0C210,0,195,0,180,0C165,0,150,0,135,0C120,0,105,0,90,0C75,0,60,0,45,0C30,0,15,0,8,0L0,0Z"
+      ></path>
+    </svg>
     <!-- navbar end -->
 
     <div class="w-full flex flex-col items-center">
@@ -120,87 +130,44 @@
         data-aos-once="false"
         data-aos-anchor-placement="top-center"
         id="me"
-        class="pt-10 md:w-4/5 shadow-md p-3 md:shadow-none"
+        class="md:w-4/5 p-2 md:shadow-none"
       >
-        <h1 class="text-3xl text-center font-semibold mt-10">About Me</h1>
-        <div class="w-full flex justify-center mt-8">
-          <div
-            class="w-52 h-72 relative bg-black rounded-lg shadow-md md:w-64 lg:w-80 lg:h-96"
-          >
+        <div class="w-full flex justify-center mt-2">
+          <div class="w-52 h-72 relative rounded-lg md:w-64 lg:w-80 lg:h-96">
             <img
-              class="absolute w-[120%] h-[100%] object-cover"
-              src="img/IMG_20240423_074757-removebg-preview.png"
+              class="profile"
+              class="absolute w-full h-full object-cover opacity-70"
+              src="img/profile.jpg"
               alt=""
               srcset=""
             />
           </div>
         </div>
-        <div class="w-full mt-4 flex flex-col items-center lg:gap-4">
-          <h1 class="text-2xl text-center lg:text-4xl">
-            Hallo🖐 , I'am <span class="font-semibold">Usammuhajir</span>
-          </h1>
-          <span id="typed" class="text-center text-xl lg:text-3xl w-full h-10">
-          </span>
-          <p class="text-center text-sm lg:text-xl">
-            learning technology is something interesting , let's learn to create
-            a website together , if you need consultation about a website ,
-            let's solve it together
-          </p>
-          <a
-            href="#contact"
-            class="w-1/2 text-center bg-black rounded-md py-2 text-white hover:bg-slate-800 lg:w-1/3"
+        <div class="w-full mt-8 flex flex-col items-center lg:gap-4">
+          <h1
+            class="text-slate-900 text-xl text-center lg:text-4xl font-secondary"
           >
-            contact
-          </a>
+            Hallo<span class="lambai">🖐</span> I'am Usam Muhajir
+          </h1>
+          <span
+            id="typed"
+            class="text-center font-secondary text-base lg:text-3xl w-full h-10"
+          >
+          </span>
+          <p class="text-center">
+            <span class="console-cursor font-secondary text-sm lg:text-xl"
+              >My name is Usammuhajir, I live in Malang, I was born on
+              29-11-2006, I really like studying technology analysis, and like
+              reading philosophy</span
+            >
+          </p>
         </div>
       </div>
       <!-- first content end -->
-      <!-- informasi start -->
-      <section
-        class="w-full mt-10 shadow-md relative p-3 md:w-4/5 md:shadow-none"
-        id="history"
-        data-aos="fade-up"
-        data-aos-offset="50"
-        data-aos-delay="0"
-        data-aos-duration="700"
-        data-aos-easing="ease"
-        data-aos-mirror="true"
-        data-aos-once="false"
-        data-aos-anchor-placement="top-center"
-      >
-        <div class="w-full">
-          <h1 class="text-3xl text-center font-semibold my-3">Life History</h1>
-          <p class="text-center p-1 lg:text-xl">
-            My name is Usammuhajir, I live in Malang, I was born on 29-11-2006,
-            I really like studying technology analysis, and like reading
-            philosophy, below is a list of my school history
-          </p>
-          <div class="flex flex-wrap mt-10 justify-center gap-4">
-            <div
-              class="w-2/3 p-4 border-r-2 border-r-black informasi relative lg:w-[45%] lg:gap-4"
-            >
-              <h1 class="font-semibold text-xl">2012 - 2018</h1>
-              <p>elementary school in SDN 1 Sawahan</p>
-            </div>
-            <div
-              class="w-2/3 p-4 border-r-2 border-r-black informasi relative lg:w-[45%] lg:gap-4"
-            >
-              <h1 class="font-semibold text-xl">2018 - 2021</h1>
-              <p>junior high school in SMPN 1 Pagelaran</p>
-            </div>
-            <div
-              class="w-2/3 p-4 border-r-2 border-r-black informasi relative lg:w-[45%] lg:gap-4"
-            >
-              <h1 class="font-semibold text-xl">2021 - 2025</h1>
-              <p>vocational high school in SMKN 1 Gedangan</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- informasi end -->
+
       <!-- keahlian start -->
       <section
-        class="w-full pt-10 shadow-md md:w-4/5 md:shadow-none"
+        class="w-full pt-10 md:w-4/5 md:shadow-none"
         data-aos="fade-up"
         data-aos-offset="50"
         data-aos-delay="0"
@@ -209,99 +176,323 @@
         data-aos-mirror="true"
         data-aos-once="false"
         data-aos-anchor-placement="top-center"
-        id="skills"
       >
         <div class="w-full">
-          <h1 class="text-3xl text-center font-semibold">skills</h1>
-          <p class="text-center p-1 lg:my-10 lg:text-xl">
-            As a technology enthusiast, I am currently still interested in the
-            field of web technology, and most likely will later switch to AI
-            developer, machine learning and others, here are my skills in the
-            field of web technology , This is something I understood at the
-            creation of this website on March 2, 2024, and will most likely
-            change at some point.
+          <h1 id="skills" class="text-2xl font-bold ml-2 font-secondary">
+            skills
+          </h1>
+          <p class="text-center p-1 text-sm font-mono lg:my-10 lg:text-xl">
+            <span class="console-cursor font-secondary"
+              >As a technology enthusiast, I am currently still interested in
+              the field of web technology, and most likely will later switch to
+              AI developer, machine learning and others, here are my skills in
+              the field of web technology , This is something I understood at
+              the creation of this website on March 2, 2024, and will most
+              likely change at some point.</span
+            >
           </p>
+
           <div class="flex flex-wrap justify-center gap-4">
-            <div class="w-2/3 p-4 lg:w-full">
-              <h1 class="font-semibold text-xl text-center">language</h1>
-              <p class="text-center">indonesia , english</p>
-            </div>
-            <div class="w-2/3 p-4 lg:w-[48%]">
-              <h1 class="font-semibold text-xl text-center">
+            <div class="p-4 lg:w-[48%]">
+              <h1 class="text-xl font-semibold text-center font-mono">
                 frontend Web Developer
               </h1>
-              <p class="text-center">
-                understand about html5 , css3 ,javascript , typescript,
-                tailwindcss , sass , reactjs , responsive web design
-              </p>
+              <ul class="w-full flex mt-4 justify-center gap-4 flex-wrap">
+                <li>
+                  <button data-tooltip-target="tooltip-html" type="button">
+                    <img src="../icon/html.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-html"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    html
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-css" type="button">
+                    <img src="../icon/css.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-css"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    css
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-js" type="button">
+                    <img src="../icon/js.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-js"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    javascript
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-ts" type="button">
+                    <img src="../icon/ts.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-ts"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    typescript
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-tw" type="button">
+                    <img src="../icon/tw.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-tw"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    tailwindcss
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-zs" type="button">
+                    <img src="../icon/zustand.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-zs"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    zustand
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-sass" type="button">
+                    <img src="../icon/sass.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-sass"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    sass
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-react" type="button">
+                    <img src="../icon/react.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-react"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    reactjs
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+              </ul>
             </div>
-            <div class="w-2/3 p-4 lg:w-[48%]">
-              <h1 class="font-semibold text-xl text-center">
-                Backend Web Developer
+            <div class="p-4 lg:w-[48%]">
+              <h1 class="text-xl font-semibold text-center font-mono">
+                backend Web Developer
               </h1>
-              <p class="text-center">
-                understand about nodejs , express , prisma ,mysql
-              </p>
+              <ul class="w-full flex mt-4 justify-center gap-4 flex-wrap">
+                <li>
+                  <button data-tooltip-target="tooltip-node" type="button">
+                    <img src="../icon/node.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-node"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    node js
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-express" type="button">
+                    <img src="../icon/express.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-express"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    express js
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-prisma" type="button">
+                    <img src="../icon/prisma.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-prisma"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    prisma
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-php" type="button">
+                    <img src="../icon/php.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-php"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    php
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-laravel" type="button">
+                    <img src="../icon/laravel.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-laravel"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    laravel
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+                <li>
+                  <button data-tooltip-target="tooltip-mysql" type="button">
+                    <img src="../icon/mysql.svg" alt="" />
+                  </button>
+                  <div
+                    id="tooltip-mysql"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                  >
+                    mysql
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
-          <!-- <h1 class="text-3xl text-center font-semibold lg:my-10">
-            archievement
+
+          <h1 id="skills" class="text-2xl font-bold ml-2 font-secondary">
+            projects
           </h1>
-          <div
-            class="w-full p-2 flex flex-wrap justify-center gap-2 overflow-y-scroll md:items-center"
-          >
-            <img
-              src="./img/piagam1.png"
-              class="w-2/3 h-72 md:w-1/3 lg:w-1/4"
-              alt=""
-            />
-            <img
-              src="./img/piagam2.jpg"
-              class="w-4/5 h-52 md:w-1/3 lg:w-1/4"
-              alt=""
-            />
-          </div> -->
-          <h1 class="text-3xl text-center font-semibold lg:my-10">project</h1>
+          <p class="text-sm ml-2 font-secondary">
+            some of the works that I have created
+          </p>
           <div class="w-full p-3 flex flex-wrap justify-evenly gap-4">
             <div
-              class="w-4/5 p-1 flex flex-col shadow-md overflow-hidden items-center md:w-1/4 lg:w-1/3"
+              class="w-11/12 border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center md:w-1/4 lg:w-1/3"
             >
               <img
                 src="./img/imamuslim.png"
                 class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
                 alt=""
               />
-              <h1 class="ml-4 font-semibold text-2xl w-full mt-4">
-                Im a Muslim
-              </h1>
-              <p class="w-full ml-4 tracking-wider">
-                tailwindcss | reactJs | Typescript
-              </p>
-              <a
-                href="https://imamuslim.vercel.app"
-                target="_blank"
-                class="border border-blue-800 p-1 w-2/5 rounded-md text-center my-2"
-                >visit</a
-              >
+              <div class="w-full my-4">
+                <h1 class="font-primary text-2xl">Im a Muslim</h1>
+                <p class="mt-4 font-secondary">
+                  Website Islamic with the feature news, al-quran, asmaul-husna,
+                  prayer-schedule, and hadist
+                </p>
+              </div>
+              <div>
+                <span
+                  class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                  >react js</span
+                >
+                <span
+                  class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
+                  >typescript</span
+                >
+                <span
+                  class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                  >tailwindcss</span
+                >
+                <span
+                  class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                  >zustand</span
+                >
+              </div>
+              <div class="flex gap-2 mt-7 justify-evenly w-full flex-wrap">
+                <a
+                  href="https://imamuslim.vercel.app"
+                  target="_blank"
+                  class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
+                  >visit project &raquo;</a
+                >
+                <a
+                  href="https://imamuslim.vercel.app"
+                  target="_blank"
+                  class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
+                  >source code &raquo;</a
+                >
+              </div>
             </div>
             <div
-              class="w-4/5 p-1 flex flex-col shadow-md overflow-hidden items-center md:w-1/4 lg:w-1/3"
+              class="w-11/12 border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center md:w-1/4 lg:w-1/3"
             >
               <img
-                src="./img/react.png"
+                src="./img/movie.png"
                 class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
                 alt=""
               />
-              <h1 class="ml-4 font-semibold text-2xl w-full mt-4">Movie</h1>
-              <p class="w-full ml-4 tracking-wider">
-                tailwindcss | reactJs | javascript
-              </p>
-              <a
-                href="https://reacts-movie.vercel.app/"
-                target="_blank"
-                class="border border-blue-800 p-1 w-2/5 rounded-md text-center my-2"
-                >visit</a
-              >
+              <div class="w-full my-4">
+                <h1 class="font-primary text-2xl">React Movie</h1>
+                <p class="mt-4 font-secondary">
+                  film rating website with the feature of displaying all film,
+                  TV and actor data
+                </p>
+              </div>
+              <div>
+                <span
+                  class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                  >react js</span
+                >
+                <span
+                  class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
+                  >javascript</span
+                >
+                <span
+                  class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                  >tailwindcss</span
+                >
+                <span
+                  class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                  >zustand</span
+                >
+              </div>
+              <div class="flex gap-2 mt-7 justify-evenly w-full flex-wrap">
+                <a
+                  href="https://imamuslim.vercel.app"
+                  target="_blank"
+                  class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
+                  >visit project &raquo;</a
+                >
+                <a
+                  href="https://imamuslim.vercel.app"
+                  target="_blank"
+                  class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
+                  >source code &raquo;</a
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -309,7 +500,7 @@
       <!-- keahlian end -->
       <!-- contact start -->
       <section
-        class="w-full mt-10 p-3 shadow-md md:w-4/5 md:shadow-none"
+        class="w-full mt-10 p-3 md:w-4/5 md:shadow-none"
         data-aos="fade-up"
         data-aos-offset="50"
         data-aos-delay="0"
@@ -318,36 +509,48 @@
         data-aos-mirror="true"
         data-aos-once="false"
         data-aos-anchor-placement="top-center"
-        id="contact"
       >
         <div class="w-full">
-          <h1 class="text-3xl text-center font-semibold">Contact</h1>
-          <p class="text-center p-1 lg:my-10 lg:text-xl">
-            As someone who understands the web, if a visitor wants to create a
-            website or consult about a website, please contact the contact below
+          <h1 id="contact" class="text-2xl font-bold ml-2 font-secondary"></h1>
+          Contact
+          <p class="text-center p-1 text-sm font-mono lg:my-10 lg:text-xl">
+            <span class="console-cursor font-secondary"
+              >As someone who understands the web, if a visitor wants to create
+              a website or consult about a website, please contact the contact
+              below</span
+            >
           </p>
-          <form class="w-full flex flex-col items-center">
+          <form class="w-full flex flex-col items-center mt-8 gap-4">
+            <div class="relative w-5/6">
+              <input
+                type="text"
+                class="w-full text-slate-800 outline-none border border-slate-800 bg-white border-transparent rounded-md lg:w-4/5 peer relative focus:border-2 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-blue-600"
+                id="nama"
+              />
+
+              <span
+                class="absolute transition-all duration-500 font-secondary top-1/2 left-4 -translate-y-1/2 z-10 text-gray-600 peer-focus:top-0 peer-focus:text-slate-800 peer-focus:bg-white peer-focus:border-x-2 peer-focus:border-x-blue-600 peer-focus:px-3"
+              >
+                name
+              </span>
+            </div>
+
             <input
               type="text"
-              class="w-4/5 outline-none border border-black p-3 rounded-md mt-4 lg:w-1/2"
-              placeholder="nama"
-              id="nama"
-            />
-            <input
-              type="text"
-              class="w-4/5 outline-none border border-black p-3 rounded-md mt-4 lg:w-1/2 peer"
+              class="w-5/6 text-slate-800 outline-none border border-slate-800 bg-white border-transparent rounded-md lg:w-4/5 peer relative focus:border-2 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-blue-600 placeholder:text-gray-600"
               placeholder="message"
               required
               id="pesan"
             />
             <p
-              class="visible text-center my-1 text-red-700 peer-valid:invisible"
+              class="visible text-center my-1 font-secondary text-red-700 peer-valid:invisible"
             >
               If you want to send to WhatsApp, the message must be filled in
             </p>
             <button
               id="wa"
-              class="w-1/2 bg-black rounded-md p-2 text-white hover:bg-slate-700 lg:w-1/3"
+              type="button"
+              class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
             >
               send to whatsapp
             </button>
@@ -356,119 +559,17 @@
             <div class="w-full">
               <div class="w-full flex justify-evenly mt-4">
                 <a href="https://www.instagram.com/_haajirr/">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="2rem"
-                    height="2rem"
-                    viewBox="0 0 256 256"
-                  >
-                    <g fill="none">
-                      <rect
-                        width="256"
-                        height="256"
-                        fill="url(#skillIconsInstagram0)"
-                        rx="60"
-                      />
-                      <rect
-                        width="256"
-                        height="256"
-                        fill="url(#skillIconsInstagram1)"
-                        rx="60"
-                      />
-                      <path
-                        fill="#fff"
-                        d="M128.009 28c-27.158 0-30.567.119-41.233.604c-10.646.488-17.913 2.173-24.271 4.646c-6.578 2.554-12.157 5.971-17.715 11.531c-5.563 5.559-8.98 11.138-11.542 17.713c-2.48 6.36-4.167 13.63-4.646 24.271c-.477 10.667-.602 14.077-.602 41.236s.12 30.557.604 41.223c.49 10.646 2.175 17.913 4.646 24.271c2.556 6.578 5.973 12.157 11.533 17.715c5.557 5.563 11.136 8.988 17.709 11.542c6.363 2.473 13.631 4.158 24.275 4.646c10.667.485 14.073.604 41.23.604c27.161 0 30.559-.119 41.225-.604c10.646-.488 17.921-2.173 24.284-4.646c6.575-2.554 12.146-5.979 17.702-11.542c5.563-5.558 8.979-11.137 11.542-17.712c2.458-6.361 4.146-13.63 4.646-24.272c.479-10.666.604-14.066.604-41.225s-.125-30.567-.604-41.234c-.5-10.646-2.188-17.912-4.646-24.27c-2.563-6.578-5.979-12.157-11.542-17.716c-5.562-5.562-11.125-8.979-17.708-11.53c-6.375-2.474-13.646-4.16-24.292-4.647c-10.667-.485-14.063-.604-41.23-.604zm-8.971 18.021c2.663-.004 5.634 0 8.971 0c26.701 0 29.865.096 40.409.575c9.75.446 15.042 2.075 18.567 3.444c4.667 1.812 7.994 3.979 11.492 7.48c3.5 3.5 5.666 6.833 7.483 11.5c1.369 3.52 3 8.812 3.444 18.562c.479 10.542.583 13.708.583 40.396c0 26.688-.104 29.855-.583 40.396c-.446 9.75-2.075 15.042-3.444 18.563c-1.812 4.667-3.983 7.99-7.483 11.488c-3.5 3.5-6.823 5.666-11.492 7.479c-3.521 1.375-8.817 3-18.567 3.446c-10.542.479-13.708.583-40.409.583c-26.702 0-29.867-.104-40.408-.583c-9.75-.45-15.042-2.079-18.57-3.448c-4.666-1.813-8-3.979-11.5-7.479s-5.666-6.825-7.483-11.494c-1.369-3.521-3-8.813-3.444-18.563c-.479-10.542-.575-13.708-.575-40.413c0-26.704.096-29.854.575-40.396c.446-9.75 2.075-15.042 3.444-18.567c1.813-4.667 3.983-8 7.484-11.5c3.5-3.5 6.833-5.667 11.5-7.483c3.525-1.375 8.819-3 18.569-3.448c9.225-.417 12.8-.542 31.437-.563zm62.351 16.604c-6.625 0-12 5.37-12 11.996c0 6.625 5.375 12 12 12s12-5.375 12-12s-5.375-12-12-12zm-53.38 14.021c-28.36 0-51.354 22.994-51.354 51.355c0 28.361 22.994 51.344 51.354 51.344c28.361 0 51.347-22.983 51.347-51.344c0-28.36-22.988-51.355-51.349-51.355zm0 18.021c18.409 0 33.334 14.923 33.334 33.334c0 18.409-14.925 33.334-33.334 33.334c-18.41 0-33.333-14.925-33.333-33.334c0-18.411 14.923-33.334 33.333-33.334"
-                      />
-                      <defs>
-                        <radialGradient
-                          id="skillIconsInstagram0"
-                          cx="0"
-                          cy="0"
-                          r="1"
-                          gradientTransform="matrix(0 -253.715 235.975 0 68 275.717)"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stop-color="#fd5" />
-                          <stop offset=".1" stop-color="#fd5" />
-                          <stop offset=".5" stop-color="#ff543e" />
-                          <stop offset="1" stop-color="#c837ab" />
-                        </radialGradient>
-                        <radialGradient
-                          id="skillIconsInstagram1"
-                          cx="0"
-                          cy="0"
-                          r="1"
-                          gradientTransform="matrix(22.25952 111.2061 -458.39518 91.75449 -42.881 18.441)"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stop-color="#3771c8" />
-                          <stop offset=".128" stop-color="#3771c8" />
-                          <stop offset="1" stop-color="#60f" stop-opacity="0" />
-                        </radialGradient>
-                      </defs>
-                    </g></svg
-                ></a>
-                <a href="https://www.facebook.com/mu.hajir.1088?locale=id_ID"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="2rem"
-                    height="2rem"
-                    viewBox="0 0 128 128"
-                  >
-                    <rect
-                      width="118.35"
-                      height="118.35"
-                      x="4.83"
-                      y="4.83"
-                      fill="#3d5a98"
-                      rx="6.53"
-                      ry="6.53"
-                    />
-                    <path
-                      fill="#fff"
-                      d="M86.48 123.17V77.34h15.38l2.3-17.86H86.48v-11.4c0-5.17 1.44-8.7 8.85-8.7h9.46v-16A127 127 0 0 0 91 22.7c-13.62 0-23 8.3-23 23.61v13.17H52.62v17.86H68v45.83z"
-                    /></svg
-                ></a>
-                <a href="https://github.com/hajir1"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="2rem"
-                    height="2rem"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill="black"
-                      d="M12 2.247a10 10 0 0 0-3.162 19.487c.5.088.687-.212.687-.475c0-.237-.012-1.025-.012-1.862c-2.513.462-3.163-.613-3.363-1.175a3.636 3.636 0 0 0-1.025-1.413c-.35-.187-.85-.65-.013-.662a2.001 2.001 0 0 1 1.538 1.025a2.137 2.137 0 0 0 2.912.825a2.104 2.104 0 0 1 .638-1.338c-2.225-.25-4.55-1.112-4.55-4.937a3.892 3.892 0 0 1 1.025-2.688a3.594 3.594 0 0 1 .1-2.65s.837-.262 2.75 1.025a9.427 9.427 0 0 1 5 0c1.912-1.3 2.75-1.025 2.75-1.025a3.593 3.593 0 0 1 .1 2.65a3.869 3.869 0 0 1 1.025 2.688c0 3.837-2.338 4.687-4.562 4.937a2.368 2.368 0 0 1 .674 1.85c0 1.338-.012 2.413-.012 2.75c0 .263.187.575.687.475A10.005 10.005 0 0 0 12 2.247"
-                    /></svg
-                ></a>
-                <a href="https://web.telegram.org/a/"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="2rem"
-                    height="2rem"
-                    viewBox="0 0 256 256"
-                  >
-                    <defs>
-                      <linearGradient
-                        id="logosTelegram0"
-                        x1="50%"
-                        x2="50%"
-                        y1="0%"
-                        y2="100%"
-                      >
-                        <stop offset="0%" stop-color="#2aabee" />
-                        <stop offset="100%" stop-color="#229ed9" />
-                      </linearGradient>
-                    </defs>
-                    <path
-                      fill="url(#logosTelegram0)"
-                      d="M128 0C94.06 0 61.48 13.494 37.5 37.49A128.038 128.038 0 0 0 0 128c0 33.934 13.5 66.514 37.5 90.51C61.48 242.506 94.06 256 128 256s66.52-13.494 90.5-37.49c24-23.996 37.5-56.576 37.5-90.51c0-33.934-13.5-66.514-37.5-90.51C194.52 13.494 161.94 0 128 0"
-                    />
-                    <path
-                      fill="white"
-                      d="M57.94 126.648c37.32-16.256 62.2-26.974 74.64-32.152c35.56-14.786 42.94-17.354 47.76-17.441c1.06-.017 3.42.245 4.96 1.49c1.28 1.05 1.64 2.47 1.82 3.467c.16.996.38 3.266.2 5.038c-1.92 20.24-10.26 69.356-14.5 92.026c-1.78 9.592-5.32 12.808-8.74 13.122c-7.44.684-13.08-4.912-20.28-9.63c-11.26-7.386-17.62-11.982-28.56-19.188c-12.64-8.328-4.44-12.906 2.76-20.386c1.88-1.958 34.64-31.748 35.26-34.45c.08-.338.16-1.598-.6-2.262c-.74-.666-1.84-.438-2.64-.258c-1.14.256-19.12 12.152-54 35.686c-5.1 3.508-9.72 5.218-13.88 5.128c-4.56-.098-13.36-2.584-19.9-4.708c-8-2.606-14.38-3.984-13.82-8.41c.28-2.304 3.46-4.662 9.52-7.072"
-                    /></svg
-                ></a>
+                  <img src="../icon/ig.svg" alt="" />
+                </a>
+                <a href="https://www.facebook.com/mu.hajir.1088?locale=id_ID">
+                  <img src="../icon/fb.svg" alt="" />
+                </a>
+                <a href="https://github.com/hajir1">
+                  <img src="../icon/github.svg" alt="" />
+                </a>
+                <a href="https://web.telegram.org/a/">
+                  <img src="../icon/tele.svg" alt="" />
+                </a>
               </div>
             </div>
           </div>
