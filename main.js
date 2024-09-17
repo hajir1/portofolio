@@ -78,11 +78,11 @@ setInterval(() => {
     "footer_timer"
   ).innerHTML = `@${timeZone} all right reversed`;
 }, 1000);
-window.addEventListener("scroll", () => {
-  const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
-  const scroll = (scrollTop / (scrollHeight - clientHeight)) * 100;
-  scrollbar.style.width = `${scroll}%`;
-});
+// window.addEventListener("scroll", () => {
+//   const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
+//   const scroll = (scrollTop / (scrollHeight - clientHeight)) * 100;
+//   scrollbar.style.width = `${scroll}%`;
+// });
 wa.addEventListener("click", (e) => {
   e.preventDefault();
   let urlToWhatsApp = `https://wa.me/6285606522246?text=hallo saya ${nama.value} \t ${pesan.value}`;

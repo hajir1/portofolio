@@ -24,7 +24,7 @@
         <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
           <img
             class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-            src="../icon/code.svg"
+            src="icon/code.svg"
             alt="Bordered avatar"
           />
 
@@ -105,7 +105,7 @@
     </nav>
     <!-- waves -->
     <svg
-      class="w-full md:block md:w-auto"
+      class="w-full md:w-auto md:hidden"
       id="wafePath"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1440 320"
@@ -116,6 +116,7 @@
         d="M0,288L7.5,272C15,256,30,224,45,176C60,128,75,64,90,53.3C105,43,120,85,135,122.7C150,160,165,192,180,218.7C195,245,210,267,225,266.7C240,267,255,245,270,250.7C285,256,300,288,315,261.3C330,235,345,149,360,112C375,75,390,85,405,117.3C420,149,435,203,450,224C465,245,480,235,495,208C510,181,525,139,540,154.7C555,171,570,245,585,240C600,235,615,149,630,128C645,107,660,149,675,160C690,171,705,149,720,165.3C735,181,750,235,765,213.3C780,192,795,96,810,53.3C825,11,840,21,855,64C870,107,885,181,900,213.3C915,245,930,235,945,208C960,181,975,139,990,112C1005,85,1020,75,1035,58.7C1050,43,1065,21,1080,48C1095,75,1110,149,1125,197.3C1140,245,1155,267,1170,229.3C1185,192,1200,96,1215,64C1230,32,1245,64,1260,74.7C1275,85,1290,75,1305,64C1320,53,1335,43,1350,58.7C1365,75,1380,117,1395,138.7C1410,160,1425,160,1433,160L1440,160L1440,0L1432.5,0C1425,0,1410,0,1395,0C1380,0,1365,0,1350,0C1335,0,1320,0,1305,0C1290,0,1275,0,1260,0C1245,0,1230,0,1215,0C1200,0,1185,0,1170,0C1155,0,1140,0,1125,0C1110,0,1095,0,1080,0C1065,0,1050,0,1035,0C1020,0,1005,0,990,0C975,0,960,0,945,0C930,0,915,0,900,0C885,0,870,0,855,0C840,0,825,0,810,0C795,0,780,0,765,0C750,0,735,0,720,0C705,0,690,0,675,0C660,0,645,0,630,0C615,0,600,0,585,0C570,0,555,0,540,0C525,0,510,0,495,0C480,0,465,0,450,0C435,0,420,0,405,0C390,0,375,0,360,0C345,0,330,0,315,0C300,0,285,0,270,0C255,0,240,0,225,0C210,0,195,0,180,0C165,0,150,0,135,0C120,0,105,0,90,0C75,0,60,0,45,0C30,0,15,0,8,0L0,0Z"
       ></path>
     </svg>
+
     <!-- navbar end -->
 
     <div class="w-full flex flex-col items-center">
@@ -130,9 +131,9 @@
         data-aos-once="false"
         data-aos-anchor-placement="top-center"
         id="me"
-        class="md:w-4/5 p-2 md:shadow-none"
+        class="md:w-4/5 p-2 md:shadow-none md:mt-10 lg:flex lg:items-center"
       >
-        <div class="w-full flex justify-center mt-2">
+        <div class="w-full flex justify-center">
           <div class="w-52 h-72 relative rounded-lg md:w-64 lg:w-80 lg:h-96">
             <img
               class="profile"
@@ -143,9 +144,9 @@
             />
           </div>
         </div>
-        <div class="w-full mt-8 flex flex-col items-center lg:gap-4">
+        <div class="w-full mt-8 flex flex-col items-center md:mt-20 lg:gap-4">
           <h1
-            class="text-slate-900 text-xl text-center lg:text-4xl font-secondary"
+            class="text-slate-900 text-xl text-center lg:text-4xl font-secondary "
           >
             Hallo<span class="lambai">🖐</span> I'am Usam Muhajir
           </h1>
@@ -178,10 +179,13 @@
         data-aos-anchor-placement="top-center"
       >
         <div class="w-full">
-          <h1 id="skills" class="text-2xl font-bold ml-2 font-secondary">
+          <h1
+            id="skills"
+            class="text-2xl font-bold ml-2 font-secondary lg:mt-10"
+          >
             skills
           </h1>
-          <p class="text-center p-1 text-sm font-mono lg:my-10 lg:text-xl">
+          <p class="text-center p-1 text-sm font-mono lg:text-xl">
             <span class="console-cursor font-secondary"
               >As a technology enthusiast, I am currently still interested in
               the field of web technology, and most likely will later switch to
@@ -200,7 +204,7 @@
               <ul class="w-full flex mt-4 justify-center gap-4 flex-wrap">
                 <li>
                   <button data-tooltip-target="tooltip-html" type="button">
-                    <img src="../icon/html.svg" alt="" />
+                    <img src="icon/html.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-html"
@@ -213,7 +217,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-css" type="button">
-                    <img src="../icon/css.svg" alt="" />
+                    <img src="icon/css.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-css"
@@ -226,7 +230,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-js" type="button">
-                    <img src="../icon/js.svg" alt="" />
+                    <img src="icon/js.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-js"
@@ -239,7 +243,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-ts" type="button">
-                    <img src="../icon/ts.svg" alt="" />
+                    <img src="icon/ts.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-ts"
@@ -252,7 +256,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-tw" type="button">
-                    <img src="../icon/tw.svg" alt="" />
+                    <img src="icon/tw.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-tw"
@@ -265,7 +269,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-zs" type="button">
-                    <img src="../icon/zustand.svg" alt="" />
+                    <img src="icon/zustand.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-zs"
@@ -278,7 +282,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-sass" type="button">
-                    <img src="../icon/sass.svg" alt="" />
+                    <img src="icon/sass.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-sass"
@@ -291,7 +295,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-react" type="button">
-                    <img src="../icon/react.svg" alt="" />
+                    <img src="icon/react.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-react"
@@ -311,7 +315,7 @@
               <ul class="w-full flex mt-4 justify-center gap-4 flex-wrap">
                 <li>
                   <button data-tooltip-target="tooltip-node" type="button">
-                    <img src="../icon/node.svg" alt="" />
+                    <img src="icon/node.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-node"
@@ -324,7 +328,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-express" type="button">
-                    <img src="../icon/express.svg" alt="" />
+                    <img src="icon/express.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-express"
@@ -337,7 +341,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-prisma" type="button">
-                    <img src="../icon/prisma.svg" alt="" />
+                    <img src="icon/prisma.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-prisma"
@@ -350,7 +354,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-php" type="button">
-                    <img src="../icon/php.svg" alt="" />
+                    <img src="icon/php.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-php"
@@ -363,7 +367,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-laravel" type="button">
-                    <img src="../icon/laravel.svg" alt="" />
+                    <img src="icon/laravel.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-laravel"
@@ -376,7 +380,7 @@
                 </li>
                 <li>
                   <button data-tooltip-target="tooltip-mysql" type="button">
-                    <img src="../icon/mysql.svg" alt="" />
+                    <img src="icon/mysql.svg" alt="" />
                   </button>
                   <div
                     id="tooltip-mysql"
@@ -391,15 +395,18 @@
             </div>
           </div>
 
-          <h1 id="skills" class="text-2xl font-bold ml-2 font-secondary">
+          <h1
+            id="skills"
+            class="text-2xl font-bold ml-2 font-secondary md:mt-10"
+          >
             projects
           </h1>
-          <p class="text-sm ml-2 font-secondary">
+          <p class="text-sm ml-2 font-secondary lg:text-xl">
             some of the works that I have created
           </p>
           <div class="w-full p-3 flex flex-wrap justify-evenly gap-4">
             <div
-              class="w-11/12 border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center md:w-1/4 lg:w-1/3"
+              class="w-11/12 border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center md:w-[45%]"
             >
               <img
                 src="./img/imamuslim.png"
@@ -447,7 +454,7 @@
               </div>
             </div>
             <div
-              class="w-11/12 border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center md:w-1/4 lg:w-1/3"
+              class="w-11/12 border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center md:w-[45%]"
             >
               <img
                 src="./img/movie.png"
@@ -511,42 +518,56 @@
         data-aos-anchor-placement="top-center"
       >
         <div class="w-full">
-          <h1 id="contact" class="text-2xl font-bold ml-2 font-secondary"></h1>
-          Contact
-          <p class="text-center p-1 text-sm font-mono lg:my-10 lg:text-xl">
+          <h1
+            id="contact"
+            class="text-2xl font-bold ml-2 font-secondary md:mt-10"
+          >
+            Contact
+          </h1>
+
+          <p class="text-center p-1 text-sm font-mono lg:text-xl">
             <span class="console-cursor font-secondary"
               >As someone who understands the web, if a visitor wants to create
               a website or consult about a website, please contact the contact
               below</span
             >
           </p>
-          <form class="w-full flex flex-col items-center mt-8 gap-4">
-            <div class="relative w-5/6">
+          <form class="w-full flex flex-col  items-center mt-8 gap-4">
+            <div class="relative w-5/6 lg:w-1/2">
               <input
                 type="text"
-                class="w-full text-slate-800 outline-none border border-slate-800 bg-white border-transparent rounded-md lg:w-4/5 peer relative focus:border-2 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-blue-600"
+                class="w-full text-slate-800 outline-none border-[1px] border-slate-800 bg-white rounded-md lg:w-4/5 peer relative left-1/2 -translate-x-1/2 focus:border-2 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-blue-600"
                 id="nama"
               />
 
               <span
-                class="absolute transition-all duration-500 font-secondary top-1/2 left-4 -translate-y-1/2 z-10 text-gray-600 peer-focus:top-0 peer-focus:text-slate-800 peer-focus:bg-white peer-focus:border-x-2 peer-focus:border-x-blue-600 peer-focus:px-3"
+                class="absolute transition-all duration-500 font-secondary top-1/2 left-4 lg:left-20 -translate-y-1/2 z-10 text-gray-600  peer-focus:top-0 peer-focus:text-slate-800 peer-focus:bg-white peer-focus:border-x-2 peer-focus:border-x-blue-600 peer-focus:px-3"
               >
                 name
               </span>
             </div>
+            <div class="relative w-5/6 lg:w-1/2">
+              <input
+                type="text"
+                class="w-full text-slate-800 outline-none border-[1px] border-slate-800 bg-white rounded-md lg:w-4/5 peer relative focus:border-2 left-1/2 -translate-x-1/2 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-blue-600"
+                id="pesan"
+                required
+              />
 
-            <input
-              type="text"
-              class="w-5/6 text-slate-800 outline-none border border-slate-800 bg-white border-transparent rounded-md lg:w-4/5 peer relative focus:border-2 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-blue-600 placeholder:text-gray-600"
-              placeholder="message"
-              required
-              id="pesan"
-            />
-            <p
-              class="visible text-center my-1 font-secondary text-red-700 peer-valid:invisible"
-            >
-              If you want to send to WhatsApp, the message must be filled in
-            </p>
+              <span
+                class="absolute transition-all duration-500 font-secondary top-2 left-4 lg:left-20 z-10 text-gray-600 peer-focus:-top-3 peer-focus:text-slate-800 peer-focus:bg-white peer-focus:border-x-2 peer-focus:border-x-blue-600 peer-focus:px-3"
+              >
+                message
+              </span>
+              <p
+                class="visible text-center text-sm my-1 font-secondary text-red-700 peer-valid:invisible"
+              >
+                If you want to send to WhatsApp, the message must be filled in
+              </p>
+            </div>
+
+          
+
             <button
               id="wa"
               type="button"
@@ -557,18 +578,18 @@
           </form>
           <div class="flex flex-wrap">
             <div class="w-full">
-              <div class="w-full flex justify-evenly mt-4">
+              <div class="w-full flex justify-evenly mt-4 md:justify-center gap-3">
                 <a href="https://www.instagram.com/_haajirr/">
-                  <img src="../icon/ig.svg" alt="" />
+                  <img src="icon/ig.svg" alt="" />
                 </a>
                 <a href="https://www.facebook.com/mu.hajir.1088?locale=id_ID">
-                  <img src="../icon/fb.svg" alt="" />
+                  <img src="icon/fb.svg" alt="" />
                 </a>
                 <a href="https://github.com/hajir1">
-                  <img src="../icon/github.svg" alt="" />
+                  <img src="icon/github.svg" alt="" />
                 </a>
                 <a href="https://web.telegram.org/a/">
-                  <img src="../icon/tele.svg" alt="" />
+                  <img src="icon/tele.svg" alt="" />
                 </a>
               </div>
             </div>
