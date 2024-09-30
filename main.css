@@ -56,17 +56,35 @@
   font-family: "Raleway", sans-serif;
 }
 
-
 .width-title {
   animation: width-title 20s forwards;
 }
 @keyframes width-title {
   0% {
-   width: 0;
+    width: 0;
   }
- 
+
   100% {
-   width: 100%;
+    width: 100%;
+  }
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
+.bgLinear {
+  background: linear-gradient(-45deg, red, green,blue);
+  background-clip: text;
+  color: transparent;
+  background-size: 300% 300%;
+  -ms-text-overflow: clip;
+  animation: gradient 6s ease infinite;
+}

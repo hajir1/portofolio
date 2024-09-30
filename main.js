@@ -90,9 +90,9 @@ wa.addEventListener("click", (e) => {
     ? alert("message is required")
     : window.open(urlToWhatsApp, "_blank");
 });
-window.onload = function () {
-  setTimeout(function () {
-    document.getElementById("wafePath").classList.add("waveMotion");
-  }, 5000);
-};
+// window.onload = function () {
+//   setTimeout(function () {
+//     document.getElementById("wafePath").classList.add("waveMotion");
+//   }, 5000);
+// };
 
