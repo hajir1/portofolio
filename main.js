@@ -3,33 +3,7 @@ import "flowbite";
 import "aos/dist/aos.css";
 import Typed from "typed.js";
 
-import VanillaTilt from "vanilla-tilt";
 
-// Inisialisasi VanillaTilt
-VanillaTilt.init(document.querySelector(".profile"), {
-  reverse: false, // Membalik arah tilt
-  max: 30, // Sudut kemiringan maksimum (derajat)
-  startX: 0, // Kemiringan awal pada sumbu X (derajat)
-  startY: 0, // Kemiringan awal pada sumbu Y (derajat)
-  perspective: 1000, // Perspektif transformasi
-  scale: 1.1, // Skala efek zoom
-  speed: 300, // Kecepatan transisi masuk/keluar
-  transition: true, // Transisi saat efek masuk/keluar
-  reset: true, // Mengatur ulang efek tilt saat mouse keluar
-  "reset-to-start": true, // Apakah efek reset ke [0,0] atau [startX, startY]
-  easing: "cubic-bezier(.03,.98,.52,.99)", // Easing pada efek masuk/keluar
-  glare: true, // Menambahkan efek glare
-  "max-glare": 1, // Intensitas glare maksimum
-  "glare-prerender": false, // Apakah VanillaTilt membuat elemen glare
-  "mouse-event-element": null, // Elemen yang akan mendengarkan event mouse
-  "full-page-listening": false, // Jika true, efek parallax mendengarkan event mouse di seluruh dokumen
-  gyroscope: true, // Aktifkan deteksi orientasi perangkat
-  gyroscopeMinAngleX: -45, // Batas bawah sudut perangkat pada sumbu X
-  gyroscopeMaxAngleX: 45, // Batas atas sudut perangkat pada sumbu X
-  gyroscopeMinAngleY: -45, // Batas bawah sudut perangkat pada sumbu Y
-  gyroscopeMaxAngleY: 45, // Batas atas sudut perangkat pada sumbu Y
-  gyroscopeSamples: 10, // Jumlah gerakan gyroscope untuk menentukan posisi awal
-});
 
 document.addEventListener("DOMContentLoaded", function () {
   var typed = new Typed("#typed", {
