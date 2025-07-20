@@ -2,8 +2,10 @@ import AOS from "aos";
 import "flowbite";
 import "aos/dist/aos.css";
 import Typed from "typed.js";
+import Alpine from "alpinejs";
 
-
+window.Alpine = Alpine;
+Alpine.start();
 
 document.addEventListener("DOMContentLoaded", function () {
   var typed = new Typed("#typed", {
@@ -19,8 +21,8 @@ AOS.init({
   startEvent: "DOMContentLoaded", // name of the event dispatched on the document, that AOS should initialize on
   initClassName: "aos-init", // class applied after initialization
   animatedClassName: "aos-animate", // class applied on animation
-  useClassNames: false, // if true, will add content of `data-aos` as classes on scroll
   disableMutationObserver: false, // disables automatic mutations' detections (advanced)
+  offset: "120",
 });
 const hamburger = document.getElementById("hamburger"),
   nama = document.getElementById("nama"),
@@ -39,7 +41,7 @@ setInterval(() => {
 
   document.getElementById(
     "footer_timer"
-  ).innerHTML = `@${timeZone} all right reversed`;
+  ).innerHTML = `@${timeZone} all right all rights reserved`;
 }, 1000);
 // window.addEventListener("scroll", () => {
 //   const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
@@ -58,4 +60,3 @@ wa.addEventListener("click", (e) => {
 //     document.getElementById("wafePath").classList.add("waveMotion");
 //   }, 5000);
 // };
-

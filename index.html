@@ -13,11 +13,19 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
+    <style>
+      [x-cloak] {
+        display: none !important;
+      }
+    </style>
   </head>
   <body>
-    <!-- navbar start -->
-
-    <nav class="bg-gray-200 dark:bg-gray-900">
+    <nav
+      x-data="navbar()"
+      x-init="init()"
+      x-on:resize.window="checkScreen()"
+      class="bg-gray-200 dark:bg-gray-900"
+    >
       <div
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
       >
@@ -39,11 +47,9 @@
           </div>
         </a>
         <button
-          data-collapse-toggle="navbar-default"
           type="button"
           class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          aria-controls="navbar-default"
-          aria-expanded="false"
+          @click="open = !open"
         >
           <svg
             class="w-5 h-5"
@@ -61,7 +67,17 @@
             />
           </svg>
         </button>
-        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+        <div
+          class="w-full md:block md:w-auto"
+          x-show="open"
+          x-cloak
+          x-transition:enter="transition ease-out duration-500"
+          x-transition:enter-start="opacity-0 transform -translate-x-full"
+          x-transition:enter-end="opacity-100 transform translate-0"
+          x-transition:leave="transition ease-in duration-500"
+          x-transition:leave-start="opacity-100 transform translate-0"
+          x-transition:leave-end="opacity-0 transform -translate-x-full"
+        >
           <ul
             class="font-medium flex flex-col gap-4 md:gap-0 p-4 md:p-0 mt-4 border rounded-lg bg-gray-200 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
           >
@@ -158,7 +174,7 @@
             <img
               class="profile"
               class="absolute w-full h-full object-cover opacity-70"
-              src="img/profile.jpg"
+              src="img/profile-new.jpg"
               alt=""
               srcset=""
             />
@@ -497,7 +513,150 @@
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-anchor-placement="top-center"
-            class="w-11/12 border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center md:w-[45%]"
+            class="w-full max-w-sm border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center"
+          >
+            <img
+              src="./img/smkn1gedangan.png"
+              class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
+              alt=""
+            />
+            <div class="w-full my-4">
+              <h1 class="font-primary text-2xl">Smkn 1 Gedangan</h1>
+              <p class="mt-4 font-secondary capitalize">
+                Primary Website For Smkn 1 Gedangan
+              </p>
+            </div>
+            <div>
+              <span
+                class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                >laravel</span
+              >
+              <span
+                class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
+                >blade</span
+              >
+              <span
+                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                >tailwindcss</span
+              >
+              <span
+                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                >mysql</span
+              >
+            </div>
+            <div class="flex gap-2 mt-7 justify-evenly w-full flex-wrap">
+              <a
+                href="https://smkn1gedangan-malang.sch.id/"
+                target="_blank"
+                class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
+                >visit project &raquo;</a
+              >
+           
+            </div>
+          </div>
+          <div
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            data-aos-anchor-placement="top-center"
+            class="w-full max-w-sm border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center"
+          >
+            <img
+              src="./img/survey.png"
+              class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
+              alt=""
+            />
+            <div class="w-full my-4">
+              <h1 class="font-primary text-2xl">Survey Smkn 1 Gedangan</h1>
+              <p class="mt-4 font-secondary capitalize">
+                The survey website is used to survey students before
+                registering.
+              </p>
+            </div>
+            <div>
+              <span
+                class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                >laravel</span
+              >
+              <span
+                class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
+                >react with inertia</span
+              >
+              <span
+                class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
+                >zustand</span
+              >
+              <span
+                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                >tailwindcss</span
+              >
+              <span
+                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                >mysql</span
+              >
+            </div>
+            <div class="flex gap-2 mt-7 justify-evenly w-full flex-wrap">
+              <a
+                href="https://surveyminat.smkn1gedangan-malang.sch.id/"
+                target="_blank"
+                class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
+                >visit project &raquo;</a
+              >
+            </div>
+          </div>
+          <div
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            data-aos-anchor-placement="top-center"
+            class="w-full max-w-sm border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center"
+          >
+            <img
+              src="./img/epkl.png"
+              class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
+              alt=""
+            />
+            <div class="w-full my-4">
+              <h1 class="font-primary text-2xl">E-Pkl Smkn 1 Gedangan</h1>
+              <p class="mt-4 font-secondary capitalize">
+                system-based website used to monitor students' daily work hours
+              </p>
+            </div>
+            <div>
+              <span
+                class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                >laravel</span
+              >
+              <span
+                class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
+                >react with inertia</span
+              >
+              <span
+                class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
+                >zustand</span
+              >
+              <span
+                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                >tailwindcss</span
+              >
+              <span
+                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                >mysql</span
+              >
+            </div>
+            <div class="flex gap-2 mt-7 justify-evenly w-full flex-wrap">
+              <a
+                href="https://epklsija.smkn1gedangan-malang.sch.id/"
+                target="_blank"
+                class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
+                >visit project &raquo;</a
+              >
+             
+            </div>
+          </div>
+          <div
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            data-aos-anchor-placement="top-center"
+            class="w-full max-w-sm border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center"
           >
             <img
               src="./img/imamuslim.png"
@@ -548,7 +707,7 @@
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-anchor-placement="top-center"
-            class="w-11/12 border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center md:w-[45%]"
+            class="w-full max-w-sm border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center"
           >
             <img
               src="./img/movie.png"
@@ -625,12 +784,12 @@
             class="w-full flex flex-wrap flex-col items-center md:flex-row md:items-start mt-8 gap-4"
           >
             <div class="relative w-5/6 md:max-w-sm">
-              <label for="nama" class="block">Nama :</label>
+              <label for="nama" class="block">Name :</label>
               <input
                 type="text"
                 class="w-full text-slate-800 outline-none border-[1px] border-slate-300 bg-white rounded-sm lg:w-4/5 peer focus:border-2 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-slate-600"
                 id="nama"
-                placeholder="Masukkan Nama"
+                placeholder="name..."
               />
 
               <!-- <span
@@ -640,11 +799,11 @@
               </span> -->
             </div>
             <div class="relative w-5/6">
-              <label for="pesan" class="block">Pesan :</label>
+              <label for="pesan" class="block">Message :</label>
               <textarea
                 class="w-full text-slate-800 outline-none border-[1px] border-slate-300 bg-white rounded-sm lg:w-4/5 peer relative focus:border-2 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-slate-600 resize-none"
                 id="pesan"
-                placeholder="Masukkan Pesan"
+                placeholder="message..."
                 required
               ></textarea>
 
@@ -699,4 +858,18 @@
     <!-- footer end -->
   </body>
   <script src="main.js" type="module"></script>
+  <script type="text/javascript">
+    function navbar() {
+      return {
+        open: false,
+        init() {
+          this.checkScreen();
+        },
+        checkScreen() {
+          // Media query untuk md (768px ke atas)
+          this.open = window.matchMedia("(min-width: 768px)").matches;
+        },
+      };
+    }
+  </script>
 </html>
