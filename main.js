@@ -9,7 +9,7 @@ Alpine.start();
 
 document.addEventListener("DOMContentLoaded", function () {
   var typed = new Typed("#typed", {
-    strings: ["junior frontend Developer", "junior backend Developer"], // Teks yang akan ditampilkan
+    strings: ["junior frontend developer", "junior backend developer"], // Teks yang akan ditampilkan
     typeSpeed: 100, // Kecepatan pengetikan (dalam milliseconds)
     backSpeed: 50, // Kecepatan penghapusan teks (dalam milliseconds)
     loop: true, // Apakah teks akan diulang secara terus-menerus
@@ -33,9 +33,9 @@ const hamburger = document.getElementById("hamburger"),
 setInterval(() => {
   const date = new Date();
   const getYears = date.getFullYear();
-  const getMonth = date.toLocaleDateString("id-ID", { month: "long" });
+  const getMonth = date.toLocaleDateString("en-US", { month: "long" });
   const getDate = date.getDate();
-  const getDay = date.toLocaleDateString("id-ID", { weekday: "long" });
+  const getDay = date.toLocaleDateString("en-US", { weekday: "long" });
 
   const timeZone = ` ${getDay},${getDate}-${getMonth}-${getYears}  `;
 
