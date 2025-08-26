@@ -41,7 +41,7 @@ setInterval(() => {
 
   document.getElementById(
     "footer_timer"
-  ).innerHTML = `@${timeZone} all right all rights reserved`;
+  ).innerHTML = `@${timeZone}`;
 }, 1000);
 // window.addEventListener("scroll", () => {
 //   const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
