@@ -7,15 +7,6 @@ import Alpine from "alpinejs";
 window.Alpine = Alpine;
 Alpine.start();
 
-document.addEventListener("DOMContentLoaded", function () {
-  var typed = new Typed("#typed", {
-    strings: ["junior frontend developer", "junior backend developer"], // Teks yang akan ditampilkan
-    typeSpeed: 100, // Kecepatan pengetikan (dalam milliseconds)
-    backSpeed: 50, // Kecepatan penghapusan teks (dalam milliseconds)
-    loop: true, // Apakah teks akan diulang secara terus-menerus
-    cursorChar: "",
-  });
-});
 AOS.init({
   disable: false,
   startEvent: "DOMContentLoaded", // name of the event dispatched on the document, that AOS should initialize on
@@ -28,7 +19,26 @@ const hamburger = document.getElementById("hamburger"),
   nama = document.getElementById("nama"),
   pesan = document.getElementById("pesan"),
   wa = document.getElementById("wa"),
-  scrollbar = document.getElementById("scrollbar");
+  scrollbar = document.getElementById("scrollbar"),
+  profile = document.getElementById("profile");
+
+document.addEventListener("DOMContentLoaded", function () {
+  var typed = new Typed("#typed", {
+    strings: ["junior frontend developer", "junior backend developer"], // Teks yang akan ditampilkan
+    typeSpeed: 100, // Kecepatan pengetikan (dalam milliseconds)
+    backSpeed: 50, // Kecepatan penghapusan teks (dalam milliseconds)
+    loop: true, // Apakah teks akan diulang secara terus-menerus
+    cursorChar: "",
+  });
+  if (window.matchMedia("(min-width: 768px)").matches) {
+    profile.style.width = "100%";
+  } else {
+    profile.style.width = "0%";
+  }
+});
+window.addEventListener("scroll", () => {
+  profile.style.width = `${window.scrollY}%`;
+});
 
 setInterval(() => {
   const date = new Date();
@@ -39,9 +49,7 @@ setInterval(() => {
 
   const timeZone = ` ${getDay},${getDate}-${getMonth}-${getYears}  `;
 
-  document.getElementById(
-    "footer_timer"
-  ).innerHTML = `@${timeZone}`;
+  document.getElementById("footer_timer").innerHTML = `@${timeZone}`;
 }, 1000);
 // window.addEventListener("scroll", () => {
 //   const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
