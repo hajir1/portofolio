@@ -1,839 +1,510 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="main.css" />
+    <title>Usam Muhajir — Portfolio</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts: DM Serif Display (display) + DM Sans (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
-    <style>
-      [x-cloak] {
-        display: none !important;
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Typed.js -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"DM Serif Display"', 'serif'],
+              sans:    ['"DM Sans"', 'sans-serif'],
+            },
+          }
+        }
       }
+    </script>
+
+    <style>
+      /* ── Scroll-reveal ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1);
+      }
+      .reveal.visible { opacity: 1; transform: translateY(0); }
+
+      /* ── Keyframes ── */
+      @keyframes fadeUp   { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+      @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
+      @keyframes wave     { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(-22deg)} }
+      @keyframes blink    { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+      @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+      @keyframes gradShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+      .anim-fade-up  { animation: fadeUp  .7s cubic-bezier(.16,1,.3,1) both; }
+      .anim-fade-in  { animation: fadeIn  .6s ease both; }
+      .anim-wave     { display:inline-block; animation: wave 1.4s ease-in-out infinite; transform-origin: bottom right; }
+      .anim-float    { animation: float 4s ease-in-out infinite; }
+      .cursor::after { content:'|'; animation: blink 1s step-start infinite; }
+
+      /* ── Gradient text ── */
+      .grad-text {
+        background: linear-gradient(120deg, #6366f1 0%, #06b6d4 55%, #10b981 100%);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradShift 6s ease infinite;
+      }
+
+      /* ── Nav underline ── */
+      .nav-link { position: relative; }
+      .nav-link::after {
+        content:''; position:absolute; bottom:-3px; left:0; width:0; height:2px;
+        background: #6366f1; border-radius:1px;
+        transition: width .25s ease;
+      }
+      .nav-link:hover::after { width: 100%; }
+
+      /* ── Skill icon hover ── */
+      .skill-icon { transition: transform .22s cubic-bezier(.34,1.56,.64,1); }
+      .skill-icon:hover { transform: scale(1.18) translateY(-4px); }
+
+      /* ── Project card ── */
+      .project-card {
+        transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
+      }
+      .project-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 48px rgba(99,102,241,.1), 0 4px 16px rgba(0,0,0,.06);
+      }
+
+      /* ── Scrollbar ── */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: #f1f5f9; }
+      ::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 3px; }
+
+      /* ── Noise grain overlay ── */
+      body::before {
+        content:''; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.018;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 200px;
+      }
+
+      [x-cloak] { display: none !important; }
     </style>
   </head>
-  <body>
+
+  <body class="bg-slate-50 text-slate-900 font-sans relative overflow-x-hidden" x-data>
+
+    <!-- ══════════════════════════ NAVBAR ══════════════════════════ -->
     <nav
-      x-data="navbar()"
-      x-init="init()"
-      x-on:resize.window="checkScreen()"
-      class="bg-gray-200 dark:bg-gray-900"
+      x-data="{ open: false, scrolled: false }"
+      x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 40)"
+      :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-transparent'"
+      class="fixed top-0 inset-x-0 z-50 transition-all duration-300"
     >
-      <div class="max-w-screen-xl flex flex-wrap items-center mx-auto p-4">
-        <button
-          type="button"
-          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          @click="open = !open"
-        >
-          <svg
-            class="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
+      <div class="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
+
+        <a href="#" class="font-display text-xl text-slate-900 tracking-tight">
+          u<span class="grad-text">.</span>muhajir
+        </a>  
+
+        <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500">
+          <li><a href="#me"       class="nav-link hover:text-slate-900 transition-colors">About</a></li>
+          <li><a href="#skills"   class="nav-link hover:text-slate-900 transition-colors">Skills</a></li>
+          <li><a href="#projects" class="nav-link hover:text-slate-900 transition-colors">Projects</a></li>
+          <li><a href="#contact"  class="nav-link hover:text-slate-900 transition-colors">Contact</a></li>
+        </ul>
+
+        <a href="#contact" class="hidden md:inline-flex items-center gap-1.5 bg-slate-900 text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-indigo-600 transition-colors duration-200">
+          Hire me &rarr;
+        </a>
+
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            <path x-show="open"  stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
-        <div
-          class="w-full md:block md:w-auto"
-          x-show="open"
-          x-cloak
-          x-transition:enter="transition ease-out duration-500"
-          x-transition:enter-start="opacity-0 transform -translate-x-full"
-          x-transition:enter-end="opacity-100 transform translate-0"
-          x-transition:leave="transition ease-in duration-500"
-          x-transition:leave-start="opacity-100 transform translate-0"
-          x-transition:leave-end="opacity-0 transform -translate-x-full"
-        >
-          <ul
-            class="font-medium flex flex-col gap-4 md:gap-0 p-4 md:p-0 mt-4 border rounded-lg bg-gray-200 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
-          >
-            <li
-              data-aos="fade-up"
-              data-aos-duration="1000"
-              data-aos-anchor-placement="top-center"
-            >
-              <a
-                href="#"
-                class="block py-2 px-3 text-gray-900 rounded bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                aria-current="page"
-                >Home</a
-              >
-            </li>
-            <li
-              data-aos="fade-up"
-              data-aos-duration="1000"
-              data-aos-anchor-placement="top-center"
-            >
-              <a
-                href="#me"
-                class="block py-2 px-3 text-gray-900 rounded bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >About</a
-              >
-            </li>
-            <li
-              data-aos="fade-up"
-              data-aos-duration="1000"
-              data-aos-anchor-placement="top-center"
-            >
-              <a
-                href="#history"
-                class="block py-2 px-3 text-gray-900 rounded bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >History</a
-              >
-            </li>
-            <li
-              data-aos="fade-up"
-              data-aos-duration="1000"
-              data-aos-anchor-placement="top-center"
-            >
-              <a
-                href="#skills"
-                class="block py-2 px-3 text-gray-900 rounded bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >Skills</a
-              >
-            </li>
-            <li
-              data-aos="fade-up"
-              data-aos-duration="1000"
-              data-aos-anchor-placement="top-center"
-            >
-              <a
-                href="#contact"
-                class="block py-2 px-3 text-gray-900 rounded bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >Contact</a
-              >
-            </li>
-          </ul>
-        </div>
+      </div>
+
+      <div
+        x-show="open" x-cloak
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-2"
+        class="md:hidden bg-white/95 backdrop-blur border-t border-slate-100 px-5 py-4 flex flex-col gap-1 text-sm font-medium text-slate-600"
+      >
+        <a @click="open=false" href="#me"       class="py-2.5 hover:text-indigo-600 transition-colors">About</a>
+        <a @click="open=false" href="#skills"   class="py-2.5 hover:text-indigo-600 transition-colors">Skills</a>
+        <a @click="open=false" href="#projects" class="py-2.5 hover:text-indigo-600 transition-colors">Projects</a>
+        <a @click="open=false" href="#contact"  class="py-2.5 hover:text-indigo-600 transition-colors">Contact</a>
       </div>
     </nav>
-    <!-- waves -->
-    <svg
-      class="w-full md:w-auto md:hidden"
-      id="wafePath"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 1440 320"
-    >
-      <path
-        fill="#e5e7eb"
-        fill-opacity="1"
-        d="M0,288L7.5,272C15,256,30,224,45,176C60,128,75,64,90,53.3C105,43,120,85,135,122.7C150,160,165,192,180,218.7C195,245,210,267,225,266.7C240,267,255,245,270,250.7C285,256,300,288,315,261.3C330,235,345,149,360,112C375,75,390,85,405,117.3C420,149,435,203,450,224C465,245,480,235,495,208C510,181,525,139,540,154.7C555,171,570,245,585,240C600,235,615,149,630,128C645,107,660,149,675,160C690,171,705,149,720,165.3C735,181,750,235,765,213.3C780,192,795,96,810,53.3C825,11,840,21,855,64C870,107,885,181,900,213.3C915,245,930,235,945,208C960,181,975,139,990,112C1005,85,1020,75,1035,58.7C1050,43,1065,21,1080,48C1095,75,1110,149,1125,197.3C1140,245,1155,267,1170,229.3C1185,192,1200,96,1215,64C1230,32,1245,64,1260,74.7C1275,85,1290,75,1305,64C1320,53,1335,43,1350,58.7C1365,75,1380,117,1395,138.7C1410,160,1425,160,1433,160L1440,160L1440,0L1432.5,0C1425,0,1410,0,1395,0C1380,0,1365,0,1350,0C1335,0,1320,0,1305,0C1290,0,1275,0,1260,0C1245,0,1230,0,1215,0C1200,0,1185,0,1170,0C1155,0,1140,0,1125,0C1110,0,1095,0,1080,0C1065,0,1050,0,1035,0C1020,0,1005,0,990,0C975,0,960,0,945,0C930,0,915,0,900,0C885,0,870,0,855,0C840,0,825,0,810,0C795,0,780,0,765,0C750,0,735,0,720,0C705,0,690,0,675,0C660,0,645,0,630,0C615,0,600,0,585,0C570,0,555,0,540,0C525,0,510,0,495,0C480,0,465,0,450,0C435,0,420,0,405,0C390,0,375,0,360,0C345,0,330,0,315,0C300,0,285,0,270,0C255,0,240,0,225,0C210,0,195,0,180,0C165,0,150,0,135,0C120,0,105,0,90,0C75,0,60,0,45,0C30,0,15,0,8,0L0,0Z"
-      ></path>
-    </svg>
 
-    <!-- navbar end -->
+    <!-- ══════════════════════════ HERO ══════════════════════════ -->
+    <section id="me" class="min-h-screen flex items-center pt-24 pb-20 px-5 relative z-10">
+      <div class="max-w-5xl mx-auto w-full grid lg:grid-cols-2 gap-14 lg:gap-24 items-center">
 
-    <div class="w-full flex flex-col items-center">
-      <!-- first content start -->
-      <div
-        id="me"
-        class="md:w-4/5 p-2 md:shadow-none md:mt-10 lg:flex lg:items-center"
-      >
-        <div class="w-full flex justify-center">
-          <div
-            id="profile"
-            class="transition-all duration-500 max-w-52 h-72 relative rounded-lg shadow-lg md:max-w-64 lg:max-w-80 lg:h-96"
-          >
-            <img
-              class="w-full h-full object-cover"
-              src="img/profile-new-1.jpeg"
-              alt=""
-              srcset=""
-            />
-          </div>
-        </div>
-        <div class="w-full mt-8 flex flex-col items-center md:mt-20 lg:gap-4">
-          <h1
-            class="text-slate-900 text-xl text-center lg:text-4xl font-secondary"
-          >
-            Hallo<span class="lambai">🖐</span> I'am Usam Muhajir
-          </h1>
-          <span
-            id="typed"
-            class="text-center font-secondary text-base lg:text-3xl w-full h-10"
-          >
-          </span>
-          <p class="text-center">
-            <span class="console-cursor font-secondary text-sm lg:text-xl"
-              >My name is Usammuhajir, I live in Malang, I was born on
-              29-11-2006, I really like studying technology analysis, and like
-              reading philosophy</span
-            >
+        <!-- Text -->
+        <div class="order-2 lg:order-1">
+          <p class="text-indigo-500 font-semibold text-xs tracking-widest uppercase mb-5 anim-fade-in" style="animation-delay:.1s">
+            Hello there <span class="anim-wave">👋</span>
           </p>
-        </div>
-      </div>
-      <!-- first content end -->
-
-      <!-- keahlian start -->
-      <section class="w-full pt-10 md:w-4/5 md:shadow-none">
-        <div class="w-full">
-          <h1
-            id="skills"
-            class="text-2xl font-bold ml-2 font-secondary lg:mt-10"
-          >
-            skills
+          <h1 class="font-display text-4xl sm:text-5xl lg:text-[3.5rem] leading-tight mb-5 anim-fade-up" style="animation-delay:.2s">
+            I'm <span class="grad-text">Usam</span><br/>Muhajir
           </h1>
-          <p class="text-center p-1 text-sm font-mono lg:text-xl">
-            <span class="console-cursor font-secondary"
-              >As a technology enthusiast, I am currently still interested in
-              the field of web technology, and most likely will later switch to
-              AI developer, machine learning and others, here are my skills in
-              the field of web technology , This is something I understood at
-              the creation of this website on August 24, 2025, and will most
-              likely change at some point.</span
-            >
+          <div class="text-lg sm:text-xl font-light text-slate-400 mb-5 h-8 anim-fade-up" style="animation-delay:.3s">
+            <span id="typed"></span>
+          </div>
+          <p class="text-slate-500 leading-relaxed max-w-md text-[15px] anim-fade-up cursor" style="animation-delay:.4s">
+            Based in Malang · Born 29 Nov 2006 · Passionate about web tech,
+            technology analysis, and philosophy. Heading toward AI &amp; machine learning.
           </p>
 
-          <div class="flex flex-wrap justify-center gap-4">
-            <div class="p-4 max-w-md">
-              <h1
-                data-aos="fade-up"
-                data-aos-duration="1000"
-                data-aos-anchor-placement="top-center"
-                class="text-xl font-semibold text-center font-mono"
-              >
-                frontend Web Developer
-              </h1>
-              <ul class="w-full flex mt-4 justify-center gap-4 flex-wrap">
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-html" type="button">
-                    <img src="icon/html.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-html"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    html
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-css" type="button">
-                    <img src="icon/css.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-css"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    css
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-js" type="button">
-                    <img src="icon/js.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-js"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    javascript
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
+          <div class="flex flex-wrap gap-3 mt-8 anim-fade-up" style="animation-delay:.5s">
+            <a href="#projects" class="bg-slate-900 text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-indigo-600 transition-colors duration-200 shadow-sm">
+              See my work
+            </a>
+            <a href="#contact" class="border border-slate-200 text-slate-700 text-sm font-medium px-5 py-2.5 rounded-full hover:border-indigo-400 hover:text-indigo-600 transition-colors duration-200">
+              Get in touch
+            </a>
+          </div>
 
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-tw" type="button">
-                    <img src="icon/tw.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-tw"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    tailwindcss
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-zs" type="button">
-                    <img src="icon/zustand.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-zs"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    zustand
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-react" type="button">
-                    <img src="icon/react.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-react"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    reactjs
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-              </ul>
+          <!-- Stats -->
+          <div class="flex gap-8 mt-10 anim-fade-up" style="animation-delay:.6s">
+            <div>
+              <p class="font-display text-3xl text-slate-900">5+</p>
+              <p class="text-[11px] text-slate-400 mt-0.5 uppercase tracking-wider">Projects</p>
             </div>
-            <div class="p-4 max-w-md">
-              <h1
-                data-aos="fade-up"
-                data-aos-duration="1000"
-                data-aos-anchor-placement="top-center"
-                class="text-xl font-semibold text-center font-mono"
-              >
-                backend Web Developer
-              </h1>
-              <ul class="w-full flex mt-4 justify-center gap-4 flex-wrap">
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-node" type="button">
-                    <img src="icon/node.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-node"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    node js
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-express" type="button">
-                    <img src="icon/express.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-express"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    express js
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-prisma" type="button">
-                    <img src="icon/prisma.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-prisma"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    prisma
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-php" type="button">
-                    <img src="icon/php.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-php"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    php
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-laravel" type="button">
-                    <img src="icon/laravel.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-laravel"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    laravel
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-mysql" type="button">
-                    <img src="icon/mysql.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-mysql"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    mysql
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-                <li
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-anchor-placement="top-center"
-                >
-                  <button data-tooltip-target="tooltip-redis" type="button">
-                    <img src="icon/redis.svg" alt="" />
-                  </button>
-                  <div
-                    id="tooltip-redis"
-                    role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg tracking-wider shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    redis
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </li>
-              </ul>
+            <div class="w-px bg-slate-200"></div>
+            <div>
+              <p class="font-display text-3xl text-slate-900">2+</p>
+              <p class="text-[11px] text-slate-400 mt-0.5 uppercase tracking-wider">Years</p>
+            </div>
+            <div class="w-px bg-slate-200"></div>
+            <div>
+              <p class="font-display text-3xl text-slate-900">12+</p>
+              <p class="text-[11px] text-slate-400 mt-0.5 uppercase tracking-wider">Tech skills</p>
             </div>
           </div>
         </div>
-      </section>
-      <!-- keahlian end -->
-      <!-- project start -->
-      <section class="w-full pt-10 md:w-4/5 md:shadow-none">
-        <h1
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-anchor-placement="top-center"
-          id="skills"
-          class="text-2xl font-bold ml-2 font-secondary md:mt-4"
-        >
-          projects
-        </h1>
-        <p
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-anchor-placement="top-center"
-          class="text-sm ml-2 font-secondary lg:text-xl"
-        >
-          some of the works that I have created
-        </p>
-        <div class="w-full p-3 flex flex-wrap justify-evenly gap-4">
-          <div
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-anchor-placement="top-center"
-            class="w-full max-w-sm border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center"
-          >
-            <img
-              src="./img/smkn1gedangan.png"
-              class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
-              alt=""
-            />
-            <div class="w-full my-4">
-              <h1 class="font-primary text-2xl">Smkn 1 Gedangan</h1>
-              <p class="mt-4 font-secondary capitalize">
-                Primary Website For Smkn 1 Gedangan
-              </p>
+
+        <!-- Photo -->
+        <div class="order-1 lg:order-2 flex justify-center lg:justify-end anim-fade-in" style="animation-delay:.25s">
+          <div class="relative">
+            <div class="absolute -inset-5 rounded-[2rem] border-2 border-dashed border-indigo-200 anim-float pointer-events-none"></div>
+            <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-100 to-cyan-100 scale-110 blur-2xl opacity-50 pointer-events-none"></div>
+            <div class="relative w-56 h-72 sm:w-64 sm:h-80 lg:w-72 lg:h-96 rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white transition-all duration-700">
+              <img src="img/profile-new-1.jpeg" alt="Usam Muhajir" class="w-full h-full object-cover" />
             </div>
-            <div>
-              <span
-                class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                >laravel</span
-              >
-              <span
-                class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
-                >blade</span
-              >
-              <span
-                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                >tailwindcss</span
-              >
-              <span
-                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-                >mysql</span
-              >
-            </div>
-            <div class="flex gap-2 mt-7 justify-evenly w-full flex-wrap">
-              <a
-                href="https://smkn1gedangan-malang.sch.id/"
-                target="_blank"
-                class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
-                >visit project &raquo;</a
-              >
-            </div>
-          </div>
-          <div
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-anchor-placement="top-center"
-            class="w-full max-w-sm border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center"
-          >
-            <img
-              src="./img/survey.png"
-              class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
-              alt=""
-            />
-            <div class="w-full my-4">
-              <h1 class="font-primary text-2xl">Survey Smkn 1 Gedangan</h1>
-              <p class="mt-4 font-secondary capitalize">
-                The survey website is used to survey students before
-                registering.
-              </p>
-            </div>
-            <div>
-              <span
-                class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                >laravel</span
-              >
-              <span
-                class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
-                >react with inertia</span
-              >
-              <span
-                class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
-                >zustand</span
-              >
-              <span
-                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                >tailwindcss</span
-              >
-              <span
-                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-                >mysql</span
-              >
-            </div>
-            <div class="flex gap-2 mt-7 justify-evenly w-full flex-wrap">
-              <a
-                href="https://surveyminat.smkn1gedangan-malang.sch.id/"
-                target="_blank"
-                class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
-                >visit project &raquo;</a
-              >
-            </div>
-          </div>
-          <div
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-anchor-placement="top-center"
-            class="w-full max-w-sm border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center"
-          >
-            <img
-              src="./img/epkl.png"
-              class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
-              alt=""
-            />
-            <div class="w-full my-4">
-              <h1 class="font-primary text-2xl">E-Pkl Smkn 1 Gedangan</h1>
-              <p class="mt-4 font-secondary capitalize">
-                system-based website used to monitor students' daily work hours
-              </p>
-            </div>
-            <div>
-              <span
-                class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                >laravel</span
-              >
-              <span
-                class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
-                >react with inertia</span
-              >
-              <span
-                class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
-                >zustand</span
-              >
-              <span
-                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                >tailwindcss</span
-              >
-              <span
-                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-                >mysql</span
-              >
-            </div>
-            <div class="flex gap-2 mt-7 justify-evenly w-full flex-wrap">
-              <a
-                href="https://epklsija.smkn1gedangan-malang.sch.id/"
-                target="_blank"
-                class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
-                >visit project &raquo;</a
-              >
-            </div>
-          </div>
-          <div
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-anchor-placement="top-center"
-            class="w-full max-w-sm border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center"
-          >
-            <img
-              src="./img/imamuslim.png"
-              class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
-              alt=""
-            />
-            <div class="w-full my-4">
-              <h1 class="font-primary text-2xl">Im a Muslim</h1>
-              <p class="mt-4 font-secondary">
-                Website Islamic with the feature news, al-quran, asmaul-husna,
-                prayer-schedule, and hadist
-              </p>
-            </div>
-            <div>
-              <span
-                class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                >react js</span
-              >
-              <span
-                class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
-                >typescript</span
-              >
-              <span
-                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                >tailwindcss</span
-              >
-              <span
-                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-                >zustand</span
-              >
-            </div>
-            <div class="flex gap-2 mt-7 justify-evenly w-full flex-wrap">
-              <a
-                href="https://imamuslim.vercel.app"
-                target="_blank"
-                class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
-                >visit project &raquo;</a
-              >
-              <a
-                href="https://github.com/hajir1/imamuslim-frontend"
-                target="_blank"
-                class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
-                >source code &raquo;</a
-              >
-            </div>
-          </div>
-          <div
-            data-aos="fade-up"
-            data-aos-duration="1000"
-            data-aos-anchor-placement="top-center"
-            class="w-full max-w-sm border-2 border-dashed border-gray-300 p-1 flex flex-col overflow-hidden items-center"
-          >
-            <img
-              src="./img/movie.png"
-              class="w-full object-cover h-[10rem] hover:scale-110 duration-300 transition-all"
-              alt=""
-            />
-            <div class="w-full my-4">
-              <h1 class="font-primary text-2xl">React Movie</h1>
-              <p class="mt-4 font-secondary">
-                film rating website with the feature of displaying all film, TV
-                and actor data
-              </p>
-            </div>
-            <div>
-              <span
-                class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                >react js</span
-              >
-              <span
-                class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
-                >javascript</span
-              >
-              <span
-                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                >tailwindcss</span
-              >
-              <span
-                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-                >zustand</span
-              >
-            </div>
-            <div class="flex gap-2 mt-7 justify-evenly w-full flex-wrap">
-              <a
-                href="https://reacts-movie.vercel.app"
-                target="_blank"
-                class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
-                >visit project &raquo;</a
-              >
-              <a
-                href="https://github.com/hajir1/reacts-movie"
-                target="_blank"
-                class="p-1 w-2/5 rounded-md text-center my-2 font-secondary"
-                >source code &raquo;</a
-              >
+            <div class="absolute -bottom-4 -right-3 bg-white rounded-xl shadow-lg px-3 py-2 flex items-center gap-2 text-xs font-semibold text-slate-700 border border-slate-100">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block"></span>
+              Available for work
             </div>
           </div>
         </div>
-      </section>
-      <!-- project end -->
-      <!-- contact start -->
-      <section class="w-full mt-10 p-3 md:w-4/5 md:shadow-none">
-        <div
-          class="w-full"
-          class="w-full pt-10 md:w-4/5 md:shadow-none"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-anchor-placement="top-center"
-        >
-          <h1
-            id="contact"
-            class="text-2xl font-bold ml-2 font-secondary md:mt-10 text-center"
-          >
-            Contact
-          </h1>
 
-          <p class="text-center p-1 text-sm font-mono lg:text-xl">
-            <span class="console-cursor font-secondary"
-              >As someone who understands the web, if a visitor wants to create
-              a website or consult about a website, please contact the contact
-              below</span
-            >
-          </p>
-          <form
-            class="w-full flex flex-wrap flex-col items-center md:flex-row md:items-start mt-8 gap-4"
-          >
-            <div class="relative w-5/6 md:max-w-sm">
-              <label for="nama" class="block">Name :</label>
-              <input
-                type="text"
-                class="w-full text-slate-800 outline-none border-[1px] border-slate-300 bg-white rounded-sm lg:w-4/5 peer focus:border-2 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-slate-600"
-                id="nama"
-                placeholder="name..."
-              />
-
-              <!-- <span
-                class="absolute transition-all duration-500 font-secondary top-1/2 left-4 lg:left-20 -translate-y-1/2 z-10 text-gray-600 peer-focus:top-0 peer-focus:text-slate-800 peer-focus:bg-white peer-focus:border-x-2 peer-focus:border-x-blue-600 peer-focus:px-3"
-              >
-                name
-              </span> -->
-            </div>
-            <div class="relative w-5/6">
-              <label for="pesan" class="block">Message :</label>
-              <textarea
-                class="w-full text-slate-800 outline-none border-[1px] border-slate-300 bg-white rounded-sm lg:w-4/5 peer relative focus:border-2 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-slate-600 resize-none"
-                id="pesan"
-                placeholder="message..."
-                required
-              ></textarea>
-
-              <!-- <span
-                class="absolute transition-all duration-500 font-secondary top-2 left-4 lg:left-20 z-10 text-gray-600 peer-focus:-top-3 peer-focus:text-slate-800 peer-focus:bg-white peer-focus:border-x-2 peer-focus:border-x-blue-600 peer-focus:px-3"
-              >
-                message
-              </span> -->
-            </div>
-            <p
-              class="w-full visible text-center text-sm my-1 font-secondary text-red-700 peer-valid:invisible md:text-left"
-            >
-              If you want to send to WhatsApp, the message must be filled in
-            </p>
-            <button
-              id="wa"
-              type="button"
-              class="text-white bg-gray-800 font-medium rounded-md text-sm px-5 py-2.5 text-center me-2 mb-2"
-            >
-              send to whatsapp
-            </button>
-          </form>
-          <div class="flex flex-wrap">
-            <div class="w-full">
-              <div class="w-full flex mt-4 justify-center gap-3">
-                <a href="https://www.instagram.com/_haajirr/">
-                  <img src="icon/ig.svg" alt="" />
-                </a>
-                <a href="https://www.facebook.com/mu.hajir.1088?locale=id_ID">
-                  <img src="icon/fb.svg" alt="" />
-                </a>
-                <a href="https://github.com/hajir1">
-                  <img src="icon/github.svg" alt="" />
-                </a>
-                <a href="https://web.telegram.org/a/">
-                  <img src="icon/tele.svg" alt="" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- contact end -->
-    </div>
-
-    <!-- footer start -->
-    <section class="w-full mt-10" id="footer">
-      <div class="w-full bg-black p-2 flex justify-center">
-        <h1 id="footer_timer" class="font-medium text-white text-base"></h1>
-        <p class="text-white font-medium text-base text-center">
-          &nbsp;&nbsp; all rights reserved
-        </p>
       </div>
     </section>
-    <!-- footer end -->
+
+    <!-- ══════════════════════════ SKILLS ══════════════════════════ -->
+    <section id="skills" class="py-20 px-5 bg-white relative z-10">
+      <div class="max-w-5xl mx-auto">
+
+        <div class="reveal mb-12">
+          <p class="text-indigo-500 text-xs font-semibold tracking-widest uppercase mb-2">What I work with</p>
+          <h2 class="font-display text-3xl sm:text-4xl text-slate-900">Skills &amp; Tools</h2>
+          <p class="mt-3 text-slate-500 max-w-xl text-sm leading-relaxed">
+            Currently focused on web tech — frontend &amp; backend. Snapshot as of August 2025,
+            likely evolving toward AI &amp; machine learning.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-6">
+          <!-- Frontend card -->
+          <div class="reveal bg-slate-50 rounded-2xl p-7 border border-slate-100/80">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center">
+                <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <h3 class="font-semibold text-slate-800">Frontend</h3>
+            </div>
+            <ul class="flex flex-wrap gap-6">
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/html.svg"    alt="HTML"       class="w-9 h-9" /><span>HTML</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/css.svg"     alt="CSS"        class="w-9 h-9" /><span>CSS</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/js.svg"      alt="JavaScript" class="w-9 h-9" /><span>JavaScript</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/tw.svg"      alt="Tailwind"   class="w-9 h-9" /><span>Tailwind</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/react.svg"   alt="React"      class="w-9 h-9" /><span>React</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/zustand.svg" alt="Zustand"    class="w-9 h-9" /><span>Zustand</span></li>
+            </ul>
+          </div>
+
+          <!-- Backend card -->
+          <div class="reveal bg-slate-50 rounded-2xl p-7 border border-slate-100/80" style="transition-delay:.1s">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center">
+                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+              </div>
+              <h3 class="font-semibold text-slate-800">Backend</h3>
+            </div>
+            <ul class="flex flex-wrap gap-6">
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/node.svg"    alt="Node.js" class="w-9 h-9" /><span>Node.js</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/express.svg" alt="Express" class="w-9 h-9" /><span>Express</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/php.svg"     alt="PHP"     class="w-9 h-9" /><span>PHP</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/laravel.svg" alt="Laravel" class="w-9 h-9" /><span>Laravel</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/prisma.svg"  alt="Prisma"  class="w-9 h-9" /><span>Prisma</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/mysql.svg"   alt="MySQL"   class="w-9 h-9" /><span>MySQL</span></li>
+              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/redis.svg"   alt="Redis"   class="w-9 h-9" /><span>Redis</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════ PROJECTS ══════════════════════════ -->
+    <section id="projects" class="py-20 px-5 bg-slate-50 relative z-10">
+      <div class="max-w-5xl mx-auto">
+
+        <div class="reveal mb-12">
+          <p class="text-indigo-500 text-xs font-semibold tracking-widest uppercase mb-2">Selected work</p>
+          <h2 class="font-display text-3xl sm:text-4xl text-slate-900">Projects</h2>
+          <p class="mt-3 text-slate-500 text-sm">A handful of things I've built.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Card: SMKN 1 Gedangan -->
+          <article class="reveal project-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col">
+            <div class="overflow-hidden h-40 bg-slate-100">
+              <img src="./img/smkn1gedangan.png" alt="Smkn 1 Gedangan" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="font-display text-lg text-slate-900">SMKN 1 Gedangan</h3>
+              <p class="text-slate-500 text-sm mt-2 leading-relaxed flex-1">Primary school website for SMKN 1 Gedangan.</p>
+              <div class="flex flex-wrap gap-1.5 mt-4">
+                <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">Laravel</span>
+                <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Blade</span>
+                <span class="text-[11px] font-medium bg-cyan-50 text-cyan-600 px-2 py-0.5 rounded-full">Tailwind</span>
+                <span class="text-[11px] font-medium bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">MySQL</span>
+              </div>
+              <div class="mt-5">
+                <a href="https://smkn1gedangan-malang.sch.id/" target="_blank" class="block text-center text-xs font-semibold py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors">Visit project →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card: Survey -->
+          <article class="reveal project-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col" style="transition-delay:.08s">
+            <div class="overflow-hidden h-40 bg-slate-100">
+              <img src="./img/survey.png" alt="Survey SMKN" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="font-display text-lg text-slate-900">Survey SMKN 1 Gedangan</h3>
+              <p class="text-slate-500 text-sm mt-2 leading-relaxed flex-1">Survey site for screening students before registration.</p>
+              <div class="flex flex-wrap gap-1.5 mt-4">
+                <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">Laravel</span>
+                <span class="text-[11px] font-medium bg-sky-50 text-sky-600 px-2 py-0.5 rounded-full">React+Inertia</span>
+                <span class="text-[11px] font-medium bg-yellow-50 text-yellow-600 px-2 py-0.5 rounded-full">Zustand</span>
+              </div>
+              <div class="mt-5">
+                <a href="https://surveyminat.smkn1gedangan-malang.sch.id/" target="_blank" class="block text-center text-xs font-semibold py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors">Visit project →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card: E-PKL -->
+          <article class="reveal project-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col" style="transition-delay:.16s">
+            <div class="overflow-hidden h-40 bg-slate-100">
+              <img src="./img/epkl.png" alt="E-PKL" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="font-display text-lg text-slate-900">E-PKL SMKN 1 Gedangan</h3>
+              <p class="text-slate-500 text-sm mt-2 leading-relaxed flex-1">Monitor students' daily internship work hours.</p>
+              <div class="flex flex-wrap gap-1.5 mt-4">
+                <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">Laravel</span>
+                <span class="text-[11px] font-medium bg-sky-50 text-sky-600 px-2 py-0.5 rounded-full">React+Inertia</span>
+                <span class="text-[11px] font-medium bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">MySQL</span>
+              </div>
+              <div class="mt-5">
+                <a href="https://epklsija.smkn1gedangan-malang.sch.id/" target="_blank" class="block text-center text-xs font-semibold py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors">Visit project →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card: Im a Muslim -->
+          <article class="reveal project-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col">
+            <div class="overflow-hidden h-40 bg-slate-100">
+              <img src="./img/imamuslim.png" alt="Im a Muslim" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="font-display text-lg text-slate-900">I'm a Muslim</h3>
+              <p class="text-slate-500 text-sm mt-2 leading-relaxed flex-1">Islamic app — Al-Quran, Asmaul Husna, prayer schedule, hadist, news.</p>
+              <div class="flex flex-wrap gap-1.5 mt-4">
+                <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">React</span>
+                <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">TypeScript</span>
+                <span class="text-[11px] font-medium bg-cyan-50 text-cyan-600 px-2 py-0.5 rounded-full">Tailwind</span>
+              </div>
+              <div class="mt-5 flex gap-2">
+                <a href="https://imamuslim.vercel.app" target="_blank" class="flex-1 text-center text-xs font-semibold py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors">Visit →</a>
+                <a href="https://github.com/hajir1/imamuslim-frontend" target="_blank" class="flex-1 text-center text-xs font-semibold py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:border-indigo-400 hover:text-indigo-600 transition-colors">Code →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card: React Movie -->
+          <article class="reveal project-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col" style="transition-delay:.08s">
+            <div class="overflow-hidden h-40 bg-slate-100">
+              <img src="./img/movie.png" alt="React Movie" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="font-display text-lg text-slate-900">React Movie</h3>
+              <p class="text-slate-500 text-sm mt-2 leading-relaxed flex-1">Film rating platform — movies, TV shows, and actor data.</p>
+              <div class="flex flex-wrap gap-1.5 mt-4">
+                <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">React</span>
+                <span class="text-[11px] font-medium bg-yellow-50 text-yellow-600 px-2 py-0.5 rounded-full">JavaScript</span>
+                <span class="text-[11px] font-medium bg-cyan-50 text-cyan-600 px-2 py-0.5 rounded-full">Tailwind</span>
+              </div>
+              <div class="mt-5 flex gap-2">
+                <a href="https://reacts-movie.vercel.app" target="_blank" class="flex-1 text-center text-xs font-semibold py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors">Visit →</a>
+                <a href="https://github.com/hajir1/reacts-movie" target="_blank" class="flex-1 text-center text-xs font-semibold py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:border-indigo-400 hover:text-indigo-600 transition-colors">Code →</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════ CONTACT ══════════════════════════ -->
+    <section id="contact" class="py-20 px-5 bg-white relative z-10">
+      <div class="max-w-5xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
+
+        <div class="reveal">
+          <p class="text-indigo-500 text-xs font-semibold tracking-widest uppercase mb-2">Let's talk</p>
+          <h2 class="font-display text-3xl sm:text-4xl text-slate-900 mb-4">Got a project<br/>in mind?</h2>
+          <p class="text-slate-500 text-sm leading-relaxed max-w-sm">
+            Need a website built or want to consult about web dev?
+            Drop me a message and I'll reply via WhatsApp.
+          </p>
+          <div class="flex gap-3 mt-8">
+            <a href="https://www.instagram.com/_haajirr/" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:border-indigo-400 hover:bg-indigo-50 transition-all group">
+              <img src="icon/ig.svg"     alt="Instagram" class="w-5 h-5 group-hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://www.facebook.com/mu.hajir.1088?locale=id_ID" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:border-indigo-400 hover:bg-indigo-50 transition-all group">
+              <img src="icon/fb.svg"     alt="Facebook"  class="w-5 h-5 group-hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://github.com/hajir1" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:border-indigo-400 hover:bg-indigo-50 transition-all group">
+              <img src="icon/github.svg" alt="GitHub"    class="w-5 h-5 group-hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://web.telegram.org/a/" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:border-indigo-400 hover:bg-indigo-50 transition-all group">
+              <img src="icon/tele.svg"   alt="Telegram"  class="w-5 h-5 group-hover:scale-110 transition-transform" />
+            </a>
+          </div>
+        </div>
+
+        <div class="reveal" style="transition-delay:.1s">
+          <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 flex flex-col gap-4">
+            <div>
+              <label for="nama" class="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">Your name</label>
+              <input type="text" id="nama" placeholder="e.g. Budi Santoso"
+                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-300 outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all" />
+            </div>
+            <div>
+              <label for="pesan" class="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">Message <span class="text-red-400">*</span></label>
+              <textarea id="pesan" rows="4" required placeholder="Hi Usam, I'd like to..."
+                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-300 outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all resize-none"></textarea>
+            </div>
+            <p id="form-hint" class="text-xs text-red-400 -mt-1 hidden">Please fill in your message before sending.</p>
+            <button id="wa" type="button"
+              class="w-full flex items-center justify-center gap-2 bg-slate-900 text-white font-semibold text-sm py-3 rounded-xl hover:bg-indigo-600 active:scale-95 transition-all duration-200">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+              </svg>
+              Send to WhatsApp
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════ FOOTER ══════════════════════════ -->
+    <footer class="bg-slate-900 py-7 px-5 relative z-10">
+      <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
+        <span class="font-display text-white text-sm">u.muhajir</span>
+        <span id="footer_timer" class="tabular-nums"></span>
+        <span>© All rights reserved</span>
+      </div>
+    </footer>
+
+    <!-- ══════════════════════════ SCRIPTS ══════════════════════════ -->
+    <script>
+      // Typed.js
+      document.addEventListener('DOMContentLoaded', () => {
+        new Typed('#typed', {
+          strings: ['Junior Frontend Developer.', 'Junior Backend Developer.', 'Web Enthusiast.'],
+          typeSpeed: 75,
+          backSpeed: 40,
+          loop: true,
+          cursorChar: '|',
+        });
+      });
+
+      // Profile parallax (desktop only)
+      const profileEl = document.getElementById('profile');
+      window.addEventListener('scroll', () => {
+        if (window.matchMedia('(min-width:1024px)').matches) {
+          const w = Math.min(72 + window.scrollY * 0.04, 288);
+          profileEl.style.width = w + 'px';
+        }
+      });
+
+      // Footer clock
+      function updateClock() {
+        const d = new Date();
+        const str = d.toLocaleDateString('en-US',{weekday:'long'}) + ', '
+          + d.getDate() + ' ' + d.toLocaleDateString('en-US',{month:'long'})
+          + ' ' + d.getFullYear();
+        document.getElementById('footer_timer').textContent = str;
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      // WhatsApp
+      document.getElementById('wa').addEventListener('click', () => {
+        const nama  = document.getElementById('nama').value.trim();
+        const pesan = document.getElementById('pesan').value.trim();
+        const hint  = document.getElementById('form-hint');
+        if (!pesan) { hint.classList.remove('hidden'); return; }
+        hint.classList.add('hidden');
+        const greeting = nama ? `Hallo saya ${nama}` : 'Hallo';
+        window.open(`https://wa.me/6285606522246?text=${encodeURIComponent(greeting + ' — ' + pesan)}`, '_blank');
+      });
+
+      // Scroll reveal via IntersectionObserver
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    </script>
+
   </body>
-  <script src="main.js" type="module"></script>
-  <script type="text/javascript">
-    function navbar() {
-      return {
-        open: false,
-        init() {
-          this.checkScreen();
-        },
-        checkScreen() {
-          // Media query untuk md (768px ke atas)
-          this.open = window.matchMedia("(min-width: 768px)").matches;
-          profile.style.width = "0%";
-        },
-      };
-    }
-  </script>
 </html>
