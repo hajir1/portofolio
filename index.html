@@ -115,13 +115,14 @@
 
         <a href="#" class="font-display text-xl text-slate-900 tracking-tight">
           u<span class="grad-text">.</span>muhajir
-        </a>  
+        </a>
 
         <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500">
-          <li><a href="#me"       class="nav-link hover:text-slate-900 transition-colors">About</a></li>
-          <li><a href="#skills"   class="nav-link hover:text-slate-900 transition-colors">Skills</a></li>
-          <li><a href="#projects" class="nav-link hover:text-slate-900 transition-colors">Projects</a></li>
-          <li><a href="#contact"  class="nav-link hover:text-slate-900 transition-colors">Contact</a></li>
+          <li><a href="#me"        class="nav-link hover:text-slate-900 transition-colors">About</a></li>
+          <li><a href="#education" class="nav-link hover:text-slate-900 transition-colors">Education</a></li>
+          <li><a href="#skills"    class="nav-link hover:text-slate-900 transition-colors">Skills</a></li>
+          <li><a href="#projects"  class="nav-link hover:text-slate-900 transition-colors">Projects</a></li>
+          <li><a href="#contact"   class="nav-link hover:text-slate-900 transition-colors">Contact</a></li>
         </ul>
 
         <a href="#contact" class="hidden md:inline-flex items-center gap-1.5 bg-slate-900 text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-indigo-600 transition-colors duration-200">
@@ -146,10 +147,11 @@
         x-transition:leave-end="opacity-0 -translate-y-2"
         class="md:hidden bg-white/95 backdrop-blur border-t border-slate-100 px-5 py-4 flex flex-col gap-1 text-sm font-medium text-slate-600"
       >
-        <a @click="open=false" href="#me"       class="py-2.5 hover:text-indigo-600 transition-colors">About</a>
-        <a @click="open=false" href="#skills"   class="py-2.5 hover:text-indigo-600 transition-colors">Skills</a>
-        <a @click="open=false" href="#projects" class="py-2.5 hover:text-indigo-600 transition-colors">Projects</a>
-        <a @click="open=false" href="#contact"  class="py-2.5 hover:text-indigo-600 transition-colors">Contact</a>
+        <a @click="open=false" href="#me"        class="py-2.5 hover:text-indigo-600 transition-colors">About</a>
+        <a @click="open=false" href="#education" class="py-2.5 hover:text-indigo-600 transition-colors">Education</a>
+        <a @click="open=false" href="#skills"    class="py-2.5 hover:text-indigo-600 transition-colors">Skills</a>
+        <a @click="open=false" href="#projects"  class="py-2.5 hover:text-indigo-600 transition-colors">Projects</a>
+        <a @click="open=false" href="#contact"   class="py-2.5 hover:text-indigo-600 transition-colors">Contact</a>
       </div>
     </nav>
 
@@ -206,13 +208,101 @@
           <div class="relative">
             <div class="absolute -inset-5 rounded-[2rem] border-2 border-dashed border-indigo-200 anim-float pointer-events-none"></div>
             <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-100 to-cyan-100 scale-110 blur-2xl opacity-50 pointer-events-none"></div>
-            <div class="relative w-56 h-72 sm:w-64 sm:h-80 lg:w-72 lg:h-96 rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white transition-all duration-700">
-              <img src="img/profile-new-1.jpeg" alt="Usam Muhajir" class="w-full h-full object-cover" />
+            <div class="relative w-56 h-72 sm:w-64 sm:h-80 lg:w-72 lg:h-96 rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white">
+              <img id="profile-img" src="img/profile-new-1.jpeg" alt="Usam Muhajir" class="w-full h-full object-cover object-top will-change-transform" style="transform:translateY(0)" />
             </div>
             <div class="absolute -bottom-4 -right-3 bg-white rounded-xl shadow-lg px-3 py-2 flex items-center gap-2 text-xs font-semibold text-slate-700 border border-slate-100">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block"></span>
               Available for work
             </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════ EDUCATION ══════════════════════════ -->
+    <section id="education" class="py-20 px-5 bg-slate-50 relative z-10">
+      <div class="max-w-5xl mx-auto">
+
+        <div class="reveal mb-12">
+          <p class="text-indigo-500 text-xs font-semibold tracking-widest uppercase mb-2">My journey</p>
+          <h2 class="font-display text-3xl sm:text-4xl text-slate-900">Riwayat Pendidikan</h2>
+          <p class="mt-3 text-slate-500 max-w-xl text-sm leading-relaxed">
+            Perjalanan akademik yang membentuk landasan teknis dan analitis saya.
+          </p>
+        </div>
+
+        <!-- Timeline -->
+        <div class="relative">
+          <!-- Vertical line -->
+          <div class="absolute left-5 sm:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-300 via-indigo-200 to-transparent"></div>
+
+          <div class="flex flex-col gap-10">
+
+            <!-- Item 1: SMK -->
+            <div class="reveal flex gap-6 sm:gap-10 items-start pl-14 sm:pl-20 relative">
+              <!-- Dot -->
+              <div class="absolute left-3 sm:left-5 top-1 w-5 h-5 rounded-full bg-indigo-600 ring-4 ring-indigo-100 flex items-center justify-center flex-shrink-0">
+                <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+              </div>
+              <!-- Card -->
+              <div class="bg-white rounded-2xl border border-slate-100 p-6 w-full shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                  <div>
+                    <h3 class="font-semibold text-slate-900 text-base">Universitas Negeri Malang</h3>
+                    <p class="text-indigo-600 text-sm font-medium mt-0.5">Pendidikan Teknik Informatika</p>
+                  </div>
+                  <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 text-xs font-semibold px-3 py-1 rounded-full self-start sm:self-auto whitespace-nowrap">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    2025 – Sekarang
+                  </span>
+                </div>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  pengembangan web frontend & backend, struktur data, 
+                  dan algoritma.
+                </p>
+                <div class="flex flex-wrap gap-2 mt-4">
+                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Web Development</span>
+                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Database</span>
+                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Algoritma</span>
+                  <span class="text-[11px] font-medium bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">✓ Aktif</span>
+                </div>
+              </div>
+            </div>
+            <div class="reveal flex gap-6 sm:gap-10 items-start pl-14 sm:pl-20 relative">
+              <!-- Dot -->
+              <div class="absolute left-3 sm:left-5 top-1 w-5 h-5 rounded-full bg-white ring-4 ring-indigo-100 flex items-center justify-center flex-shrink-0">
+                <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+              </div>
+              <!-- Card -->
+              <div class="bg-white rounded-2xl border border-slate-100 p-6 w-full shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                  <div>
+                    <h3 class="font-semibold text-slate-900 text-base">SMK Negeri 1 Gedangan</h3>
+                    <p class="text-indigo-600 text-sm font-medium mt-0.5">Rekayasa Perangkat Lunak (RPL)</p>
+                  </div>
+                  <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 text-xs font-semibold px-3 py-1 rounded-full self-start sm:self-auto whitespace-nowrap">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    2021 – 2025
+                  </span>
+                </div>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Mempelajari dasar-dasar pemrograman, pengembangan web frontend & backend,
+                  basis data, dan algoritma. Aktif mengerjakan project nyata untuk sekolah sejak
+                  kelas XI — mulai dari website sekolah hingga sistem monitoring PKL.
+                </p>
+                <div class="flex flex-wrap gap-2 mt-4">
+                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Web Development</span>
+                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Database</span>
+                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Algoritma</span>
+                  <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">Selesai</span>
+                </div>
+              </div>
+            </div>
+
+
+
           </div>
         </div>
 
@@ -463,14 +553,19 @@
         });
       });
 
-      // Profile parallax (desktop only)
-      const profileEl = document.getElementById('profile');
-      window.addEventListener('scroll', () => {
-        if (window.matchMedia('(min-width:1024px)').matches) {
-          const w = Math.min(72 + window.scrollY * 0.04, 288);
-          profileEl.style.width = w + 'px';
-        }
-      });
+      // Profile parallax — smooth image translateY
+      const profileImg = document.getElementById('profile-img');
+      const profileSection = document.getElementById('me');
+      function updateParallax() {
+        const rect = profileSection.getBoundingClientRect();
+        const viewH = window.innerHeight;
+        // progress: 0 (section top at bottom of screen) → 1 (section bottom at top)
+        const progress = 1 - (rect.bottom / (viewH + rect.height));
+        const clampedY = Math.max(-12, Math.min(12, progress * 40 - 8));
+        profileImg.style.transform = `translateY(${clampedY}%)`;
+      }
+      window.addEventListener('scroll', updateParallax, { passive: true });
+      updateParallax();
 
       // Footer clock
       function updateClock() {
