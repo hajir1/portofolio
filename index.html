@@ -1,602 +1,2464 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="id">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Usam Muhajir — Portfolio</title>
-
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Fonts: DM Serif Display (display) + DM Sans (body) -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-owd-text="judulTab" data-owd-label="Judul tab browser">
+      Usam Muhazir · Full-stack Developer
+    </title>
+    <meta
+      name="description"
+      content="Portofolio developer 3D: PC membesar saat digulir, layar mengetik biodata dalam bentuk kode, lalu kalimat, karya, dan kontak muncul bergantian."
+    />
+    <meta name="theme-color" content="#070b16" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
-
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
-
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              display: ['"DM Serif Display"', 'serif'],
-              sans:    ['"DM Sans"', 'sans-serif'],
-            },
-          }
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.css"
+    />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js",
+          "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.mjs"
         }
       }
     </script>
-
+    <script>
+      document.documentElement.classList.add("js", "loading");
+      setTimeout(function () {
+        var r = document.documentElement;
+        if (
+          !r.classList.contains("webgl") &&
+          !r.classList.contains("no-webgl")
+        ) {
+          r.classList.add("no-webgl");
+          r.classList.remove("loading");
+        }
+      }, 12000);
+    </script>
+    <style id="owd-theme">
+      /* Warna & gaya: ubah di sini atau lewat editor OneWebDev. */
+      :root {
+        --bg: #070b16; /* Latar halaman */
+        --bg-2: #16224d; /* Latar kedua (cahaya) */
+        --panel: #0e1530; /* Latar panel teks */
+        --ink: #eef2ff; /* Teks utama */
+        --ink-soft: #a3adcc; /* Teks sekunder */
+        --accent: #7cf0c5; /* Warna aksen */
+        --accent-2: #6c8cff; /* Warna aksen kedua */
+        --line: #25304f; /* Garis */
+        --on-accent: #0b0b0b; /* Teks di tombol aksen */
+        --obj: #c9cfdc; /* Warna objek 3D */
+        --obj-2: #2a3147; /* Warna objek 3D kedua */
+      }
+    </style>
     <style>
-      /* ── Scroll-reveal ── */
-      .reveal {
+      :root {
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-text:
+          "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --font-mono:
+          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+          monospace;
+        --pad: clamp(18px, 5vw, 80px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--bg);
+      }
+      body {
+        margin: 0;
+        color: var(--ink);
+        font: 17px/1.65 var(--font-text);
+        -webkit-font-smoothing: antialiased;
+        background: radial-gradient(
+            120% 80% at 70% 0%,
+            var(--bg-2),
+            var(--bg) 60%
+          )
+          fixed;
+      }
+      a {
+        color: inherit;
+      }
+      .skip {
+        position: absolute;
+        left: -999px;
+        top: 8px;
+        z-index: 60;
+        padding: 10px 14px;
+        border-radius: 8px;
+        background: var(--accent);
+        color: var(--bg);
+      }
+      .skip:focus {
+        left: 8px;
+      }
+      :focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .sr {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+
+      #gl {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        width: 100vw;
+        height: 100vh;
+        display: block;
         opacity: 0;
-        transform: translateY(28px);
-        transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1);
+        transition: opacity 1s;
+        pointer-events: none;
       }
-      .reveal.visible { opacity: 1; transform: translateY(0); }
+      html.webgl #gl {
+        opacity: 1;
+      }
+      .loader {
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        display: none;
+        place-items: center;
+        background: var(--bg);
+        color: var(--ink-soft);
+        font-size: 14px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      html.loading .loader {
+        display: grid;
+      }
+      .loader i {
+        display: block;
+        width: 46px;
+        height: 46px;
+        margin: 0 auto 14px;
+        border-radius: 50%;
+        border: 3px solid var(--line);
+        border-top-color: var(--accent);
+        animation: rot 0.9s linear infinite;
+      }
+      @keyframes rot {
+        to {
+          transform: rotate(360deg);
+        }
+      }
 
-      /* ── Keyframes ── */
-      @keyframes fadeUp   { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-      @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
-      @keyframes wave     { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(-22deg)} }
-      @keyframes blink    { 0%,49%{opacity:1} 50%,100%{opacity:0} }
-      @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-      @keyframes gradShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+      /* Navigasi & progres */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px var(--pad);
+        background: color-mix(in srgb, var(--bg) 55%, transparent);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+      .nav .brand {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 18px;
+        text-decoration: none;
+        letter-spacing: -0.01em;
+      }
+      .nav ul {
+        display: flex;
+        gap: 2px;
+        margin: 0 0 0 auto;
+        padding: 0;
+        list-style: none;
+      }
+      .nav ul a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 12px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-size: 14px;
+        color: var(--ink-soft);
+        transition:
+          color 0.2s,
+          background 0.2s;
+      }
+      .nav ul a:hover,
+      .nav ul a.active {
+        color: var(--ink);
+        background: color-mix(in srgb, var(--ink) 9%, transparent);
+      }
+      .progress {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        background: color-mix(in srgb, var(--ink) 8%, transparent);
+      }
+      .progress i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        transform-origin: 0 50%;
+        transform: scaleX(0);
+      }
 
-      .anim-fade-up  { animation: fadeUp  .7s cubic-bezier(.16,1,.3,1) both; }
-      .anim-fade-in  { animation: fadeIn  .6s ease both; }
-      .anim-wave     { display:inline-block; animation: wave 1.4s ease-in-out infinite; transform-origin: bottom right; }
-      .anim-float    { animation: float 4s ease-in-out infinite; }
-      .cursor::after { content:'|'; animation: blink 1s step-start infinite; }
+      /* Bab */
+      main {
+        position: relative;
+        z-index: 1;
+      }
+      .ch {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 125vh;
+        padding: 14vh var(--pad);
+      }
+      .ch.hero {
+        min-height: 100vh;
+        padding-top: 18vh;
+      }
+      .a-left {
+        justify-content: flex-start;
+      }
+      .a-right {
+        justify-content: flex-end;
+      }
+      .a-center {
+        justify-content: center;
+        text-align: center;
+      }
+      .panel {
+        position: relative;
+        width: min(100%, 33rem);
+        padding: clamp(22px, 3vw, 34px);
+        border-radius: 26px;
+        background: color-mix(in srgb, var(--panel) 74%, transparent);
+        border: 1px solid var(--line);
+        backdrop-filter: blur(16px) saturate(1.2);
+        -webkit-backdrop-filter: blur(16px) saturate(1.2);
+        box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.6);
+      }
+      .hero .panel {
+        width: min(100%, 40rem);
+        padding: 0;
+        background: none;
+        border: 0;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+      .kicker {
+        margin: 0 0 12px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      h1,
+      h2 {
+        margin: 0 0 16px;
+        font-family: var(--font-display);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.02;
+      }
+      h1 {
+        font-size: clamp(46px, 7.4vw, 104px);
+      }
+      h2 {
+        font-size: clamp(32px, 4.4vw, 58px);
+      }
+      .w {
+        display: inline-block;
+        will-change: transform, opacity;
+      }
+      .panel p {
+        margin: 0 0 12px;
+        color: var(--ink-soft);
+      }
+      .lead {
+        font-size: clamp(17px, 1.5vw, 20px);
+        max-width: 44ch;
+      }
+      .a-center .lead {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .ctas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 26px;
+      }
+      .a-center .ctas {
+        justify-content: center;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 24px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: var(--on-accent);
+        font-weight: 600;
+        text-decoration: none;
+        border: 0;
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--ink);
+        border: 1.5px solid var(--line);
+      }
+      .scroll-hint {
+        position: absolute;
+        left: 50%;
+        bottom: 4vh;
+        transform: translateX(-50%);
+        display: grid;
+        justify-items: center;
+        gap: 8px;
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        text-decoration: none;
+      }
+      .scroll-hint span {
+        display: block;
+        width: 22px;
+        height: 36px;
+        border-radius: 12px;
+        border: 1.5px solid var(--ink-soft);
+        position: relative;
+      }
+      .scroll-hint span::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 7px;
+        width: 3px;
+        height: 7px;
+        margin-left: -1.5px;
+        border-radius: 2px;
+        background: var(--accent);
+        animation: wheel 1.6s ease-in-out infinite;
+      }
+      @keyframes wheel {
+        0% {
+          opacity: 0;
+          transform: translateY(0);
+        }
+        30% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+      }
 
-      /* ── Gradient text ── */
-      .grad-text {
-        background: linear-gradient(120deg, #6366f1 0%, #06b6d4 55%, #10b981 100%);
-        background-size: 200% 200%;
+      /* Kode biodata */
+      .stack {
+        display: grid;
+        gap: 18px;
+        width: min(100%, 36rem);
+      }
+      .code-win {
+        border-radius: 18px;
+        overflow: hidden;
+        background: #0b1020;
+        color: #e8ecf8;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+      }
+      .code-win .bar {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        font: 13px var(--font-mono);
+        color: #8f9bb3;
+      }
+      .code-win .bar i {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #ff5f57;
+      }
+      .code-win .bar i:nth-child(2) {
+        background: #febc2e;
+      }
+      .code-win .bar i:nth-child(3) {
+        background: #28c840;
+        margin-right: 8px;
+      }
+      .code-win pre {
+        margin: 0;
+        padding: 18px 16px 22px;
+        overflow-x: auto;
+        font: 14px/1.7 var(--font-mono);
+        counter-reset: ln;
+      }
+      .ln {
+        display: block;
+        white-space: pre;
+      }
+      .ln::before {
+        counter-increment: ln;
+        content: counter(ln);
+        display: inline-block;
+        width: 2.2ch;
+        margin-right: 14px;
+        text-align: right;
+        color: #4b5575;
+      }
+      .tk-kw {
+        color: #c792ea;
+      }
+      .tk-var {
+        color: #eef1ff;
+      }
+      .tk-key {
+        color: var(--accent);
+      }
+      .tk-str {
+        color: #c3e88d;
+      }
+      .tk-num {
+        color: #f78c6c;
+      }
+      .tk-pun {
+        color: #9aa4bf;
+      }
+      .tk-com {
+        color: #7a83a6;
+        font-style: italic;
+      }
+      html.typing .ln {
+        opacity: 0;
+        transform: translateX(-6px);
+        transition:
+          opacity 0.25s,
+          transform 0.25s;
+      }
+      html.typing .ln.on {
+        opacity: 1;
+        transform: none;
+      }
+      html.typing .ln.cur::after {
+        content: "";
+        display: inline-block;
+        width: 0.55em;
+        height: 1.15em;
+        margin-left: 2px;
+        vertical-align: -0.2em;
+        background: var(--accent);
+        animation: blink 1s steps(1) infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Kalimat besar */
+      .statement {
+        margin: 0;
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: clamp(28px, 3.9vw, 54px);
+        line-height: 1.14;
+        letter-spacing: -0.02em;
+        color: var(--ink) !important;
+      }
+      .text-ch .panel {
+        width: min(100%, 44rem);
+      }
+
+      /* Kartu & angka */
+      .cards {
+        display: grid;
+        gap: 12px;
+        margin: 22px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+      .cards li {
+        padding: 16px 18px;
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--ink) 5%, transparent);
+        border: 1px solid var(--line);
+      }
+      .cards b {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 19px;
+      }
+      .cards span {
+        display: block;
+        font-size: 15px;
+        color: var(--ink-soft);
+      }
+      .cards small {
+        display: inline-block;
+        margin-bottom: 6px;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--on-accent);
+        background: var(--accent);
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin: 22px 0 0;
+      }
+      .stats div {
+        padding: 16px 10px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        text-align: center;
+      }
+      .stats dt {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(28px, 3.4vw, 42px);
+        line-height: 1.05;
+        background: linear-gradient(120deg, var(--accent), var(--accent-2));
         -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         background-clip: text;
-        animation: gradShift 6s ease infinite;
+        color: transparent;
+        font-variant-numeric: tabular-nums;
+      }
+      .stats dd {
+        margin: 6px 0 0;
+        font-size: 13px;
+        color: var(--ink-soft);
       }
 
-      /* ── Nav underline ── */
-      .nav-link { position: relative; }
-      .nav-link::after {
-        content:''; position:absolute; bottom:-3px; left:0; width:0; height:2px;
-        background: #6366f1; border-radius:1px;
-        transition: width .25s ease;
+      /* Kontak */
+      .mail {
+        display: inline-block;
+        margin: 6px 0 4px;
+        font-family: var(--font-display);
+        font-size: clamp(22px, 3vw, 34px);
+        color: var(--accent);
+        word-break: break-word;
+        text-underline-offset: 6px;
       }
-      .nav-link:hover::after { width: 100%; }
-
-      /* ── Skill icon hover ── */
-      .skill-icon { transition: transform .22s cubic-bezier(.34,1.56,.64,1); }
-      .skill-icon:hover { transform: scale(1.18) translateY(-4px); }
-
-      /* ── Project card ── */
-      .project-card {
-        transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
-      }
-      .project-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 24px 48px rgba(99,102,241,.1), 0 4px 16px rgba(0,0,0,.06);
-      }
-
-      /* ── Scrollbar ── */
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: #f1f5f9; }
-      ::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 3px; }
-
-      /* ── Noise grain overlay ── */
-      body::before {
-        content:''; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.018;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        background-size: 200px;
+      footer {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8px 24px;
+        padding: 28px var(--pad) 40px;
+        font-size: 14px;
+        color: var(--ink-soft);
+        border-top: 1px solid var(--line);
+        background: color-mix(in srgb, var(--bg) 80%, transparent);
       }
 
-      [x-cloak] { display: none !important; }
+      /* Layar objek menampilkan kode → panel kode HTML disembunyikan di layar lebar (tetap terbaca pembaca layar). */
+      @media (min-width: 821px) {
+        html.webgl .code-win.mirror {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+        }
+      }
+
+      /* Tanpa WebGL: latar gradasi. */
+      html.no-webgl body {
+        background: radial-gradient(
+            90% 70% at 75% 30%,
+            color-mix(in srgb, var(--accent) 28%, var(--bg-2)),
+            var(--bg) 70%
+          )
+          fixed;
+      }
+      html.no-webgl #gl {
+        display: none;
+      }
+
+      @media (max-width: 820px) {
+        .nav ul {
+          display: none;
+        }
+        .ch {
+          align-items: flex-end;
+          min-height: 120vh;
+          padding: 52vh 16px 8vh;
+        }
+        .ch.hero {
+          min-height: 100vh;
+          padding-top: 50vh;
+          padding-bottom: 14vh;
+        }
+        .ch.code-ch {
+          padding-top: 40vh;
+        }
+        h1 {
+          font-size: clamp(38px, 11vw, 52px);
+        }
+        .ch.hero {
+          padding-top: 46vh;
+        }
+        .a-left,
+        .a-right,
+        .a-center {
+          justify-content: center;
+        }
+        .panel,
+        .stack,
+        .text-ch .panel {
+          width: 100%;
+        }
+        .stats dd {
+          font-size: 12px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #gl,
+        .ln {
+          transition: none;
+        }
+        .scroll-hint span::after,
+        .loader i,
+        html.typing .ln.cur::after {
+          animation: none;
+        }
+      }
     </style>
   </head>
-
-  <body class="bg-slate-50 text-slate-900 font-sans relative overflow-x-hidden" x-data>
-
-    <!-- ══════════════════════════ NAVBAR ══════════════════════════ -->
-    <nav
-      x-data="{ open: false, scrolled: false }"
-      x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 40)"
-      :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-transparent'"
-      class="fixed top-0 inset-x-0 z-50 transition-all duration-300"
-    >
-      <div class="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
-
-        <a href="#" class="font-display text-xl text-slate-900 tracking-tight">
-          u<span class="grad-text">.</span>muhajir
-        </a>
-
-        <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500">
-          <li><a href="#me"        class="nav-link hover:text-slate-900 transition-colors">About</a></li>
-          <li><a href="#education" class="nav-link hover:text-slate-900 transition-colors">Education</a></li>
-          <li><a href="#skills"    class="nav-link hover:text-slate-900 transition-colors">Skills</a></li>
-          <li><a href="#projects"  class="nav-link hover:text-slate-900 transition-colors">Projects</a></li>
-          <li><a href="#contact"   class="nav-link hover:text-slate-900 transition-colors">Contact</a></li>
-        </ul>
-
-        <a href="#contact" class="hidden md:inline-flex items-center gap-1.5 bg-slate-900 text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-indigo-600 transition-colors duration-200">
-          Hire me &rarr;
-        </a>
-
-        <button @click="open = !open" class="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-            <path x-show="open"  stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-
-      <div
-        x-show="open" x-cloak
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 -translate-y-2"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-150"
-        x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 -translate-y-2"
-        class="md:hidden bg-white/95 backdrop-blur border-t border-slate-100 px-5 py-4 flex flex-col gap-1 text-sm font-medium text-slate-600"
+  <body>
+    <a class="skip" href="#konten">Lewati ke konten</a>
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="loader" aria-hidden="true">
+      <div><i></i>Memuat</div>
+    </div>
+    <header class="nav">
+      <a
+        class="brand"
+        href="#beranda"
+        data-owd-text="merek"
+        data-owd-label="Nama merek"
+        >Usam Muhazir</a
       >
-        <a @click="open=false" href="#me"        class="py-2.5 hover:text-indigo-600 transition-colors">About</a>
-        <a @click="open=false" href="#education" class="py-2.5 hover:text-indigo-600 transition-colors">Education</a>
-        <a @click="open=false" href="#skills"    class="py-2.5 hover:text-indigo-600 transition-colors">Skills</a>
-        <a @click="open=false" href="#projects"  class="py-2.5 hover:text-indigo-600 transition-colors">Projects</a>
-        <a @click="open=false" href="#contact"   class="py-2.5 hover:text-indigo-600 transition-colors">Contact</a>
-      </div>
-    </nav>
-
-    <!-- ══════════════════════════ HERO ══════════════════════════ -->
-    <section id="me" class="min-h-screen flex items-center pt-24 pb-20 px-5 relative z-10">
-      <div class="max-w-5xl mx-auto w-full grid lg:grid-cols-2 gap-14 lg:gap-24 items-center">
-
-        <!-- Text -->
-        <div class="order-2 lg:order-1">
-          <p class="text-indigo-500 font-semibold text-xs tracking-widest uppercase mb-5 anim-fade-in" style="animation-delay:.1s">
-            Hello there <span class="anim-wave">👋</span>
+      <nav aria-label="Navigasi utama">
+        <ul>
+          <li>
+            <a href="#beranda" data-owd-text="menu1" data-owd-label="Menu 1"
+              >Beranda</a
+            >
+          </li>
+          <li>
+            <a href="#profil" data-owd-text="menu2" data-owd-label="Menu 2"
+              >Profil</a
+            >
+          </li>
+          <li>
+            <a href="#karya" data-owd-text="menu3" data-owd-label="Menu 3"
+              >Karya</a
+            >
+          </li>
+          <li>
+            <a href="#kontak" data-owd-text="menu4" data-owd-label="Menu 4"
+              >Kontak</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <div class="progress" aria-hidden="true"><i></i></div>
+    </header>
+    <main id="konten">
+      <section
+        class="ch hero a-left"
+        id="beranda"
+        data-ch="0"
+        aria-labelledby="beranda-t"
+      >
+        <div class="panel">
+          <p
+            class="kicker"
+            data-owd-text="b0Label"
+            data-owd-label="Bab 1: label kecil"
+          >
+            Portofolio · Full-stack Developer
           </p>
-          <h1 class="font-display text-4xl sm:text-5xl lg:text-[3.5rem] leading-tight mb-5 anim-fade-up" style="animation-delay:.2s">
-            I'm <span class="grad-text">Usam</span><br/>Muhajir
+          <h1
+            id="beranda-t"
+            data-owd-text="b0Judul"
+            data-owd-label="Bab 1: judul"
+          >
+            Code that feels alive.
           </h1>
-          <div class="text-lg sm:text-xl font-light text-slate-400 mb-5 h-8 anim-fade-up" style="animation-delay:.3s">
-            <span id="typed"></span>
-          </div>
-          <p class="text-slate-500 leading-relaxed max-w-md text-[15px] anim-fade-up cursor" style="animation-delay:.4s">
-            Based in Malang · Born 29 Nov 2006 · Passionate about web tech,
-            technology analysis, and philosophy. Heading toward AI &amp; machine learning.
+          <p
+            class="lead"
+            data-owd-text="b0Teks1"
+            data-owd-label="Bab 1: paragraf 1"
+            data-owd-multi
+          >
+            I'm Usam Muhazir, Based in Malang · Born 29 Nov 2006 · Passionate
+            about web tech, technology analysis, and philosophy. Heading toward
+            AI &amp; machine learning.
           </p>
-
-          <div class="flex flex-wrap gap-3 mt-8 anim-fade-up" style="animation-delay:.5s">
-            <a href="#projects" class="bg-slate-900 text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-indigo-600 transition-colors duration-200 shadow-sm">
-              See my work
-            </a>
-            <a href="#contact" class="border border-slate-200 text-slate-700 text-sm font-medium px-5 py-2.5 rounded-full hover:border-indigo-400 hover:text-indigo-600 transition-colors duration-200">
-              Get in touch
-            </a>
-          </div>
-
-          <!-- Stats -->
-          <div class="flex gap-8 mt-10 anim-fade-up" style="animation-delay:.6s">
-            <div>
-              <p class="font-display text-3xl text-slate-900">5+</p>
-              <p class="text-[11px] text-slate-400 mt-0.5 uppercase tracking-wider">Projects</p>
-            </div>
-            <div class="w-px bg-slate-200"></div>
-            <div>
-              <p class="font-display text-3xl text-slate-900">2+</p>
-              <p class="text-[11px] text-slate-400 mt-0.5 uppercase tracking-wider">Years</p>
-            </div>
-            <div class="w-px bg-slate-200"></div>
-            <div>
-              <p class="font-display text-3xl text-slate-900">12+</p>
-              <p class="text-[11px] text-slate-400 mt-0.5 uppercase tracking-wider">Tech skills</p>
-            </div>
+          <div class="ctas" data-reveal>
+            <a
+              class="btn"
+              href="#karya"
+              data-owd-text="b0Tombol1"
+              data-owd-label="Bab 0: tombol 1"
+              >View works</a
+            ><a
+              class="btn ghost"
+              href="#kontak"
+              data-owd-text="b0Tombol2"
+              data-owd-label="Bab 0: tombol 2"
+              >Contact me</a
+            >
           </div>
         </div>
-
-        <!-- Photo -->
-        <div class="order-1 lg:order-2 flex justify-center lg:justify-end anim-fade-in" style="animation-delay:.25s">
-          <div class="relative">
-            <div class="absolute -inset-5 rounded-[2rem] border-2 border-dashed border-indigo-200 anim-float pointer-events-none"></div>
-            <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-100 to-cyan-100 scale-110 blur-2xl opacity-50 pointer-events-none"></div>
-            <div class="relative w-56 h-72 sm:w-64 sm:h-80 lg:w-72 lg:h-96 rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white">
-              <img id="profile-img" src="img/profile-new-1.jpeg" alt="Usam Muhajir" class="w-full h-full object-cover object-top will-change-transform" style="transform:translateY(0)" />
-            </div>
-            <div class="absolute -bottom-4 -right-3 bg-white rounded-xl shadow-lg px-3 py-2 flex items-center gap-2 text-xs font-semibold text-slate-700 border border-slate-100">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block"></span>
-              Available for work
-            </div>
+        <a class="scroll-hint" href="#profil"><span></span></a>
+      </section>
+      <section
+        class="ch code-ch a-left"
+        id="profil"
+        data-ch="1"
+        aria-labelledby="profil-t"
+      >
+        <div class="stack">
+          <div class="panel" data-reveal>
+            <p
+              class="kicker"
+              data-owd-text="b1Label"
+              data-owd-label="Bab 2: label kecil"
+            >
+              01 · About Me
+            </p>
+            <h2
+              id="profil-t"
+              data-owd-text="b1Judul"
+              data-owd-label="Bab 2: judul"
+            >
+              how I work
+            </h2>
+            <p
+              data-owd-text="b1Teks1"
+              data-owd-label="Bab 2: paragraf 1"
+              data-owd-multi
+            >
+              I build websites, apps, and cloud-based applications that are
+              fast, polished, and a pleasure to use.
+            </p>
           </div>
+          <figure
+            class="code-win mirror"
+            aria-label="Biodata dalam bentuk kode"
+            style="margin: 0"
+          >
+            <div class="bar" aria-hidden="true">
+              <i></i><i></i><i></i
+              ><span
+                id="berkas"
+                data-owd-text="namaBerkas"
+                data-owd-label="Nama berkas kode"
+                >biodata.js</span
+              >
+            </div>
+            <pre><code id="kode"><!--owd:render name="code"--><span class="ln"><span class="tk-com">// Hello! Here is my profile.</span></span><span class="ln"><span class="tk-kw">const </span><span class="tk-var">hajir</span><span class="tk-pun"> = {</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">nama</span><span class="tk-pun">: </span><span class="tk-str">&quot;Usam Muhazir&quot;</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">peran</span><span class="tk-pun">: </span><span class="tk-str">&quot;Full-stack Developer&quot;</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">kota</span><span class="tk-pun">: </span><span class="tk-str">&quot;Malang&quot;</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">pengalaman</span><span class="tk-pun">: </span><span class="tk-str">&quot;5 tahun&quot;</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">keahlian</span><span class="tk-pun">: </span><span class="tk-pun">[</span><span class="tk-str">&quot;Html&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Css&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Javscript&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Node.js&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Php&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Python&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;React&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Tailwind&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;NestJs&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Three.js&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Laravel&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Django&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Exoress&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Mysql&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Django&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Redis&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Git&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Wordpress&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Divi&quot;</span><span class="tk-pun">]</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">status</span><span class="tk-pun">: </span><span class="tk-str">&quot;Open to projects&quot;</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">};</span></span><!--owd:end--></code></pre>
+          </figure>
         </div>
-
-      </div>
-    </section>
-
-    <!-- ══════════════════════════ EDUCATION ══════════════════════════ -->
-    <section id="education" class="py-20 px-5 bg-slate-50 relative z-10">
-      <div class="max-w-5xl mx-auto">
-
-        <div class="reveal mb-12">
-          <p class="text-indigo-500 text-xs font-semibold tracking-widest uppercase mb-2">My journey</p>
-          <h2 class="font-display text-3xl sm:text-4xl text-slate-900">Riwayat Pendidikan</h2>
-          <p class="mt-3 text-slate-500 max-w-xl text-sm leading-relaxed">
-            Perjalanan akademik yang membentuk landasan teknis dan analitis saya.
+      </section>
+      <section
+        class="ch text-ch a-right"
+        id="cerita"
+        data-ch="2"
+        aria-labelledby="cerita-t"
+      >
+        <div class="panel" data-reveal>
+          <p
+            class="kicker"
+            data-owd-text="b2Label"
+            data-owd-label="Bab 3: label kecil"
+          >
+            02 · That I Have Developed
           </p>
-        </div>
-
-        <!-- Timeline -->
-        <div class="relative">
-          <!-- Vertical line -->
-          <div class="absolute left-5 sm:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-300 via-indigo-200 to-transparent"></div>
-
-          <div class="flex flex-col gap-10">
-
-            <!-- Item 1: SMK -->
-            <div class="reveal flex gap-6 sm:gap-10 items-start pl-14 sm:pl-20 relative">
-              <!-- Dot -->
-              <div class="absolute left-3 sm:left-5 top-1 w-5 h-5 rounded-full bg-indigo-600 ring-4 ring-indigo-100 flex items-center justify-center flex-shrink-0">
-                <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
-              </div>
-              <!-- Card -->
-              <div class="bg-white rounded-2xl border border-slate-100 p-6 w-full shadow-sm hover:shadow-md transition-shadow duration-300">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                  <div>
-                    <h3 class="font-semibold text-slate-900 text-base">Universitas Negeri Malang</h3>
-                    <p class="text-indigo-600 text-sm font-medium mt-0.5">Pendidikan Teknik Informatika</p>
-                  </div>
-                  <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 text-xs font-semibold px-3 py-1 rounded-full self-start sm:self-auto whitespace-nowrap">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    2025 – Sekarang
-                  </span>
-                </div>
-                <p class="text-slate-500 text-sm leading-relaxed">
-                  pengembangan web frontend & backend, struktur data, 
-                  dan algoritma.
-                </p>
-                <div class="flex flex-wrap gap-2 mt-4">
-                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Web Development</span>
-                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Database</span>
-                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Algoritma</span>
-                  <span class="text-[11px] font-medium bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">✓ Aktif</span>
-                </div>
-              </div>
-            </div>
-            <div class="reveal flex gap-6 sm:gap-10 items-start pl-14 sm:pl-20 relative">
-              <!-- Dot -->
-              <div class="absolute left-3 sm:left-5 top-1 w-5 h-5 rounded-full bg-white ring-4 ring-indigo-100 flex items-center justify-center flex-shrink-0">
-                <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
-              </div>
-              <!-- Card -->
-              <div class="bg-white rounded-2xl border border-slate-100 p-6 w-full shadow-sm hover:shadow-md transition-shadow duration-300">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                  <div>
-                    <h3 class="font-semibold text-slate-900 text-base">SMK Negeri 1 Gedangan</h3>
-                    <p class="text-indigo-600 text-sm font-medium mt-0.5">Rekayasa Perangkat Lunak (RPL)</p>
-                  </div>
-                  <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 text-xs font-semibold px-3 py-1 rounded-full self-start sm:self-auto whitespace-nowrap">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    2021 – 2025
-                  </span>
-                </div>
-                <p class="text-slate-500 text-sm leading-relaxed">
-                  Mempelajari dasar-dasar pemrograman, pengembangan web frontend & backend,
-                  basis data, dan algoritma. Aktif mengerjakan project nyata untuk sekolah sejak
-                  kelas XI — mulai dari website sekolah hingga sistem monitoring PKL.
-                </p>
-                <div class="flex flex-wrap gap-2 mt-4">
-                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Web Development</span>
-                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Database</span>
-                  <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Algoritma</span>
-                  <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">Selesai</span>
-                </div>
-              </div>
-            </div>
-
-
-
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ══════════════════════════ SKILLS ══════════════════════════ -->
-    <section id="skills" class="py-20 px-5 bg-white relative z-10">
-      <div class="max-w-5xl mx-auto">
-
-        <div class="reveal mb-12">
-          <p class="text-indigo-500 text-xs font-semibold tracking-widest uppercase mb-2">What I work with</p>
-          <h2 class="font-display text-3xl sm:text-4xl text-slate-900">Skills &amp; Tools</h2>
-          <p class="mt-3 text-slate-500 max-w-xl text-sm leading-relaxed">
-            Currently focused on web tech — frontend &amp; backend. Snapshot as of August 2025,
-            likely evolving toward AI &amp; machine learning.
+          <h2 class="sr" id="cerita-t">Prinsip kerja</h2>
+          <p
+            class="statement"
+            data-owd-text="b2Kalimat"
+            data-owd-label="Bab 3: kalimat besar"
+            data-owd-multi
+          >
+            carry out various web and application development projects so that
+            many clients can benefit from them
           </p>
         </div>
-
-        <div class="grid sm:grid-cols-2 gap-6">
-          <!-- Frontend card -->
-          <div class="reveal bg-slate-50 rounded-2xl p-7 border border-slate-100/80">
-            <div class="flex items-center gap-3 mb-6">
-              <div class="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center">
-                <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              </div>
-              <h3 class="font-semibold text-slate-800">Frontend</h3>
-            </div>
-            <ul class="flex flex-wrap gap-6">
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/html.svg"    alt="HTML"       class="w-9 h-9" /><span>HTML</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/css.svg"     alt="CSS"        class="w-9 h-9" /><span>CSS</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/js.svg"      alt="JavaScript" class="w-9 h-9" /><span>JavaScript</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/tw.svg"      alt="Tailwind"   class="w-9 h-9" /><span>Tailwind</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/react.svg"   alt="React"      class="w-9 h-9" /><span>React</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/zustand.svg" alt="Zustand"    class="w-9 h-9" /><span>Zustand</span></li>
-            </ul>
-          </div>
-
-          <!-- Backend card -->
-          <div class="reveal bg-slate-50 rounded-2xl p-7 border border-slate-100/80" style="transition-delay:.1s">
-            <div class="flex items-center gap-3 mb-6">
-              <div class="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center">
-                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
-              </div>
-              <h3 class="font-semibold text-slate-800">Backend</h3>
-            </div>
-            <ul class="flex flex-wrap gap-6">
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/node.svg"    alt="Node.js" class="w-9 h-9" /><span>Node.js</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/express.svg" alt="Express" class="w-9 h-9" /><span>Express</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/php.svg"     alt="PHP"     class="w-9 h-9" /><span>PHP</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/laravel.svg" alt="Laravel" class="w-9 h-9" /><span>Laravel</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/prisma.svg"  alt="Prisma"  class="w-9 h-9" /><span>Prisma</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/mysql.svg"   alt="MySQL"   class="w-9 h-9" /><span>MySQL</span></li>
-              <li class="skill-icon flex flex-col items-center gap-2 text-[11px] text-slate-500 font-medium cursor-default"><img src="icon/redis.svg"   alt="Redis"   class="w-9 h-9" /><span>Redis</span></li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ══════════════════════════ PROJECTS ══════════════════════════ -->
-    <section id="projects" class="py-20 px-5 bg-slate-50 relative z-10">
-      <div class="max-w-5xl mx-auto">
-
-        <div class="reveal mb-12">
-          <p class="text-indigo-500 text-xs font-semibold tracking-widest uppercase mb-2">Selected work</p>
-          <h2 class="font-display text-3xl sm:text-4xl text-slate-900">Projects</h2>
-          <p class="mt-3 text-slate-500 text-sm">A handful of things I've built.</p>
-        </div>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-          <!-- Card: SMKN 1 Gedangan -->
-          <article class="reveal project-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col">
-            <div class="overflow-hidden h-40 bg-slate-100">
-              <img src="./img/smkn1gedangan.png" alt="Smkn 1 Gedangan" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-            </div>
-            <div class="p-5 flex flex-col flex-1">
-              <h3 class="font-display text-lg text-slate-900">SMKN 1 Gedangan</h3>
-              <p class="text-slate-500 text-sm mt-2 leading-relaxed flex-1">Primary school website for SMKN 1 Gedangan.</p>
-              <div class="flex flex-wrap gap-1.5 mt-4">
-                <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">Laravel</span>
-                <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Blade</span>
-                <span class="text-[11px] font-medium bg-cyan-50 text-cyan-600 px-2 py-0.5 rounded-full">Tailwind</span>
-                <span class="text-[11px] font-medium bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">MySQL</span>
-              </div>
-              <div class="mt-5">
-                <a href="https://smkn1gedangan-malang.sch.id/" target="_blank" class="block text-center text-xs font-semibold py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors">Visit project →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card: Survey -->
-          <article class="reveal project-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col" style="transition-delay:.08s">
-            <div class="overflow-hidden h-40 bg-slate-100">
-              <img src="./img/survey.png" alt="Survey SMKN" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-            </div>
-            <div class="p-5 flex flex-col flex-1">
-              <h3 class="font-display text-lg text-slate-900">Survey SMKN 1 Gedangan</h3>
-              <p class="text-slate-500 text-sm mt-2 leading-relaxed flex-1">Survey site for screening students before registration.</p>
-              <div class="flex flex-wrap gap-1.5 mt-4">
-                <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">Laravel</span>
-                <span class="text-[11px] font-medium bg-sky-50 text-sky-600 px-2 py-0.5 rounded-full">React+Inertia</span>
-                <span class="text-[11px] font-medium bg-yellow-50 text-yellow-600 px-2 py-0.5 rounded-full">Zustand</span>
-              </div>
-              <div class="mt-5">
-                <a href="https://surveyminat.smkn1gedangan-malang.sch.id/" target="_blank" class="block text-center text-xs font-semibold py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors">Visit project →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card: E-PKL -->
-          <article class="reveal project-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col" style="transition-delay:.16s">
-            <div class="overflow-hidden h-40 bg-slate-100">
-              <img src="./img/epkl.png" alt="E-PKL" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-            </div>
-            <div class="p-5 flex flex-col flex-1">
-              <h3 class="font-display text-lg text-slate-900">E-PKL SMKN 1 Gedangan</h3>
-              <p class="text-slate-500 text-sm mt-2 leading-relaxed flex-1">Monitor students' daily internship work hours.</p>
-              <div class="flex flex-wrap gap-1.5 mt-4">
-                <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">Laravel</span>
-                <span class="text-[11px] font-medium bg-sky-50 text-sky-600 px-2 py-0.5 rounded-full">React+Inertia</span>
-                <span class="text-[11px] font-medium bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">MySQL</span>
-              </div>
-              <div class="mt-5">
-                <a href="https://epklsija.smkn1gedangan-malang.sch.id/" target="_blank" class="block text-center text-xs font-semibold py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors">Visit project →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card: Im a Muslim -->
-          <article class="reveal project-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col">
-            <div class="overflow-hidden h-40 bg-slate-100">
-              <img src="./img/imamuslim.png" alt="Im a Muslim" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-            </div>
-            <div class="p-5 flex flex-col flex-1">
-              <h3 class="font-display text-lg text-slate-900">I'm a Muslim</h3>
-              <p class="text-slate-500 text-sm mt-2 leading-relaxed flex-1">Islamic app — Al-Quran, Asmaul Husna, prayer schedule, hadist, news.</p>
-              <div class="flex flex-wrap gap-1.5 mt-4">
-                <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">React</span>
-                <span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">TypeScript</span>
-                <span class="text-[11px] font-medium bg-cyan-50 text-cyan-600 px-2 py-0.5 rounded-full">Tailwind</span>
-              </div>
-              <div class="mt-5 flex gap-2">
-                <a href="https://imamuslim.vercel.app" target="_blank" class="flex-1 text-center text-xs font-semibold py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors">Visit →</a>
-                <a href="https://github.com/hajir1/imamuslim-frontend" target="_blank" class="flex-1 text-center text-xs font-semibold py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:border-indigo-400 hover:text-indigo-600 transition-colors">Code →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card: React Movie -->
-          <article class="reveal project-card bg-white rounded-2xl overflow-hidden border border-slate-100 flex flex-col" style="transition-delay:.08s">
-            <div class="overflow-hidden h-40 bg-slate-100">
-              <img src="./img/movie.png" alt="React Movie" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-            </div>
-            <div class="p-5 flex flex-col flex-1">
-              <h3 class="font-display text-lg text-slate-900">React Movie</h3>
-              <p class="text-slate-500 text-sm mt-2 leading-relaxed flex-1">Film rating platform — movies, TV shows, and actor data.</p>
-              <div class="flex flex-wrap gap-1.5 mt-4">
-                <span class="text-[11px] font-medium bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">React</span>
-                <span class="text-[11px] font-medium bg-yellow-50 text-yellow-600 px-2 py-0.5 rounded-full">JavaScript</span>
-                <span class="text-[11px] font-medium bg-cyan-50 text-cyan-600 px-2 py-0.5 rounded-full">Tailwind</span>
-              </div>
-              <div class="mt-5 flex gap-2">
-                <a href="https://reacts-movie.vercel.app" target="_blank" class="flex-1 text-center text-xs font-semibold py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors">Visit →</a>
-                <a href="https://github.com/hajir1/reacts-movie" target="_blank" class="flex-1 text-center text-xs font-semibold py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:border-indigo-400 hover:text-indigo-600 transition-colors">Code →</a>
-              </div>
-            </div>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════ CONTACT ══════════════════════════ -->
-    <section id="contact" class="py-20 px-5 bg-white relative z-10">
-      <div class="max-w-5xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
-
-        <div class="reveal">
-          <p class="text-indigo-500 text-xs font-semibold tracking-widest uppercase mb-2">Let's talk</p>
-          <h2 class="font-display text-3xl sm:text-4xl text-slate-900 mb-4">Got a project<br/>in mind?</h2>
-          <p class="text-slate-500 text-sm leading-relaxed max-w-sm">
-            Need a website built or want to consult about web dev?
-            Drop me a message and I'll reply via WhatsApp.
+      </section>
+      <section
+        class="ch cards-ch a-left"
+        id="karya"
+        data-ch="3"
+        aria-labelledby="karya-t"
+      >
+        <div class="panel" data-reveal>
+          <p
+            class="kicker"
+            data-owd-text="b3Label"
+            data-owd-label="Bab 4: label kecil"
+          >
+            03 · Selected Works
           </p>
-          <div class="flex gap-3 mt-8">
-            <a href="https://www.instagram.com/super_hajirr/" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:border-indigo-400 hover:bg-indigo-50 transition-all group">
-              <img src="icon/ig.svg"     alt="Instagram" class="w-5 h-5 group-hover:scale-110 transition-transform" />
-            </a>
-            <a href="https://www.facebook.com/mu.hajir.1088?locale=id_ID" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:border-indigo-400 hover:bg-indigo-50 transition-all group">
-              <img src="icon/fb.svg"     alt="Facebook"  class="w-5 h-5 group-hover:scale-110 transition-transform" />
-            </a>
-            <a href="https://github.com/hajir1" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:border-indigo-400 hover:bg-indigo-50 transition-all group">
-              <img src="icon/github.svg" alt="GitHub"    class="w-5 h-5 group-hover:scale-110 transition-transform" />
-            </a>
-          </div>
-        </div>
+          <h2
+            id="karya-t"
+            data-owd-text="b3Judul"
+            data-owd-label="Bab 4: judul"
+          >
+            Latest Project
+          </h2>
 
-        <div class="reveal" style="transition-delay:.1s">
-          <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 flex flex-col gap-4">
+          <ul class="cards" data-stagger>
+            <li>
+              <small
+                data-owd-text="b3Item1Tag"
+                data-owd-label="Bab 4: kartu 1 label"
+                >Institution</small
+              ><b
+                data-owd-text="b3Item1Judul"
+                data-owd-label="Bab 4: kartu 1 judul"
+                >Main Website of Malang State University</b
+              ><span
+                data-owd-text="b3Item1Teks"
+                data-owd-label="Bab 4: kartu 1 teks"
+                data-owd-multi
+                >Built using WordPress and Divi</span
+              >
+              <a href="https://um.ac.id/" target="_blank">Website in here...</a>
+            </li>
+            <li>
+              <small
+                data-owd-text="b3Item2Tag"
+                data-owd-label="Bab 4: kartu 2 label"
+                >Institution</small
+              ><b
+                data-owd-text="b3Item2Judul"
+                data-owd-label="Bab 4: kartu 2 judul"
+                >Brand Website of Malang State University</b
+              ><span
+                data-owd-text="b3Item2Teks"
+                data-owd-label="Bab 4: kartu 2 teks"
+                data-owd-multi
+                >Built using WordPress and Divi</span
+              >
+              <a href="https://brand.um.ac.id/" target="_blank"
+                >Website in here...</a
+              >
+            </li>
+            <li>
+              <small
+                data-owd-text="b3Item3Tag"
+                data-owd-label="Bab 4: kartu 3 label"
+                >Institution</small
+              ><b
+                data-owd-text="b3Item3Judul"
+                data-owd-label="Bab 4: kartu 3 judul"
+                >Main Website of Smkn 1 Gedangan</b
+              ><span
+                data-owd-text="b3Item3Teks"
+                data-owd-label="Bab 4: kartu 3 teks"
+                data-owd-multi
+                >Built using Laravel, Mysql, Blade and Tailwind</span
+              >
+              <a href="https://smkn1gedangan-malang.sch.id/" target="_blank"
+                >Website in here...</a
+              >
+            </li>
+            <li>
+              <small
+                data-owd-text="b3Item4Tag"
+                data-owd-label="Bab 4: kartu 4 label"
+                >Education</small
+              ><b
+                data-owd-text="b3Item4Judul"
+                data-owd-label="Bab 4: kartu 4 judul"
+                >Survey on New Students’ Interests in SMKN 1 Gedangan</b
+              ><span
+                data-owd-text="b3Item4Teks"
+                data-owd-label="Bab 4: kartu 4 teks"
+                data-owd-multi
+                >Built using Laravel, Mysql, React and Tailwind</span
+              >
+              <a
+                href="https://surveyminat.smkn1gedangan-malang.sch.id/"
+                target="_blank"
+                >Website in here...</a
+              >
+            </li>
+            <li>
+              <small
+                data-owd-text="b3Item3Tag"
+                data-owd-label="Bab 4: kartu 5 label"
+                >Education</small
+              ><b
+                data-owd-text="b3Item5Judul"
+                data-owd-label="Bab 4: kartu 5 judul"
+                >Summary of Work Experience Program Student Data at SMKN 1
+                Gedangan</b
+              ><span
+                data-owd-text="b3Item3Teks"
+                data-owd-label="Bab 4: kartu 5 teks"
+                data-owd-multi
+                >Built using Laravel, Mysql, React and Tailwind</span
+              >
+              <a
+                href="https://e-pklsija.smkn1gedangan-malang.sch.id/"
+                target="_blank"
+                >Website in here...</a
+              >
+            </li>
+            <li>
+              <small
+                data-owd-text="b3Item7Tag"
+                data-owd-label="Bab 4: kartu 7 label"
+                >Sass</small
+              ><b
+                data-owd-text="b3Item6Judul"
+                data-owd-label="Bab 4: kartu 7 judul"
+                >To develop a Sass project that simplifies web development,
+                users search for templates, make modifications, and deploy
+                them</b
+              ><span
+                data-owd-text="b3Item6Teks"
+                data-owd-label="Bab 4: kartu 7 teks"
+                data-owd-multi
+                >Built using React, Tailwind, Nest.js, PostgreSQL, Python, and
+                Django</span
+              >
+              <a href="https://one-web-dev-tools.vercel.app/" target="_blank"
+                >Website in here...</a
+              >
+            </li>
+            <li>
+              <small
+                data-owd-text="b3Item7Tag"
+                data-owd-label="Bab 4: kartu 7 label"
+                >Sass</small
+              ><b
+                data-owd-text="b3Item6Judul"
+                data-owd-label="Bab 4: kartu 7 judul"
+                >Develop a website where users can read the Quran, hadiths,
+                prayers, and the Beautiful Names of Allah</b
+              ><span
+                data-owd-text="b3Item6Teks"
+                data-owd-label="Bab 4: kartu 7 teks"
+                data-owd-multi
+                >Built using local API, React and Tailwind</span
+              >
+              <a href="https://imamuslim.vercel.app/" target="_blank"
+                >Website in here...</a
+              >
+            </li>
+            <li>
+              <small
+                data-owd-text="b3Item7Tag"
+                data-owd-label="Bab 4: kartu 7 label"
+                >Sass</small
+              ><b
+                data-owd-text="b3Item6Judul"
+                data-owd-label="Bab 4: kartu 7 judul"
+                >Develop a website where users can search for movie information, similar to IMDb</b
+              ><span
+                data-owd-text="b3Item6Teks"
+                data-owd-label="Bab 4: kartu 7 teks"
+                data-owd-multi
+                >Built using local API, React and Tailwind</span
+              >
+              <a href="https://reacts-movie.vercel.app/" target="_blank"
+                >Website in here...</a
+              >
+            </li>
+            <li>
+              <small
+                data-owd-text="b3Item7Tag"
+                data-owd-label="Bab 4: kartu 7 label"
+                >Community</small
+              ><b
+                data-owd-text="b3Item6Judul"
+                data-owd-label="Bab 4: kartu 7 judul"
+                >Developing a faculty research website with a focus on community service</b
+              ><span
+                data-owd-text="b3Item6Teks"
+                data-owd-label="Bab 4: kartu 7 teks"
+                data-owd-multi
+                >Built using Laravel, Mysql, React and Tailwind</span
+              >
+              <a href="https://terraetloka.id/" target="_blank"
+                >Website in here...</a
+              >
+            </li>
+            <li>
+              <small
+                data-owd-text="b3Item7Tag"
+                data-owd-label="Bab 4: kartu 7 label"
+                >Institution</small
+              ><b
+                data-owd-text="b3Item6Judul"
+                data-owd-label="Bab 4: kartu 7 judul"
+                >In addition to the website, I also contributed to the UM 2026 website guidelines</b
+              >
+              <a href="https://brand.um.ac.id/wp-content/uploads/2026/08/GUIDELINE-WEBSITE-BRANDING-2026-1.pdf/" target="_blank"
+                >Document in here...</a
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section
+        class="ch stats-ch a-right"
+        id="angka"
+        data-ch="4"
+        aria-labelledby="angka-t"
+      >
+        <div class="panel" data-reveal>
+          <p
+            class="kicker"
+            data-owd-text="b4Label"
+            data-owd-label="Bab 5: label kecil"
+          >
+            04 · By the numbers
+          </p>
+          <h2
+            id="angka-t"
+            data-owd-text="b4Judul"
+            data-owd-label="Bab 5: judul"
+          >
+            Five years, in short.
+          </h2>
+
+          <dl class="stats" data-stagger>
             <div>
-              <label for="nama" class="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">Your name</label>
-              <input type="text" id="nama" placeholder="e.g. Budi Santoso"
-                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-300 outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all" />
+              <dt
+                data-count
+                data-owd-text="b4Angka1"
+                data-owd-label="Bab 5: angka 1"
+              >
+                20
+              </dt>
+              <dd
+                data-owd-text="b4Ket1"
+                data-owd-label="Bab 5: keterangan angka 1"
+              >
+                project completed
+              </dd>
             </div>
             <div>
-              <label for="pesan" class="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">Message <span class="text-red-400">*</span></label>
-              <textarea id="pesan" rows="4" required placeholder="Hi Usam, I'd like to..."
-                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-300 outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all resize-none"></textarea>
+              <dt
+                data-count
+                data-owd-text="b4Angka2"
+                data-owd-label="Bab 5: angka 2"
+              >
+                10
+              </dt>
+              <dd
+                data-owd-text="b4Ket2"
+                data-owd-label="Bab 5: keterangan angka 2"
+              >
+                as the lead developer
+              </dd>
             </div>
-            <p id="form-hint" class="text-xs text-red-400 -mt-1 hidden">Please fill in your message before sending.</p>
-            <button id="wa" type="button"
-              class="w-full flex items-center justify-center gap-2 bg-slate-900 text-white font-semibold text-sm py-3 rounded-xl hover:bg-indigo-600 active:scale-95 transition-all duration-200">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-              </svg>
-              Send to WhatsApp
-            </button>
+            <div>
+              <dt
+                data-count
+                data-owd-text="b4Angka3"
+                data-owd-label="Bab 5: angka 3"
+              >
+                5
+              </dt>
+              <dd
+                data-owd-text="b4Ket3"
+                data-owd-label="Bab 5: keterangan angka 3"
+              >
+                years of experience
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+      <section
+        class="ch contact-ch a-left"
+        id="kontak"
+        data-ch="5"
+        aria-labelledby="kontak-t"
+      >
+        <div class="panel" data-reveal>
+          <p
+            class="kicker"
+            data-owd-text="b5Label"
+            data-owd-label="Bab 6: label kecil"
+          >
+            05 · Contact
+          </p>
+          <h2
+            id="kontak-t"
+            data-owd-text="b5Judul"
+            data-owd-label="Bab 6: judul"
+          >
+            Got an idea? Let's talk.
+          </h2>
+          <p
+            data-owd-text="b5Teks1"
+            data-owd-label="Bab 6: paragraf 1"
+            data-owd-multi
+          >
+            I'm currently taking on new projects for this quarter. I usually
+            respond within 24 hours.
+          </p>
+          <a
+            class="mail"
+            href="mailto:halo@raka.dev"
+            data-owd-href="email"
+            data-owd-href-label="Tautan email (mailto:alamat)"
+            data-owd-text="emailTeks"
+            data-owd-label="Alamat email yang ditampilkan"
+            >usammuhajir047@gmail.com</a
+          >
+          <div class="ctas">
+            <a
+              class="btn"
+              href="mailto:halo@raka.dev"
+              data-owd-href="email"
+              data-owd-href-label="Tautan email (mailto:alamat)"
+              data-owd-text="tombolEmail"
+              data-owd-label="Tombol email"
+              >Send email</a
+            ><a
+              class="btn ghost"
+              href="https://wa.me/6285606522246?text=Halo%20Raka%2C%20saya%20ingin%20diskusi%20proyek."
+              data-owd-href="whatsapp"
+              data-owd-href-label="Tautan WhatsApp (https://wa.me/62…)"
+              target="_blank"
+              rel="noopener"
+              data-owd-text="tombolWa"
+              data-owd-label="Tombol WhatsApp"
+              >Chat WhatsApp</a
+            >
           </div>
         </div>
-
-      </div>
-    </section>
-
-    <!-- ══════════════════════════ FOOTER ══════════════════════════ -->
-    <footer class="bg-slate-900 py-7 px-5 relative z-10">
-      <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
-        <span class="font-display text-white text-sm">u.muhajir</span>
-        <span id="footer_timer" class="tabular-nums"></span>
-        <span>© All rights reserved</span>
-      </div>
+      </section>
+    </main>
+    <footer>
+      <span data-owd-text="merek" data-owd-label="Nama merek">Usam Muhazir</span
+      ><span data-owd-text="catatanKaki" data-owd-label="Catatan kaki"
+        >© 2026 Usam Muhazir · Three.js, GSAP &amp; Motion</span
+      >
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script>
+    <script type="module">
+      import * as THREE from "three";
+      import Lenis from "lenis";
 
-    <!-- ══════════════════════════ SCRIPTS ══════════════════════════ -->
-    <script>
-      // Typed.js
-      document.addEventListener('DOMContentLoaded', () => {
-        new Typed('#typed', {
-          strings: ['Junior Frontend Developer.', 'Junior Backend Developer.', 'Web Enthusiast.'],
-          typeSpeed: 75,
-          backSpeed: 40,
-          loop: true,
-          cursorChar: '|',
-        });
-      });
-
-      // Profile parallax — smooth image translateY
-      const profileImg = document.getElementById('profile-img');
-      const profileSection = document.getElementById('me');
-      function updateParallax() {
-        const rect = profileSection.getBoundingClientRect();
-        const viewH = window.innerHeight;
-        // progress: 0 (section top at bottom of screen) → 1 (section bottom at top)
-        const progress = 1 - (rect.bottom / (viewH + rect.height));
-        const clampedY = Math.max(-12, Math.min(12, progress * 40 - 8));
-        profileImg.style.transform = `translateY(${clampedY}%)`;
+      /* ==== BIODATA & TEKS LAYAR: ubah di sini (atau lewat editor OneWebDev) ==== */
+      const CONFIG =
+        /*owd:data name="CONFIG" label="Biodata &amp; layar" hide="bahasa"*/ {
+          komentar: "Hello! Here is my profile.",
+          variabel: "hajir",
+          bahasa: "js",
+          profil: {
+            nama: "Usam Muhazir",
+            peran: "Full-stack Developer",
+            kota: "Malang",
+            pengalaman: "5 years",
+            keahlian: [
+              "Tailwind",
+              "Javascript",
+              "React",
+              "Node.js",
+              "Express",
+              "NestJs",
+              "Express",
+              "Php",
+              "Laravel",
+              "Python",
+              "Django",
+              "Mysql",
+              "PostgreSQL",
+              "Redis",
+              "Wordpress",
+              "Divi",
+              "Git",
+            ],
+            status: "Open to projects",
+          },
+          layarTeks: "Let's build something.",
+          layarSub: "usammuhajir.dev",
+        }; /*owd:end*/
+      /* ========================================================================= */
+      /* Nama merek di layar/objek 3D = teks merek di navigasi (ikut berubah bila diedit). */
+      const BRAND =
+        (
+          (document.querySelector(".nav .brand") || {}).textContent || ""
+        ).trim() || "Raka.dev";
+      /* Pose kamera & objek per bab (urutan sama dengan section data-ch). */
+      const POSES = [
+        {
+          cx: 0,
+          cy: 0.6,
+          cz: 11,
+          lx: 0,
+          ly: 0,
+          lz: 0,
+          px: 2.4,
+          py: -0.1,
+          pz: 0,
+          rx: 0.12,
+          ry: -0.5,
+          rz: 0,
+          s: 0.8,
+          glow: 0,
+          keys: 0,
+          screen: "logo",
+        },
+        {
+          cx: 0,
+          cy: 0.4,
+          cz: 8,
+          lx: 0,
+          ly: 0.2,
+          lz: 0,
+          px: 1.65,
+          py: 0.05,
+          pz: 1.2,
+          rx: 0.04,
+          ry: -0.16,
+          rz: 0,
+          s: 1,
+          glow: 1,
+          keys: 1,
+          screen: "code",
+        },
+        {
+          cx: 0,
+          cy: 0.6,
+          cz: 11,
+          lx: 0,
+          ly: 0,
+          lz: 0,
+          px: -2.5,
+          py: 0,
+          pz: 0,
+          rx: 0.1,
+          ry: 0.55,
+          rz: 0,
+          s: 0.8,
+          glow: 0.6,
+          keys: 0.3,
+          screen: "ui",
+        },
+        {
+          cx: 0,
+          cy: 0.6,
+          cz: 11,
+          lx: 0,
+          ly: 0,
+          lz: 0,
+          px: 2.5,
+          py: -0.2,
+          pz: 0,
+          rx: 0.15,
+          ry: -0.8,
+          rz: 0.04,
+          s: 0.75,
+          glow: 0.5,
+          keys: 0.2,
+          screen: "ui",
+        },
+        {
+          cx: 0,
+          cy: 0.6,
+          cz: 11,
+          lx: 0,
+          ly: 0,
+          lz: 0,
+          px: -2.5,
+          py: 0.1,
+          pz: 0,
+          rx: -0.05,
+          ry: 0.85,
+          rz: 0,
+          s: 0.72,
+          glow: 0.4,
+          keys: 0,
+          screen: "ui",
+        },
+        {
+          cx: 0,
+          cy: 0.6,
+          cz: 11,
+          lx: 0,
+          ly: 0,
+          lz: 0,
+          px: 2.4,
+          py: 0,
+          pz: 0,
+          rx: 0.1,
+          ry: -0.35,
+          rz: 0,
+          s: 0.8,
+          glow: 0.6,
+          keys: 0,
+          screen: "text",
+        },
+      ];
+      function escHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
       }
-      window.addEventListener('scroll', updateParallax, { passive: true });
-      updateParallax();
-
-      // Footer clock
-      function updateClock() {
-        const d = new Date();
-        const str = d.toLocaleDateString('en-US',{weekday:'long'}) + ', '
-          + d.getDate() + ' ' + d.toLocaleDateString('en-US',{month:'long'})
-          + ' ' + d.getFullYear();
-        document.getElementById('footer_timer').textContent = str;
-      }
-      updateClock();
-      setInterval(updateClock, 1000);
-
-      // WhatsApp
-      document.getElementById('wa').addEventListener('click', () => {
-        const nama  = document.getElementById('nama').value.trim();
-        const pesan = document.getElementById('pesan').value.trim();
-        const hint  = document.getElementById('form-hint');
-        if (!pesan) { hint.classList.remove('hidden'); return; }
-        hint.classList.add('hidden');
-        const greeting = nama ? `Hallo saya ${nama}` : 'Hallo';
-        window.open(`https://wa.me/6285606522246?text=${encodeURIComponent(greeting + ' — ' + pesan)}`, '_blank');
-      });
-
-      // Scroll reveal via IntersectionObserver
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            io.unobserve(e.target);
+      /* Baris kode berwarna dari CONFIG: [[kelas, teks], ...] per baris. Bahasa: js, py, json. */
+      function bioLines(cfg) {
+        var c = cfg || {},
+          p = c.profil && typeof c.profil === "object" ? c.profil : {};
+        var lang = c.bahasa === "py" || c.bahasa === "json" ? c.bahasa : "js";
+        var name =
+          String(c.variabel || "profil").replace(/[^\w$]/g, "") || "profil";
+        var q = function (s) {
+          return (
+            '"' + String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"'
+          );
+        };
+        var val = function (v) {
+          if (Array.isArray(v)) {
+            var out = [["pun", "["]];
+            v.forEach(function (x, i) {
+              if (i) out.push(["pun", ", "]);
+              out.push(["str", q(x)]);
+            });
+            out.push(["pun", "]"]);
+            return out;
           }
+          if (typeof v === "number") return [["num", String(v)]];
+          if (typeof v === "boolean")
+            return [["kw", lang === "py" ? (v ? "True" : "False") : String(v)]];
+          return [["str", q(v == null ? "" : v)]];
+        };
+        var lines = [];
+        if (c.komentar)
+          lines.push([["com", (lang === "py" ? "# " : "// ") + c.komentar]]);
+        if (lang === "js")
+          lines.push([
+            ["kw", "const "],
+            ["var", name],
+            ["pun", " = {"],
+          ]);
+        else if (lang === "py")
+          lines.push([
+            ["var", name],
+            ["pun", " = {"],
+          ]);
+        else lines.push([["pun", "{"]]);
+        var keys = Object.keys(p);
+        keys.forEach(function (k, i) {
+          var key =
+            lang === "js" && /^[A-Za-z_$][\w$]*$/.test(k)
+              ? [["key", k]]
+              : [["str", q(k)]];
+          var last = i === keys.length - 1;
+          lines.push(
+            [["pun", lang === "py" ? "    " : "  "]].concat(
+              key,
+              [["pun", ": "]],
+              val(p[k]),
+              last && lang === "json" ? [] : [["pun", ","]],
+            ),
+          );
         });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-    </script>
+        lines.push([["pun", lang === "js" ? "};" : "}"]]);
+        return lines;
+      }
+      function bioText(cfg) {
+        return bioLines(cfg)
+          .map(function (l) {
+            return l
+              .map(function (t) {
+                return t[1];
+              })
+              .join("");
+          })
+          .join("\n");
+      }
+      function bioHtml(cfg) {
+        return bioLines(cfg)
+          .map(function (l) {
+            return (
+              '<span class="ln">' +
+              l
+                .map(function (t) {
+                  return (
+                    '<span class="tk-' + t[0] + '">' + escHtml(t[1]) + "</span>"
+                  );
+                })
+                .join("") +
+              "</span>"
+            );
+          })
+          .join("");
+      }
 
+      /* Objek 3D (prosedural, tanpa model/tekstur eksternal). */
+      function rrShape(THREE, w, h, r) {
+        const s = new THREE.Shape(),
+          x = -w / 2,
+          y = -h / 2;
+        s.moveTo(x + r, y);
+        s.lineTo(x + w - r, y);
+        s.quadraticCurveTo(x + w, y, x + w, y + r);
+        s.lineTo(x + w, y + h - r);
+        s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        s.lineTo(x + r, y + h);
+        s.quadraticCurveTo(x, y + h, x, y + h - r);
+        s.lineTo(x, y + r);
+        s.quadraticCurveTo(x, y, x + r, y);
+        return s;
+      }
+      /* Lempeng bersudut bulat (lebar w, tinggi h, tebal d) berpusat di titik asal. */
+      function slabGeo(THREE, w, h, d, r, b) {
+        const g = new THREE.ExtrudeGeometry(
+          rrShape(THREE, w - 2 * b, h - 2 * b, Math.max(0.002, r - b)),
+          {
+            depth: Math.max(0.002, d - 2 * b),
+            bevelEnabled: b > 0,
+            bevelThickness: b,
+            bevelSize: b,
+            bevelSegments: 3,
+            curveSegments: 8,
+          },
+        );
+        g.translate(0, 0, -(d - 2 * b) / 2);
+        return g;
+      }
+      function mat(THREE, color, o) {
+        return new THREE.MeshStandardMaterial(
+          Object.assign(
+            { color: color, roughness: 0.45, metalness: 0.2 },
+            o || {},
+          ),
+        );
+      }
+      function screenMesh(THREE, tex, w, h) {
+        return new THREE.Mesh(
+          new THREE.PlaneGeometry(w, h),
+          new THREE.MeshBasicMaterial({ map: tex, toneMapped: false }),
+        );
+      }
+      function glowSprite(THREE, tex, color, size, opacity) {
+        const s = new THREE.Sprite(
+          new THREE.SpriteMaterial({
+            map: tex,
+            color: color,
+            transparent: true,
+            opacity: opacity,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending,
+          }),
+        );
+        s.scale.setScalar(size);
+        return s;
+      }
+      function clamp01(v) {
+        return v < 0 ? 0 : v > 1 ? 1 : v;
+      }
+      function lerp(a, b, t) {
+        return a + (b - a) * t;
+      }
+      function buildObject({ THREE, COL, makeScreen, glowTexture }) {
+        const group = new THREE.Group();
+        const body = mat(THREE, COL.obj, { roughness: 0.35, metalness: 0.55 });
+        const dark = mat(THREE, "#05070c", { roughness: 0.5, metalness: 0.1 });
+        const glowTex = glowTexture();
+
+        const mon = new THREE.Group();
+        mon.position.y = 0.35;
+        group.add(mon);
+        mon.add(
+          new THREE.Mesh(slabGeo(THREE, 3.5, 2.24, 0.12, 0.08, 0.03), body),
+        );
+        const back = new THREE.Mesh(
+          slabGeo(THREE, 2.4, 1.4, 0.22, 0.2, 0.06),
+          body,
+        );
+        back.position.z = -0.14;
+        mon.add(back);
+        const bezel = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 2.14), dark);
+        bezel.position.z = 0.061;
+        mon.add(bezel);
+        const scr = screenMesh(
+          THREE,
+          makeScreen(1024, 640, "dark"),
+          3.26,
+          2.04,
+        );
+        scr.position.z = 0.064;
+        mon.add(scr);
+        const led = new THREE.Mesh(
+          new THREE.BoxGeometry(0.34, 0.018, 0.02),
+          new THREE.MeshBasicMaterial({ color: COL.accent }),
+        );
+        led.position.set(0, -1.09, 0.06);
+        mon.add(led);
+
+        const neck = new THREE.Mesh(
+          slabGeo(THREE, 0.36, 1.25, 0.12, 0.06, 0.02),
+          body,
+        );
+        neck.position.set(0, -0.92, -0.3);
+        neck.rotation.x = -0.12;
+        group.add(neck);
+        const base = new THREE.Mesh(
+          slabGeo(THREE, 1.5, 0.95, 0.06, 0.32, 0.02),
+          body,
+        );
+        base.rotation.x = -Math.PI / 2;
+        base.position.set(0, -1.56, -0.25);
+        group.add(base);
+
+        /* Keyboard dengan tombol yang menyala saat "mengetik". */
+        const kb = new THREE.Group();
+        kb.position.set(-0.2, -1.56, 1.15);
+        group.add(kb);
+        const kbBase = new THREE.Mesh(
+          slabGeo(THREE, 2.75, 0.92, 0.07, 0.08, 0.02),
+          body,
+        );
+        kbBase.rotation.x = -Math.PI / 2;
+        kb.add(kbBase);
+        const COLS = 14,
+          ROWS = 4,
+          N = COLS * ROWS;
+        const keys = new THREE.InstancedMesh(
+          new THREE.BoxGeometry(0.15, 0.05, 0.15),
+          new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.55 }),
+          N,
+        );
+        const m4 = new THREE.Matrix4(),
+          cold = new THREE.Color(COL.obj2),
+          hot = new THREE.Color(COL.accent),
+          tmp = new THREE.Color(),
+          heat = new Float32Array(N);
+        for (let r = 0, i = 0; r < ROWS; r++)
+          for (let c = 0; c < COLS; c++, i++) {
+            m4.makeTranslation(-1.17 + c * 0.18, 0.06, -0.28 + r * 0.187);
+            keys.setMatrixAt(i, m4);
+            keys.setColorAt(i, cold);
+          }
+        kb.add(keys);
+        const mouse = new THREE.Mesh(
+          new THREE.SphereGeometry(0.2, 20, 14),
+          body,
+        );
+        mouse.scale.set(0.75, 0.35, 1.1);
+        mouse.position.set(1.65, -1.52, 1.2);
+        group.add(mouse);
+
+        const glow = glowSprite(THREE, glowTex, COL.accent, 7.5, 0.2);
+        glow.position.set(0, 0.4, -0.8);
+        group.add(glow);
+        let acc = 0;
+        return {
+          group,
+          floor: -1.6,
+          update(t, dt, P) {
+            const k = P.keys || 0;
+            glow.material.opacity = 0.1 + 0.35 * (P.glow || 0);
+            acc += dt;
+            if (k > 0.05 && acc > 0.07) {
+              acc = 0;
+              heat[(Math.random() * N) | 0] = 1;
+              if (Math.random() < k) heat[(Math.random() * N) | 0] = 1;
+            }
+            let dirty = false;
+            for (let i = 0; i < N; i++)
+              if (heat[i] > 0) {
+                heat[i] = Math.max(0, heat[i] - dt * 2.4);
+                tmp.copy(cold).lerp(hot, heat[i]);
+                keys.setColorAt(i, tmp);
+                dirty = true;
+              }
+            if (dirty) keys.instanceColor.needsUpdate = true;
+            mouse.position.x = 1.65 + Math.sin(t * 1.3) * 0.05 * k;
+          },
+        };
+      }
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const root = document.documentElement;
+      const G = window.gsap,
+        ST = window.ScrollTrigger,
+        M = window.Motion;
+      const hasG = !!(G && ST);
+      const cssv = (n) => getComputedStyle(root).getPropertyValue(n).trim();
+      const COL = {
+        bg: cssv("--bg"),
+        bg2: cssv("--bg-2"),
+        ink: cssv("--ink"),
+        inkSoft: cssv("--ink-soft"),
+        accent: cssv("--accent"),
+        accent2: cssv("--accent-2"),
+        obj: cssv("--obj"),
+        obj2: cssv("--obj-2"),
+        panel: cssv("--panel"),
+      };
+      const sections = Array.prototype.slice.call(
+        document.querySelectorAll("[data-ch]"),
+      );
+      const navLinks = Array.prototype.slice.call(
+        document.querySelectorAll(".nav ul a"),
+      );
+      const P = Object.assign({}, POSES[0]);
+      let screenMode = POSES[0].screen,
+        screenDirty = true,
+        current = 0;
+
+      /* 1) Biodata kode dari CONFIG; diketik mengikuti scroll. */
+      const codeEl = document.getElementById("kode");
+      if (codeEl) codeEl.innerHTML = bioHtml(CONFIG);
+      const LINES = bioLines(CONFIG);
+      const lineEls = codeEl
+        ? Array.prototype.slice.call(codeEl.querySelectorAll(".ln"))
+        : [];
+      const LEN = LINES.map((l) => l.reduce((n, t) => n + t[1].length, 0) + 1);
+      const TOTAL = LEN.reduce((a, b) => a + b, 0);
+      let typed = TOTAL;
+      function setTyped(chars) {
+        const next = Math.max(0, Math.min(TOTAL, Math.round(chars)));
+        if (next === typed) return;
+        typed = next;
+        let start = 0;
+        lineEls.forEach((el, i) => {
+          el.classList.toggle("on", typed > start);
+          el.classList.toggle(
+            "cur",
+            typed > start && typed <= start + LEN[i] && typed < TOTAL,
+          );
+          start += LEN[i];
+        });
+        screenDirty = true;
+      }
+      const berkas =
+        (document.getElementById("berkas") || {}).textContent || "biodata";
+
+      /* 2) Pecah judul & kalimat besar jadi kata (untuk animasi per kata). */
+      function splitWords(el) {
+        const words = el.textContent.trim().split(/\s+/);
+        el.setAttribute("aria-label", el.textContent.trim());
+        el.textContent = "";
+        words.forEach((w, i) => {
+          const s = document.createElement("span");
+          s.className = "w";
+          s.setAttribute("aria-hidden", "true");
+          s.textContent = w;
+          el.appendChild(s);
+          if (i < words.length - 1)
+            el.appendChild(document.createTextNode(" "));
+        });
+        return Array.prototype.slice.call(el.querySelectorAll(".w"));
+      }
+      const animated = !reduce && hasG && !!M;
+      const heroWords = animated
+        ? splitWords(document.querySelector("h1"))
+        : [];
+      const statements = animated
+        ? Array.prototype.slice
+            .call(document.querySelectorAll(".statement"))
+            .map(splitWords)
+        : [];
+
+      /* 3) GSAP + Lenis: gulir halus, progres, kalimat muncul kata demi kata, pengetikan kode, pose objek per bab. */
+      let lenis = null;
+      if (hasG) G.registerPlugin(ST);
+      if (animated) {
+        root.classList.add("typing");
+        typed = -1;
+        setTyped(0);
+        lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+        lenis.on("scroll", ST.update);
+        G.ticker.add((time) => lenis.raf(time * 1000));
+        G.ticker.lagSmoothing(0);
+        document.addEventListener("click", (e) => {
+          const a = e.target.closest && e.target.closest('a[href^="#"]');
+          const el =
+            a && document.getElementById(a.getAttribute("href").slice(1));
+          if (!el) return;
+          e.preventDefault();
+          lenis.scrollTo(el, { offset: 0, duration: 1.4 });
+        });
+        G.to(".progress i", {
+          scaleX: 1,
+          ease: "none",
+          scrollTrigger: { start: 0, end: "max", scrub: true },
+        });
+        statements.forEach((words) => {
+          G.fromTo(
+            words,
+            { opacity: 0.14 },
+            {
+              opacity: 1,
+              stagger: 0.08,
+              ease: "none",
+              scrollTrigger: {
+                trigger: words[0].parentNode,
+                start: "top 82%",
+                end: "bottom 48%",
+                scrub: true,
+              },
+            },
+          );
+        });
+        const codeSec = codeEl && codeEl.closest("[data-ch]");
+        if (codeSec)
+          ST.create({
+            trigger: codeSec,
+            start: "top 62%",
+            end: "bottom 85%",
+            scrub: true,
+            onUpdate: (st) => setTyped(st.progress * TOTAL * 1.12),
+          });
+        for (let i = 1; i < sections.length; i++) {
+          const from = Object.assign({}, POSES[i - 1]),
+            to = Object.assign({}, POSES[i]);
+          delete from.screen;
+          delete to.screen;
+          G.timeline({
+            scrollTrigger: {
+              trigger: sections[i],
+              start: "top bottom",
+              end: "top 18%",
+              scrub: 1,
+            },
+          }).fromTo(
+            P,
+            from,
+            Object.assign(to, { ease: "power2.inOut", immediateRender: false }),
+          );
+        }
+        sections.forEach((sec, i) =>
+          ST.create({
+            trigger: sec,
+            start: "top 55%",
+            end: "bottom 55%",
+            onToggle: (st) => {
+              if (st.isActive) setChapter(i);
+            },
+          }),
+        );
+      } else {
+        // Tanpa animasi (kurangi gerak / library gagal dimuat): semua konten tampil, layar menunjukkan kode lengkap.
+        const ci = POSES.findIndex((p) => p.screen === "code");
+        if (ci > 0 && !reduce) Object.assign(P, POSES[ci]);
+        screenMode = ci >= 0 ? "code" : screenMode;
+        if ("IntersectionObserver" in window) {
+          const io = new IntersectionObserver(
+            (en) =>
+              en.forEach((e) => {
+                if (e.isIntersecting) setNav(sections.indexOf(e.target));
+              }),
+            { rootMargin: "-50% 0px -50% 0px" },
+          );
+          sections.forEach((s) => io.observe(s));
+        }
+      }
+      function setNav(i) {
+        navLinks.forEach((a) =>
+          a.classList.toggle(
+            "active",
+            a.getAttribute("href") === "#" + sections[i].id,
+          ),
+        );
+      }
+      function setChapter(i) {
+        if (i === current) return;
+        current = i;
+        setNav(i);
+        screenMode = POSES[i].screen || screenMode;
+        screenDirty = true;
+      }
+
+      /* 4) Motion: judul per kata, panel muncul, kartu bertahap, angka menghitung, tombol magnetis. */
+      if (animated) {
+        const { animate, inView, stagger } = M;
+        const ease = [0.2, 0.7, 0.2, 1];
+        animate(
+          heroWords,
+          { opacity: [0, 1], y: [36, 0], rotate: [4, 0] },
+          { delay: stagger(0.07, { startDelay: 0.25 }), duration: 0.9, ease },
+        );
+        document.querySelectorAll("[data-reveal]").forEach((el) => {
+          el.style.opacity = "0";
+          inView(
+            el,
+            () => {
+              animate(
+                el,
+                { opacity: [0, 1], y: [28, 0] },
+                { duration: 0.8, ease },
+              );
+            },
+            { amount: 0.2 },
+          );
+        });
+        document.querySelectorAll("[data-stagger]").forEach((el) => {
+          const kids = Array.prototype.slice.call(el.children);
+          kids.forEach((k) => {
+            k.style.opacity = "0";
+          });
+          inView(
+            el,
+            () => {
+              animate(
+                kids,
+                { opacity: [0, 1], y: [30, 0], scale: [0.96, 1] },
+                { delay: stagger(0.1), duration: 0.7, ease },
+              );
+            },
+            { amount: 0.2 },
+          );
+        });
+        document.querySelectorAll("[data-count]").forEach((el) => {
+          const m = /^(\D*)(\d+(?:[.,]\d+)?)(.*)$/.exec(el.textContent.trim());
+          if (!m) return;
+          const target = parseFloat(m[2].replace(",", ".")),
+            dec = (m[2].split(/[.,]/)[1] || "").length,
+            sep = m[2].indexOf(",") >= 0 ? "," : ".";
+          inView(
+            el,
+            () => {
+              animate(0, target, {
+                duration: 1.8,
+                ease,
+                onUpdate: (v) => {
+                  el.textContent =
+                    m[1] + v.toFixed(dec).replace(".", sep) + m[3];
+                },
+              });
+            },
+            { amount: 0.6 },
+          );
+        });
+        if (matchMedia("(pointer: fine)").matches)
+          document.querySelectorAll(".btn").forEach((b) => {
+            b.addEventListener("pointermove", (e) => {
+              const r = b.getBoundingClientRect();
+              animate(
+                b,
+                {
+                  x: (e.clientX - r.left - r.width / 2) * 0.22,
+                  y: (e.clientY - r.top - r.height / 2) * 0.3,
+                },
+                { type: "spring", stiffness: 320, damping: 18 },
+              );
+            });
+            b.addEventListener("pointerleave", () => {
+              animate(
+                b,
+                { x: 0, y: 0 },
+                { type: "spring", stiffness: 260, damping: 14 },
+              );
+            });
+          });
+      }
+
+      /* 5) Three.js */
+      function fail(reason) {
+        root.classList.add("no-webgl");
+        root.classList.remove("loading");
+        console.warn("[owd] 3D tidak aktif:", reason);
+      }
+      function hasWebGL() {
+        try {
+          const c = document.createElement("canvas");
+          return !!(
+            window.WebGLRenderingContext &&
+            (c.getContext("webgl2") || c.getContext("webgl"))
+          );
+        } catch (e) {
+          return false;
+        }
+      }
+      const canvas = document.getElementById("gl");
+      if (!hasWebGL()) fail("WebGL tidak tersedia");
+      else {
+        try {
+          start();
+        } catch (e) {
+          fail(e && e.message ? e.message : String(e));
+        }
+      }
+
+      function start() {
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+        });
+        let dpr = Math.min(window.devicePixelRatio || 1, 2);
+        renderer.setPixelRatio(dpr);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.05;
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(COL.bg, 16, 40);
+        const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 120);
+        const look = new THREE.Vector3();
+
+        scene.add(
+          new THREE.HemisphereLight(0xffffff, COL.bg2 || 0x222233, 1.15),
+        );
+        const key = new THREE.DirectionalLight(0xffffff, 2.4);
+        key.position.set(4, 7, 6);
+        scene.add(key);
+        const rim = new THREE.DirectionalLight(COL.accent, 2.6);
+        rim.position.set(-6, 2, -5);
+        scene.add(rim);
+        const fill = new THREE.PointLight(COL.accent2, 18, 26, 1.6);
+        fill.position.set(4, -1, 5);
+        scene.add(fill);
+
+        /* Tekstur bantu: cahaya bulat & teks. */
+        const textures = [];
+        function glowTexture() {
+          const c = document.createElement("canvas");
+          c.width = c.height = 128;
+          const g = c.getContext("2d"),
+            r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+          r.addColorStop(0, "rgba(255,255,255,1)");
+          r.addColorStop(0.35, "rgba(255,255,255,.35)");
+          r.addColorStop(1, "rgba(255,255,255,0)");
+          g.fillStyle = r;
+          g.fillRect(0, 0, 128, 128);
+          const t = new THREE.CanvasTexture(c);
+          textures.push(t);
+          return t;
+        }
+        function textTexture(draw, w, h) {
+          const c = document.createElement("canvas");
+          c.width = w;
+          c.height = h;
+          draw(c.getContext("2d"), w, h);
+          const t = new THREE.CanvasTexture(c);
+          t.colorSpace = THREE.SRGBColorSpace;
+          t.anisotropy = 4;
+          textures.push(t);
+          return t;
+        }
+        const screens = [];
+        function makeScreen(w, h, style) {
+          const c = document.createElement("canvas");
+          c.width = w;
+          c.height = h;
+          const tex = new THREE.CanvasTexture(c);
+          tex.colorSpace = THREE.SRGBColorSpace;
+          tex.anisotropy = 8;
+          screens.push({
+            c,
+            g: c.getContext("2d"),
+            tex,
+            style: style || "dark",
+          });
+          textures.push(tex);
+          return tex;
+        }
+
+        const api = buildObject({
+          THREE,
+          COL,
+          makeScreen,
+          glowTexture,
+          textTexture,
+          brand: BRAND,
+        });
+        scene.add(api.group);
+        const floor = typeof api.floor === "number" ? api.floor : -1.9;
+
+        /* Bayangan lembut & debu cahaya. */
+        const shadow = new THREE.Mesh(
+          new THREE.PlaneGeometry(6, 6),
+          new THREE.MeshBasicMaterial({
+            map: glowTexture(),
+            color: 0x000000,
+            transparent: true,
+            opacity: 0.35,
+            depthWrite: false,
+          }),
+        );
+        shadow.rotation.x = -Math.PI / 2;
+        scene.add(shadow);
+        const DUST = 420,
+          dp = new Float32Array(DUST * 3);
+        for (let i = 0; i < DUST; i++) {
+          dp[i * 3] = (Math.random() - 0.5) * 26;
+          dp[i * 3 + 1] = (Math.random() - 0.5) * 14;
+          dp[i * 3 + 2] = (Math.random() - 0.5) * 18 - 2;
+        }
+        const dg = new THREE.BufferGeometry();
+        dg.setAttribute("position", new THREE.BufferAttribute(dp, 3));
+        const dust = new THREE.Points(
+          dg,
+          new THREE.PointsMaterial({
+            color: COL.accent,
+            size: 0.05,
+            map: glowTexture(),
+            transparent: true,
+            opacity: 0.7,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending,
+          }),
+        );
+        scene.add(dust);
+
+        /* Layar: logo / kode / UI / teks. */
+        const TK = {
+          dark: {
+            bg: "#0b1020",
+            kw: "#c792ea",
+            var: "#eef1ff",
+            key: COL.accent,
+            str: "#c3e88d",
+            num: "#f78c6c",
+            pun: "#8f9bb3",
+            com: "#6f789b",
+            ln: "#3c4566",
+            bar: "rgba(255,255,255,.05)",
+            ink: "#eef1ff",
+          },
+          paper: {
+            bg: "#f4ecda",
+            kw: "#7a3e9d",
+            var: "#2a2420",
+            key: "#a4442b",
+            str: "#3d6f3a",
+            num: "#a0522d",
+            pun: "#7d7468",
+            com: "#9a8f7e",
+            ln: "#c9bca2",
+            bar: "rgba(0,0,0,.05)",
+            ink: "#2a2420",
+          },
+        };
+        function wrap(g, text, maxW) {
+          const words = String(text).split(/\s+/),
+            out = [];
+          let line = "";
+          words.forEach((w) => {
+            const t = line ? line + " " + w : w;
+            if (g.measureText(t).width > maxW && line) {
+              out.push(line);
+              line = w;
+            } else line = t;
+          });
+          if (line) out.push(line);
+          return out;
+        }
+        function drawScreen(s, t) {
+          const g = s.g,
+            W = s.c.width,
+            H = s.c.height,
+            k = TK[s.style] || TK.dark,
+            paper = s.style === "paper";
+          const u = Math.min(W, H);
+          g.fillStyle = k.bg;
+          g.fillRect(0, 0, W, H);
+          if (screenMode === "code") {
+            const head = Math.round(u * 0.085);
+            g.fillStyle = k.bar;
+            g.fillRect(0, 0, W, head);
+            ["#ff5f57", "#febc2e", "#28c840"].forEach((c, i) => {
+              g.fillStyle = paper ? k.ln : c;
+              g.beginPath();
+              g.arc(head * 0.6 + i * head * 0.45, head / 2, head * 0.13, 0, 7);
+              g.fill();
+            });
+            g.fillStyle = k.pun;
+            g.font =
+              "500 " +
+              Math.round(head * 0.38) +
+              "px ui-monospace, Menlo, Consolas, monospace";
+            g.textBaseline = "middle";
+            g.fillText(berkas, head * 2.2, head / 2);
+            const n = LINES.length + 1,
+              portrait = H > W * 1.2;
+            const fs = portrait
+              ? Math.floor(W / 19)
+              : Math.floor(Math.min((H - head) / (n * 1.55), W / 34));
+            g.font =
+              "500 " + fs + "px ui-monospace, Menlo, Consolas, monospace";
+            const cw = g.measureText("M").width,
+              lh = fs * 1.55,
+              x0 = fs * 3.2,
+              maxX = W - fs * 0.6;
+            let left = typed,
+              y = head + lh * 0.9,
+              x = x0;
+            for (let i = 0; i < LINES.length && left > 0; i++) {
+              g.fillStyle = k.ln;
+              g.textAlign = "right";
+              g.fillText(String(i + 1), fs * 2.2, y);
+              g.textAlign = "left";
+              x = x0;
+              for (const tk of LINES[i]) {
+                if (left <= 0) break;
+                let txt = tk[1].slice(0, Math.max(0, left));
+                left -= tk[1].length;
+                g.fillStyle = k[tk[0]] || k.var;
+                /* Baris panjang dibungkus ke baris berikutnya (penting untuk layar tegak seperti HP). */
+                if (
+                  txt.length > (maxX - x) / cw &&
+                  txt.length <= (maxX - x0 - cw * 2) / cw &&
+                  x > x0
+                ) {
+                  y += lh;
+                  x = x0 + cw * 2;
+                }
+                while (txt.length) {
+                  if (maxX - x < cw) {
+                    y += lh;
+                    x = x0 + cw * 2;
+                  }
+                  const part = txt.slice(
+                    0,
+                    Math.max(1, Math.floor((maxX - x) / cw)),
+                  );
+                  g.fillText(part, x, y);
+                  x += cw * part.length;
+                  txt = txt.slice(part.length);
+                }
+              }
+              left -= 1;
+              if (left <= 0 && typed < TOTAL && Math.floor(t * 2) % 2 === 0) {
+                g.fillStyle = COL.accent;
+                g.fillRect(x + 2, y - fs * 0.55, fs * 0.55, fs * 1.1);
+              }
+              y += lh;
+            }
+          } else if (screenMode === "ui") {
+            const pad = u * 0.06,
+              side = W > H ? W * 0.2 : 0;
+            g.fillStyle = paper ? "rgba(0,0,0,.05)" : "rgba(255,255,255,.04)";
+            if (side) g.fillRect(0, 0, side, H);
+            g.fillStyle = COL.accent;
+            g.beginPath();
+            g.arc(
+              (side || pad * 2) / 2 + (side ? 0 : pad),
+              pad * 1.3,
+              u * 0.03,
+              0,
+              7,
+            );
+            g.fill();
+            for (let i = 0; i < 4 && side; i++) {
+              g.fillStyle =
+                i === 1
+                  ? COL.accent
+                  : paper
+                    ? "rgba(0,0,0,.12)"
+                    : "rgba(255,255,255,.12)";
+              g.fillRect(
+                pad,
+                pad * 3 + i * u * 0.09,
+                side - pad * 2,
+                u * 0.035,
+              );
+            }
+            const x0 = side + pad,
+              cw = W - x0 - pad;
+            g.fillStyle = k.ink;
+            g.font = "700 " + Math.round(u * 0.07) + "px system-ui, sans-serif";
+            g.textBaseline = "alphabetic";
+            g.fillText(BRAND, x0, pad + u * 0.07);
+            const cards = W > H ? 3 : 2,
+              gap = pad * 0.6,
+              cwid = (cw - gap * (cards - 1)) / cards,
+              ch = u * 0.2,
+              cy = pad * 1.6 + u * 0.08;
+            for (let i = 0; i < cards; i++) {
+              const x = x0 + i * (cwid + gap);
+              g.fillStyle = paper ? "rgba(0,0,0,.05)" : "rgba(255,255,255,.06)";
+              g.fillRect(x, cy, cwid, ch);
+              g.fillStyle = i % 2 ? COL.accent2 : COL.accent;
+              g.fillRect(
+                x + gap * 0.6,
+                cy + ch * 0.62,
+                cwid * (0.35 + 0.4 * (0.5 + 0.5 * Math.sin(t * 0.8 + i))),
+                ch * 0.12,
+              );
+              g.fillStyle = k.ink;
+              g.font =
+                "700 " + Math.round(ch * 0.26) + "px system-ui, sans-serif";
+              g.fillText(
+                String(
+                  Math.round(40 + 50 * (0.5 + 0.5 * Math.sin(t * 0.5 + i * 2))),
+                ) + "%",
+                x + gap * 0.6,
+                cy + ch * 0.42,
+              );
+            }
+            const by = cy + ch + gap * 1.4,
+              bh = H - by - pad,
+              bars = W > H ? 14 : 8,
+              bw = cw / bars;
+            for (let i = 0; i < bars; i++) {
+              const v = 0.3 + 0.6 * (0.5 + 0.5 * Math.sin(t * 1.2 + i * 0.7));
+              g.fillStyle = i % 3 === 0 ? COL.accent2 : COL.accent;
+              g.globalAlpha = 0.85;
+              g.fillRect(
+                x0 + i * bw + bw * 0.18,
+                by + bh * (1 - v),
+                bw * 0.64,
+                bh * v,
+              );
+            }
+            g.globalAlpha = 1;
+          } else {
+            const grad = g.createLinearGradient(0, 0, W, H);
+            grad.addColorStop(0, COL.accent);
+            grad.addColorStop(1, COL.accent2);
+            g.globalAlpha = paper ? 0.18 : 0.28;
+            g.fillStyle = grad;
+            g.fillRect(0, 0, W, H);
+            g.globalAlpha = 1;
+            const glow = g.createRadialGradient(
+              W / 2,
+              H / 2,
+              0,
+              W / 2,
+              H / 2,
+              u * 0.7,
+            );
+            glow.addColorStop(
+              0,
+              paper ? "rgba(255,255,255,.4)" : "rgba(255,255,255,.12)",
+            );
+            glow.addColorStop(1, "rgba(255,255,255,0)");
+            g.fillStyle = glow;
+            g.fillRect(0, 0, W, H);
+            const main =
+                screenMode === "logo" ? BRAND : CONFIG.layarTeks || BRAND,
+              sub =
+                screenMode === "logo"
+                  ? CONFIG.layarSub || ""
+                  : CONFIG.layarSub || "";
+            g.textAlign = "center";
+            g.textBaseline = "middle";
+            g.fillStyle = k.ink;
+            let fs = Math.round(u * (screenMode === "logo" ? 0.15 : 0.12));
+            g.font = "800 " + fs + "px system-ui, sans-serif";
+            let lines = wrap(g, main, W * 0.82);
+            while (lines.length > 3 && fs > 12) {
+              fs -= 4;
+              g.font = "800 " + fs + "px system-ui, sans-serif";
+              lines = wrap(g, main, W * 0.82);
+            }
+            const total = lines.length * fs * 1.1;
+            lines.forEach((l, i) =>
+              g.fillText(
+                l,
+                W / 2,
+                H / 2 -
+                  total / 2 +
+                  fs * 0.55 +
+                  i * fs * 1.1 -
+                  (sub ? fs * 0.3 : 0),
+              ),
+            );
+            if (sub) {
+              g.font =
+                "500 " + Math.round(fs * 0.3) + "px system-ui, sans-serif";
+              g.fillStyle = paper ? k.pun : "rgba(255,255,255,.75)";
+              g.fillText(sub, W / 2, H / 2 + total / 2 + fs * 0.35);
+            }
+            g.textAlign = "left";
+          }
+          s.tex.needsUpdate = true;
+        }
+
+        const tris = (() => {
+          let n = 0;
+          scene.traverse((o) => {
+            if (o.isMesh) {
+              const gg = o.geometry;
+              n +=
+                ((gg.index ? gg.index.count : gg.attributes.position.count) /
+                  3) *
+                (o.isInstancedMesh ? o.count : 1);
+            }
+          });
+          return Math.round(n);
+        })();
+        window.__OWD_STATS = { triangles: tris, budget: 50000, contexts: 1 };
+
+        const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+        if (!reduce && matchMedia("(pointer: fine)").matches)
+          addEventListener(
+            "pointermove",
+            (e) => {
+              pointer.tx = e.clientX / innerWidth - 0.5;
+              pointer.ty = e.clientY / innerHeight - 0.5;
+            },
+            { passive: true },
+          );
+
+        function resize() {
+          const w = innerWidth,
+            h = innerHeight;
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+        addEventListener("resize", resize);
+        resize();
+        let visible = true;
+        const io = new IntersectionObserver((en) => {
+          visible = en[0].isIntersecting;
+        });
+        io.observe(canvas);
+
+        /* Pose → kamera & objek. Layar sempit: objek ke tengah-atas, kamera mundur supaya muat. */
+        function applyPose(t) {
+          const narrow = camera.aspect < 0.9,
+            k = narrow ? Math.pow(0.9 / camera.aspect, 0.85) : 1;
+          const lx = P.lx * (narrow ? 0.1 : 1),
+            ly = P.ly - (narrow ? 0.8 + 0.55 * (k - 0.6) : 0);
+          look.set(lx, ly, P.lz);
+          camera.position.set(
+            lx + (P.cx - P.lx) * k * (narrow ? 0.4 : 1),
+            ly + (P.cy - P.ly) * k,
+            P.lz + (P.cz - P.lz) * k,
+          );
+          camera.position.x += pointer.x * 0.5;
+          camera.position.y -= pointer.y * 0.3;
+          camera.lookAt(look);
+          const g = api.group;
+          g.position.set(P.px * (narrow ? 0.1 : 1), P.py, P.pz);
+          g.rotation.set(
+            P.rx,
+            P.ry + (reduce ? 0 : Math.sin(t * 0.45) * 0.06),
+            P.rz,
+          );
+          g.scale.setScalar(P.s);
+          shadow.position.set(g.position.x, P.py + floor * P.s, g.position.z);
+          shadow.scale.setScalar(P.s);
+        }
+
+        const clock = new THREE.Clock();
+        let raf = 0,
+          first = true,
+          frames = 0,
+          slow = 0,
+          lastDraw = -1;
+        function frame() {
+          raf = requestAnimationFrame(frame);
+          const dt = Math.min(clock.getDelta(), 0.1),
+            t = clock.elapsedTime;
+          if (!visible || document.hidden) return;
+          pointer.x += (pointer.tx - pointer.x) * Math.min(1, dt * 3);
+          pointer.y += (pointer.ty - pointer.y) * Math.min(1, dt * 3);
+          applyPose(t);
+          api.update(reduce ? 0 : t, reduce ? 0 : dt, P);
+          if (!reduce) {
+            dust.rotation.y = t * 0.015;
+            dust.position.y = Math.sin(t * 0.2) * 0.2;
+          }
+          const live =
+            screenMode === "ui" || (screenMode === "code" && typed < TOTAL);
+          if (
+            screens.length &&
+            (screenDirty || (live && t - lastDraw > 0.08))
+          ) {
+            screens.forEach((s) => drawScreen(s, t));
+            screenDirty = false;
+            lastDraw = t;
+          }
+          renderer.render(scene, camera);
+          if (first) {
+            first = false;
+            root.classList.add("webgl");
+            root.classList.remove("loading");
+          }
+          frames++;
+          if (dt > 0.022) slow++;
+          if (frames === 90) {
+            if (slow > 45 && dpr > 1) {
+              dpr = Math.max(1, dpr - 0.5);
+              renderer.setPixelRatio(dpr);
+              resize();
+            }
+            frames = 0;
+            slow = 0;
+          }
+        }
+        if (window.OWD_THUMB) {
+          applyPose(0);
+          api.update(1.2, 0.016, P);
+          screens.forEach((s) => drawScreen(s, 1));
+          renderer.render(scene, camera);
+          root.classList.add("webgl");
+          root.classList.remove("loading");
+          return;
+        }
+        raf = requestAnimationFrame(frame);
+
+        function dispose() {
+          cancelAnimationFrame(raf);
+          io.disconnect();
+          if (hasG) ST.getAll().forEach((s) => s.kill());
+          if (lenis) lenis.destroy();
+          scene.traverse((o) => {
+            if (o.geometry) o.geometry.dispose();
+            const m = o.material;
+            if (m) (Array.isArray(m) ? m : [m]).forEach((mat) => mat.dispose());
+          });
+          textures.forEach((x) => x.dispose());
+          renderer.dispose();
+          renderer.forceContextLoss();
+        }
+        addEventListener("pagehide", dispose, { once: true });
+        window.__OWD_DISPOSE = dispose;
+      }
+    </script>
   </body>
 </html>
