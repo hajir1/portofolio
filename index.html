@@ -1,2464 +1,494 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title data-owd-text="judulTab" data-owd-label="Judul tab browser">
-      Usam Muhazir · Full-stack Developer
-    </title>
+    <title>Usam Muhazir · Full-stack Developer</title>
     <meta
       name="description"
-      content="Portofolio developer 3D: PC membesar saat digulir, layar mengetik biodata dalam bentuk kode, lalu kalimat, karya, dan kontak muncul bergantian."
+      content="Usam Muhazir, full-stack developer from Malang. Scroll into the computer to see websites and apps I have built."
     />
     <meta name="theme-color" content="#070b16" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070b16'/%3E%3Cpath d='M20 22l-10 10 10 10M44 22l10 10-10 10M36 16l-8 32' stroke='%237cf0c5' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Font tidak memblokir tampilan: dimuat sebagai print lalu dialihkan ke all. -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@500&family=Space+Grotesk:wght@500;700&display=swap"
+      media="print"
+      onload="this.media='all'"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.css"
-    />
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js",
-          "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.mjs"
-        }
-      }
-    </script>
-    <script>
-      document.documentElement.classList.add("js", "loading");
-      setTimeout(function () {
-        var r = document.documentElement;
-        if (
-          !r.classList.contains("webgl") &&
-          !r.classList.contains("no-webgl")
-        ) {
-          r.classList.add("no-webgl");
-          r.classList.remove("loading");
-        }
-      }, 12000);
-    </script>
-    <style id="owd-theme">
-      /* Warna & gaya: ubah di sini atau lewat editor OneWebDev. */
-      :root {
-        --bg: #070b16; /* Latar halaman */
-        --bg-2: #16224d; /* Latar kedua (cahaya) */
-        --panel: #0e1530; /* Latar panel teks */
-        --ink: #eef2ff; /* Teks utama */
-        --ink-soft: #a3adcc; /* Teks sekunder */
-        --accent: #7cf0c5; /* Warna aksen */
-        --accent-2: #6c8cff; /* Warna aksen kedua */
-        --line: #25304f; /* Garis */
-        --on-accent: #0b0b0b; /* Teks di tombol aksen */
-        --obj: #c9cfdc; /* Warna objek 3D */
-        --obj-2: #2a3147; /* Warna objek 3D kedua */
-      }
-    </style>
     <style>
       :root {
+        --bg: #070b16;
+        --bg-2: #16224d;
+        --panel: #0e1530;
+        --screen: #0b1020;
+        --ink: #eef2ff;
+        --ink-soft: #a3adcc;
+        --accent: #7cf0c5;
+        --accent-2: #6c8cff;
+        --line: #25304f;
+        --on-accent: #0b0b0b;
+        --obj: #c9cfdc;
+        --obj-2: #2a3147;
         --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-text:
-          "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-        --font-mono:
-          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
-          monospace;
-        --pad: clamp(18px, 5vw, 80px);
+        --font-text: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        --pad: clamp(16px, 5vw, 80px);
       }
-      * {
-        box-sizing: border-box;
-      }
-      html {
-        background: var(--bg);
-      }
+      * { box-sizing: border-box; }
+      html { background: var(--bg); scroll-behavior: auto; }
       body {
         margin: 0;
         color: var(--ink);
         font: 17px/1.65 var(--font-text);
         -webkit-font-smoothing: antialiased;
-        background: radial-gradient(
-            120% 80% at 70% 0%,
-            var(--bg-2),
-            var(--bg) 60%
-          )
-          fixed;
+        background: var(--bg);
+        overflow-x: hidden;
       }
-      a {
-        color: inherit;
+      /* Latar gradien di lapisan tetap sendiri (bukan background-attachment: fixed yang memaksa repaint saat scroll). */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background: radial-gradient(120% 80% at 70% 0%, var(--bg-2), var(--bg) 60%);
       }
-      .skip {
-        position: absolute;
-        left: -999px;
-        top: 8px;
-        z-index: 60;
-        padding: 10px 14px;
-        border-radius: 8px;
-        background: var(--accent);
-        color: var(--bg);
-      }
-      .skip:focus {
-        left: 8px;
-      }
-      :focus-visible {
-        outline: 3px solid var(--accent);
-        outline-offset: 3px;
-      }
-      .sr {
-        position: absolute !important;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        white-space: nowrap;
-      }
+      a { color: inherit; }
+      img { max-width: 100%; display: block; }
+      .skip { position: absolute; left: -999px; top: 8px; z-index: 60; padding: 10px 14px; border-radius: 8px; background: var(--accent); color: var(--bg); }
+      .skip:focus { left: 8px; }
+      :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+      .sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
       #gl {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        width: 100vw;
-        height: 100vh;
-        display: block;
-        opacity: 0;
-        transition: opacity 1s;
-        pointer-events: none;
+        position: fixed; inset: 0; z-index: 0; width: 100%; height: 100vh; display: block;
+        opacity: 0; transition: opacity 0.9s; pointer-events: none;
       }
-      html.webgl #gl {
-        opacity: 1;
-      }
-      .loader {
-        position: fixed;
-        inset: 0;
-        z-index: 40;
-        display: none;
-        place-items: center;
-        background: var(--bg);
-        color: var(--ink-soft);
-        font-size: 14px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-      }
-      html.loading .loader {
-        display: grid;
-      }
-      .loader i {
-        display: block;
-        width: 46px;
-        height: 46px;
-        margin: 0 auto 14px;
-        border-radius: 50%;
-        border: 3px solid var(--line);
-        border-top-color: var(--accent);
-        animation: rot 0.9s linear infinite;
-      }
-      @keyframes rot {
-        to {
-          transform: rotate(360deg);
-        }
-      }
+      html.gl-ready #gl { opacity: 1; }
+      html.static #gl { display: none; }
 
-      /* Navigasi & progres */
+      /* ---------- Navigasi ---------- */
       .nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 30;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        padding: 14px var(--pad);
-        background: color-mix(in srgb, var(--bg) 55%, transparent);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+        display: flex; align-items: center; gap: 16px;
+        padding: 12px var(--pad);
+        background: linear-gradient(to bottom, rgba(7, 11, 22, 0.92), rgba(7, 11, 22, 0.6));
       }
-      .nav .brand {
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: 18px;
-        text-decoration: none;
-        letter-spacing: -0.01em;
-      }
-      .nav ul {
-        display: flex;
-        gap: 2px;
-        margin: 0 0 0 auto;
-        padding: 0;
-        list-style: none;
-      }
+      .brand { font-family: var(--font-display); font-weight: 700; font-size: 18px; text-decoration: none; letter-spacing: -0.01em; white-space: nowrap; }
+      .brand b { color: var(--accent); }
+      .nav ul { display: flex; gap: 2px; margin: 0 0 0 auto; padding: 0; list-style: none; }
       .nav ul a {
-        display: inline-flex;
-        align-items: center;
-        min-height: 40px;
-        padding: 0 12px;
-        border-radius: 999px;
-        text-decoration: none;
-        font-size: 14px;
-        color: var(--ink-soft);
-        transition:
-          color 0.2s,
-          background 0.2s;
+        display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px;
+        border-radius: 999px; text-decoration: none; font-size: 14px; color: var(--ink-soft);
+        transition: color 0.2s, background 0.2s;
       }
-      .nav ul a:hover,
-      .nav ul a.active {
-        color: var(--ink);
-        background: color-mix(in srgb, var(--ink) 9%, transparent);
-      }
-      .progress {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 2px;
-        background: color-mix(in srgb, var(--ink) 8%, transparent);
-      }
-      .progress i {
-        display: block;
-        height: 100%;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        transform-origin: 0 50%;
-        transform: scaleX(0);
-      }
+      .nav ul a:hover, .nav ul a.active { color: var(--ink); background: rgba(238, 242, 255, 0.09); }
+      .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: rgba(238, 242, 255, 0.08); }
+      .progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transform-origin: 0 50%; transform: scaleX(0); }
 
-      /* Bab */
-      main {
-        position: relative;
-        z-index: 1;
-      }
-      .ch {
-        position: relative;
-        display: flex;
-        align-items: center;
-        min-height: 125vh;
-        padding: 14vh var(--pad);
-      }
-      .ch.hero {
-        min-height: 100vh;
-        padding-top: 18vh;
-      }
-      .a-left {
-        justify-content: flex-start;
-      }
-      .a-right {
-        justify-content: flex-end;
-      }
-      .a-center {
-        justify-content: center;
-        text-align: center;
-      }
-      .panel {
-        position: relative;
-        width: min(100%, 33rem);
-        padding: clamp(22px, 3vw, 34px);
-        border-radius: 26px;
-        background: color-mix(in srgb, var(--panel) 74%, transparent);
-        border: 1px solid var(--line);
-        backdrop-filter: blur(16px) saturate(1.2);
-        -webkit-backdrop-filter: blur(16px) saturate(1.2);
-        box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.6);
-      }
-      .hero .panel {
-        width: min(100%, 40rem);
-        padding: 0;
-        background: none;
-        border: 0;
-        box-shadow: none;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-      }
-      .kicker {
-        margin: 0 0 12px;
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--accent);
-      }
-      h1,
-      h2 {
-        margin: 0 0 16px;
-        font-family: var(--font-display);
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        line-height: 1.02;
-      }
-      h1 {
-        font-size: clamp(46px, 7.4vw, 104px);
-      }
-      h2 {
-        font-size: clamp(32px, 4.4vw, 58px);
-      }
-      .w {
-        display: inline-block;
-        will-change: transform, opacity;
-      }
-      .panel p {
-        margin: 0 0 12px;
-        color: var(--ink-soft);
-      }
-      .lead {
-        font-size: clamp(17px, 1.5vw, 20px);
-        max-width: 44ch;
-      }
-      .a-center .lead {
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .ctas {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 26px;
-      }
-      .a-center .ctas {
-        justify-content: center;
-      }
+      main { position: relative; z-index: 1; }
+
+      /* ---------- Teks umum ---------- */
+      .kicker { margin: 0 0 12px; font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+      h1, h2, h3 { margin: 0 0 16px; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.03em; line-height: 1.04; }
+      h1 { font-size: clamp(44px, 7vw, 100px); }
+      h2 { font-size: clamp(32px, 4.4vw, 58px); }
+      .lead { font-size: clamp(16px, 1.5vw, 20px); color: var(--ink-soft); max-width: 46ch; margin: 0 auto; }
+      .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
       .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 48px;
-        padding: 0 24px;
-        border-radius: 999px;
-        background: var(--accent);
-        color: var(--on-accent);
-        font-weight: 600;
-        text-decoration: none;
-        border: 0;
+        display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 24px;
+        border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 600; text-decoration: none; border: 0;
+        transition: transform 0.2s;
       }
-      .btn.ghost {
-        background: transparent;
-        color: var(--ink);
-        border: 1.5px solid var(--line);
+      .btn:hover { transform: translateY(-2px); }
+      .btn.ghost { background: rgba(7, 11, 22, 0.5); color: var(--ink); border: 1.5px solid var(--line); }
+      .panel {
+        position: relative; padding: clamp(22px, 3vw, 34px); border-radius: 24px;
+        background: rgba(14, 21, 48, 0.86); border: 1px solid var(--line);
+        box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.7);
       }
+      .panel p { margin: 0 0 12px; color: var(--ink-soft); }
+
+      /* ---------- Hero ---------- */
+      .hero {
+        position: relative; min-height: 100vh; min-height: 100svh;
+        padding: max(96px, 13vh) var(--pad) 0; text-align: center;
+      }
+      .hero .ctas { justify-content: center; }
+      .hero > * { animation: up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+      .hero > :nth-child(2) { animation-delay: 0.08s; }
+      .hero > :nth-child(3) { animation-delay: 0.16s; }
+      .hero > :nth-child(4) { animation-delay: 0.24s; }
+      @keyframes up { from { opacity: 0; transform: translateY(26px); } }
+      .hero h1 { animation: none; }
+      .hero h1 .w { display: inline-block; animation: word 1s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(0.1s + var(--i) * 0.09s); }
+      @keyframes word { from { opacity: 0; transform: translateY(0.5em) rotate(4deg); filter: blur(6px); } }
       .scroll-hint {
-        position: absolute;
-        left: 50%;
-        bottom: 4vh;
-        transform: translateX(-50%);
-        display: grid;
-        justify-items: center;
-        gap: 8px;
-        font-size: 12px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--ink-soft);
-        text-decoration: none;
+        position: absolute; left: 50%; bottom: 3vh; transform: translateX(-50%);
+        display: grid; justify-items: center; gap: 6px; font-size: 11px; letter-spacing: 0.2em;
+        text-transform: uppercase; color: var(--ink-soft); text-decoration: none;
       }
-      .scroll-hint span {
-        display: block;
-        width: 22px;
-        height: 36px;
-        border-radius: 12px;
-        border: 1.5px solid var(--ink-soft);
-        position: relative;
-      }
+      .scroll-hint span { display: block; width: 22px; height: 36px; border-radius: 12px; border: 1.5px solid var(--ink-soft); position: relative; }
       .scroll-hint span::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 7px;
-        width: 3px;
-        height: 7px;
-        margin-left: -1.5px;
-        border-radius: 2px;
-        background: var(--accent);
-        animation: wheel 1.6s ease-in-out infinite;
+        content: ""; position: absolute; left: 50%; top: 7px; width: 3px; height: 7px; margin-left: -1.5px;
+        border-radius: 2px; background: var(--accent); animation: wheel 1.6s ease-in-out infinite;
       }
-      @keyframes wheel {
-        0% {
-          opacity: 0;
-          transform: translateY(0);
-        }
-        30% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0;
-          transform: translateY(12px);
-        }
-      }
+      @keyframes wheel { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(12px); } }
 
-      /* Kode biodata */
-      .stack {
-        display: grid;
-        gap: 18px;
-        width: min(100%, 36rem);
-      }
-      .code-win {
-        border-radius: 18px;
-        overflow: hidden;
-        background: #0b1020;
-        color: #e8ecf8;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8);
-      }
-      .code-win .bar {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        padding: 12px 16px;
-        background: rgba(255, 255, 255, 0.04);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        font: 13px var(--font-mono);
-        color: #8f9bb3;
-      }
-      .code-win .bar i {
-        width: 11px;
-        height: 11px;
-        border-radius: 50%;
-        background: #ff5f57;
-      }
-      .code-win .bar i:nth-child(2) {
-        background: #febc2e;
-      }
-      .code-win .bar i:nth-child(3) {
-        background: #28c840;
-        margin-right: 8px;
-      }
-      .code-win pre {
-        margin: 0;
-        padding: 18px 16px 22px;
-        overflow-x: auto;
-        font: 14px/1.7 var(--font-mono);
-        counter-reset: ln;
-      }
-      .ln {
-        display: block;
-        white-space: pre;
-      }
-      .ln::before {
-        counter-increment: ln;
-        content: counter(ln);
-        display: inline-block;
-        width: 2.2ch;
-        margin-right: 14px;
-        text-align: right;
-        color: #4b5575;
-      }
-      .tk-kw {
-        color: #c792ea;
-      }
-      .tk-var {
-        color: #eef1ff;
-      }
-      .tk-key {
-        color: var(--accent);
-      }
-      .tk-str {
-        color: #c3e88d;
-      }
-      .tk-num {
-        color: #f78c6c;
-      }
-      .tk-pun {
-        color: #9aa4bf;
-      }
-      .tk-com {
-        color: #7a83a6;
-        font-style: italic;
-      }
-      html.typing .ln {
-        opacity: 0;
-        transform: translateX(-6px);
-        transition:
-          opacity 0.25s,
-          transform 0.25s;
-      }
-      html.typing .ln.on {
-        opacity: 1;
-        transform: none;
-      }
-      html.typing .ln.cur::after {
-        content: "";
-        display: inline-block;
-        width: 0.55em;
-        height: 1.15em;
-        margin-left: 2px;
-        vertical-align: -0.2em;
-        background: var(--accent);
-        animation: blink 1s steps(1) infinite;
-      }
-      @keyframes blink {
-        50% {
-          opacity: 0;
-        }
-      }
+      /* ---------- About + kode ---------- */
+      .about { width: min(100%, 30rem); }
+      .about h2 { font-size: clamp(30px, 3.6vw, 48px); }
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 0; padding: 0; list-style: none; }
+      .chips li { font: 500 12px/1 var(--font-mono); padding: 6px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-soft); }
+      .code-win { margin: 18px 0 0; border-radius: 16px; overflow: hidden; background: var(--screen); border: 1px solid rgba(255, 255, 255, 0.08); }
+      .code-win .bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: rgba(255, 255, 255, 0.04); font: 500 12px var(--font-mono); color: #8f9bb3; }
+      .code-win .bar i { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+      .code-win .bar i:nth-child(2) { background: #febc2e; }
+      .code-win .bar i:nth-child(3) { background: #28c840; margin-right: 6px; }
+      .code-win pre { margin: 0; padding: 16px; overflow: auto; font: 500 13px/1.7 var(--font-mono); color: #e8ecf8; white-space: pre-wrap; }
 
-      /* Kalimat besar */
       .statement {
-        margin: 0;
-        font-family: var(--font-display);
-        font-weight: 600;
-        font-size: clamp(28px, 3.9vw, 54px);
-        line-height: 1.14;
-        letter-spacing: -0.02em;
-        color: var(--ink) !important;
+        font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; line-height: 1.12;
+        font-size: clamp(26px, 3.6vw, 52px); margin: 0; text-wrap: balance;
       }
-      .text-ch .panel {
-        width: min(100%, 44rem);
-      }
+      .statement span { transition: opacity 0.15s linear; }
 
-      /* Kartu & angka */
-      .cards {
-        display: grid;
-        gap: 12px;
-        margin: 22px 0 0;
-        padding: 0;
-        list-style: none;
+      /* ---------- Layar (desktop di dalam PC) ---------- */
+      .os { background: var(--screen); color: var(--ink); }
+      .os-bar {
+        display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px;
+        background: rgba(255, 255, 255, 0.05); font: 500 13px var(--font-mono); color: #8f9bb3;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       }
-      .cards li {
-        padding: 16px 18px;
-        border-radius: 16px;
-        background: color-mix(in srgb, var(--ink) 5%, transparent);
-        border: 1px solid var(--line);
+      .os-bar i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+      .os-bar i:nth-child(2) { background: #febc2e; }
+      .os-bar i:nth-child(3) { background: #28c840; margin-right: 10px; }
+      .os-bar #os-count { margin-left: auto; color: var(--accent); }
+      .os-track { padding: clamp(28px, 6vh, 64px) clamp(16px, 5vw, 64px) 80px; }
+      .os-head { max-width: 980px; margin: 0 auto 6vh; }
+      .os-head p { color: var(--ink-soft); max-width: 52ch; margin: 0; }
+      .works { list-style: none; margin: 0 auto; padding: 0; max-width: 980px; display: grid; gap: clamp(28px, 7vh, 72px); }
+      .win {
+        display: grid; grid-template-columns: 1.25fr 1fr; overflow: hidden;
+        border-radius: 18px; background: #101833; border: 1px solid rgba(255, 255, 255, 0.07);
+        box-shadow: 0 40px 80px -50px rgba(0, 0, 0, 0.9);
+        transform-origin: 50% 0%;
       }
-      .cards b {
-        display: block;
-        font-family: var(--font-display);
-        font-size: 19px;
+      .win-shot { position: relative; aspect-ratio: 16 / 9.5; background: #0d1430; overflow: hidden; border-right: 1px solid rgba(255, 255, 255, 0.06); }
+      .win-shot .url {
+        position: absolute; z-index: 1; top: 10px; left: 10px; right: 10px; display: flex; align-items: center; gap: 6px;
+        padding: 6px 10px; border-radius: 8px; background: rgba(7, 11, 22, 0.82); font: 500 11px var(--font-mono); color: #a3adcc;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       }
-      .cards span {
-        display: block;
-        font-size: 15px;
-        color: var(--ink-soft);
+      .win-shot .url::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+      .win-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+      .win-shot .ph {
+        position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 48px 20px 20px;
+        background: radial-gradient(90% 90% at 20% 10%, rgba(124, 240, 197, 0.22), transparent 60%),
+          radial-gradient(80% 80% at 90% 100%, rgba(108, 140, 255, 0.3), transparent 60%), #0d1430;
+        font: 700 clamp(30px, 4.5vw, 60px) / 1 var(--font-display); letter-spacing: -0.04em; color: rgba(238, 242, 255, 0.9);
       }
-      .cards small {
-        display: inline-block;
-        margin-bottom: 6px;
-        padding: 2px 10px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--on-accent);
-        background: var(--accent);
+      .win-body { padding: clamp(18px, 2.4vw, 30px); display: flex; flex-direction: column; gap: 8px; }
+      .win-body .num { font: 500 12px var(--font-mono); color: var(--accent); }
+      .win-body small { align-self: flex-start; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-2); }
+      .win-body h3 { font-size: clamp(19px, 1.8vw, 24px); margin: 0; line-height: 1.2; letter-spacing: -0.02em; }
+      .win-body p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+      .win-body a {
+        margin-top: auto; align-self: flex-start; display: inline-flex; gap: 6px; align-items: center;
+        padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-size: 14px; font-weight: 600;
+        transition: background 0.2s, color 0.2s;
       }
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-        margin: 22px 0 0;
-      }
-      .stats div {
-        padding: 16px 10px;
-        border-radius: 16px;
-        border: 1px solid var(--line);
-        text-align: center;
-      }
-      .stats dt {
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: clamp(28px, 3.4vw, 42px);
-        line-height: 1.05;
-        background: linear-gradient(120deg, var(--accent), var(--accent-2));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        font-variant-numeric: tabular-nums;
-      }
-      .stats dd {
-        margin: 6px 0 0;
-        font-size: 13px;
-        color: var(--ink-soft);
-      }
+      .win-body a:hover { background: var(--accent); color: var(--on-accent); }
 
-      /* Kontak */
-      .mail {
-        display: inline-block;
-        margin: 6px 0 4px;
-        font-family: var(--font-display);
-        font-size: clamp(22px, 3vw, 34px);
-        color: var(--accent);
-        word-break: break-word;
-        text-underline-offset: 6px;
-      }
+      .stats-box { max-width: 980px; margin: clamp(40px, 9vh, 90px) auto 0; font-family: var(--font-mono); }
+      .stats-box .cmd { color: #8f9bb3; font-size: 14px; margin: 0 0 16px; }
+      .stats-box .cmd b { color: var(--accent); font-weight: 500; }
+      .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 0; }
+      .stats div { padding: 20px; border-radius: 16px; background: #101833; border: 1px solid rgba(255, 255, 255, 0.07); }
+      .stats dt { font: 700 clamp(40px, 5vw, 64px) / 1 var(--font-display); color: var(--ink); }
+      .stats dt::after { content: "+"; color: var(--accent); }
+      .stats dd { margin: 8px 0 0; color: var(--ink-soft); font: 400 14px var(--font-text); }
+      .os-end { text-align: center; margin: 8vh 0 0; font: 500 13px var(--font-mono); color: #6f789b; }
+
+      /* ---------- Kontak ---------- */
+      .contact { position: relative; display: flex; justify-content: center; align-items: flex-end; min-height: 100vh; padding: 14vh var(--pad) 10vh; }
+      .contact .panel { width: min(100%, 40rem); text-align: center; }
+      .contact .ctas { justify-content: center; }
+      .mail { display: inline-block; margin: 4px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(20px, 2.6vw, 30px); color: var(--accent); text-decoration: none; word-break: break-all; }
+      .socials { display: flex; justify-content: center; gap: 18px; margin-top: 18px; font-size: 14px; }
+      .socials a { color: var(--ink-soft); }
       footer {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 8px 24px;
-        padding: 28px var(--pad) 40px;
-        font-size: 14px;
-        color: var(--ink-soft);
-        border-top: 1px solid var(--line);
-        background: color-mix(in srgb, var(--bg) 80%, transparent);
+        position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;
+        padding: 22px var(--pad); border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 14px; background: var(--bg);
       }
 
-      /* Layar objek menampilkan kode → panel kode HTML disembunyikan di layar lebar (tetap terbaca pembaca layar). */
-      @media (min-width: 821px) {
-        html.webgl .code-win.mirror {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          overflow: hidden;
-          clip: rect(0 0 0 0);
-        }
-      }
+      [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+      [data-reveal].in { opacity: 1; transform: none; }
+      html:not(.fx):not(.static) [data-reveal] { opacity: 1; transform: none; } /* tanpa JS */
 
-      /* Tanpa WebGL: latar gradasi. */
-      html.no-webgl body {
-        background: radial-gradient(
-            90% 70% at 75% 30%,
-            color-mix(in srgb, var(--accent) 28%, var(--bg-2)),
-            var(--bg) 70%
-          )
-          fixed;
+      /* =========================================================
+         Mode efek (html.fx): satu panggung sticky.
+         ========================================================= */
+      .fx .journey { position: relative; }
+      .fx .stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+      .fx .about { position: absolute; left: var(--pad); top: 50%; margin-top: -12rem; opacity: 0; visibility: hidden; will-change: transform, opacity; }
+      .fx .about .code-win { display: none; }
+      .fx .statement {
+        position: absolute; left: 50%; bottom: 12vh; width: min(92vw, 20em); text-align: center;
+        opacity: 0; visibility: hidden; text-shadow: 0 4px 30px rgba(7, 11, 22, 0.9); transform-origin: 50% 100%;
       }
-      html.no-webgl #gl {
-        display: none;
+      .fx .os { position: absolute; inset: 0; z-index: 5; opacity: 0; visibility: hidden; display: flex; flex-direction: column; }
+      .fx .os::after {
+        /* garis layar halus + vinyet, statis (murah) */
+        content: ""; position: absolute; inset: 0; pointer-events: none;
+        background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 3px),
+          radial-gradient(130% 100% at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.45));
       }
+      .fx .os:not(.live) { pointer-events: none; }
+      .fx .os { --on: 0; }
+      .fx .os::before {
+        /* kilatan "layar menyala" saat masuk */
+        content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+        background: radial-gradient(70% 60% at 50% 50%, rgba(124, 240, 197, 0.35), transparent 70%);
+        opacity: calc((1 - var(--on)) * 1.4);
+      }
+      .fx .os-view { transform: scale(calc(0.92 + 0.08 * var(--on))); transform-origin: 50% 30%; }
+      .fx .os-bar { padding-top: 0; margin-top: 60px; } /* di bawah navigasi */
+      .fx .os-view { position: relative; flex: 1; overflow: hidden; perspective: 1400px; perspective-origin: 50% 30%; }
+      .fx .os-track { will-change: transform; transform-style: preserve-3d; }
+      .fx .win { will-change: transform, opacity; }
 
-      @media (max-width: 820px) {
-        .nav ul {
-          display: none;
-        }
-        .ch {
-          align-items: flex-end;
-          min-height: 120vh;
-          padding: 52vh 16px 8vh;
-        }
-        .ch.hero {
-          min-height: 100vh;
-          padding-top: 50vh;
-          padding-bottom: 14vh;
-        }
-        .ch.code-ch {
-          padding-top: 40vh;
-        }
-        h1 {
-          font-size: clamp(38px, 11vw, 52px);
-        }
-        .ch.hero {
-          padding-top: 46vh;
-        }
-        .a-left,
-        .a-right,
-        .a-center {
-          justify-content: center;
-        }
-        .panel,
-        .stack,
-        .text-ch .panel {
-          width: 100%;
-        }
-        .stats dd {
-          font-size: 12px;
-        }
+      /* Mode statis (gerak dikurangi / tanpa WebGL / hemat data) */
+      .static .stage { display: grid; gap: 40px; padding: 10vh var(--pad); justify-items: center; }
+      .static .about { width: min(100%, 44rem); }
+      .static .statement { max-width: 22em; text-align: center; padding: 6vh 0; }
+      .static .os { width: 100%; max-width: 1100px; border-radius: 22px; overflow: hidden; border: 10px solid #1a2140; }
+      .static .contact { align-items: center; min-height: 0; }
+      .static .os-end { display: none; }
+
+      @media (max-width: 760px) {
+        .nav ul a { padding: 0 9px; font-size: 13px; }
+        .brand span { display: none; }
+        .win { grid-template-columns: 1fr; }
+        .win-shot { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+        .stats { grid-template-columns: 1fr; }
+        .stats div { display: flex; align-items: baseline; gap: 12px; padding: 14px 18px; }
+        .stats dd { margin: 0; }
+        .fx .about { left: var(--pad); right: var(--pad); top: auto; bottom: 4vh; margin: 0; width: auto; }
+        .fx .about .panel { padding: 18px; }
+        .fx .about h2 { font-size: 28px; margin-bottom: 8px; }
+        .fx .about .chips { display: none; }
+        .fx .statement { bottom: 8vh; }
+        .fx .os-bar { margin-top: 56px; }
+      }
+      @media (max-width: 420px) {
+        .nav ul li:first-child { display: none; }
       }
       @media (prefers-reduced-motion: reduce) {
-        #gl,
-        .ln {
-          transition: none;
-        }
-        .scroll-hint span::after,
-        .loader i,
-        html.typing .ln.cur::after {
-          animation: none;
-        }
+        *, *::before, *::after { animation: none !important; transition: none !important; }
       }
     </style>
   </head>
   <body>
-    <a class="skip" href="#konten">Lewati ke konten</a>
+    <a class="skip" href="#konten">Skip to content</a>
     <canvas id="gl" aria-hidden="true"></canvas>
-    <div class="loader" aria-hidden="true">
-      <div><i></i>Memuat</div>
-    </div>
     <header class="nav">
-      <a
-        class="brand"
-        href="#beranda"
-        data-owd-text="merek"
-        data-owd-label="Nama merek"
-        >Usam Muhazir</a
-      >
-      <nav aria-label="Navigasi utama">
+      <a class="brand" href="#beranda">Usam<span> Muhazir</span><b>.</b></a>
+      <nav aria-label="Main">
         <ul>
-          <li>
-            <a href="#beranda" data-owd-text="menu1" data-owd-label="Menu 1"
-              >Beranda</a
-            >
-          </li>
-          <li>
-            <a href="#profil" data-owd-text="menu2" data-owd-label="Menu 2"
-              >Profil</a
-            >
-          </li>
-          <li>
-            <a href="#karya" data-owd-text="menu3" data-owd-label="Menu 3"
-              >Karya</a
-            >
-          </li>
-          <li>
-            <a href="#kontak" data-owd-text="menu4" data-owd-label="Menu 4"
-              >Kontak</a
-            >
-          </li>
+          <li><a href="#beranda">Home</a></li>
+          <li><a href="#profil">About</a></li>
+          <li><a href="#karya">Works</a></li>
+          <li><a href="#kontak">Contact</a></li>
         </ul>
       </nav>
       <div class="progress" aria-hidden="true"><i></i></div>
     </header>
+
     <main id="konten">
-      <section
-        class="ch hero a-left"
-        id="beranda"
-        data-ch="0"
-        aria-labelledby="beranda-t"
-      >
-        <div class="panel">
-          <p
-            class="kicker"
-            data-owd-text="b0Label"
-            data-owd-label="Bab 1: label kecil"
-          >
-            Portofolio · Full-stack Developer
+      <section class="hero" id="beranda" aria-labelledby="hero-t">
+        <p class="kicker">Portfolio · Full-stack Developer</p>
+        <h1 id="hero-t" aria-label="Code that feels alive."><span class="w" style="--i:0">Code</span> <span class="w" style="--i:1">that</span> <span class="w" style="--i:2">feels</span> <span class="w" style="--i:3">alive.</span></h1>
+        <p class="lead">
+          I'm Usam Muhazir, based in Malang. Passionate about web tech, technology analysis, and philosophy,
+          heading toward AI &amp; machine learning.
+        </p>
+        <div class="ctas">
+          <a class="btn" href="#karya">View works</a>
+          <a class="btn ghost" href="#kontak">Contact me</a>
+        </div>
+        <a class="scroll-hint" href="#profil" aria-label="Scroll down"><span></span>Scroll</a>
+      </section>
+
+      <section class="journey" id="journey">
+        <div class="stage">
+          <div class="about" id="profil">
+            <div class="panel">
+              <p class="kicker">01 · About me</p>
+              <h2>How I work</h2>
+              <p>
+                I build websites, apps, and cloud-based applications that are fast, polished, and a pleasure to use.
+                From WordPress institution sites to Laravel, React and NestJS products.
+              </p>
+              <ul class="chips" aria-label="Skills">
+                <li>React</li><li>Laravel</li><li>Node.js</li><li>NestJS</li><li>Django</li><li>MySQL</li><li>PostgreSQL</li><li>WordPress</li>
+              </ul>
+              <figure class="code-win" aria-label="Profile as code">
+                <div class="bar" aria-hidden="true"><i></i><i></i><i></i>biodata.js</div>
+<pre><code>// Hello! Here is my profile.
+const hajir = {
+  nama: "Usam Muhazir",
+  peran: "Full-stack Developer",
+  kota: "Malang",
+  pengalaman: "5 years",
+  keahlian: ["Tailwind", "Javascript", "React", "Node.js", "Express", "NestJs", "Php", "Laravel", "Python", "Django", "Mysql", "PostgreSQL", "Redis", "Wordpress", "Divi", "Git"],
+  status: "Open to projects",
+};</code></pre>
+              </figure>
+            </div>
+          </div>
+
+          <p class="statement">
+            I carry out web and application projects so that many clients can benefit from them.
           </p>
-          <h1
-            id="beranda-t"
-            data-owd-text="b0Judul"
-            data-owd-label="Bab 1: judul"
-          >
-            Code that feels alive.
-          </h1>
-          <p
-            class="lead"
-            data-owd-text="b0Teks1"
-            data-owd-label="Bab 1: paragraf 1"
-            data-owd-multi
-          >
-            I'm Usam Muhazir, Based in Malang · Born 29 Nov 2006 · Passionate
-            about web tech, technology analysis, and philosophy. Heading toward
-            AI &amp; machine learning.
-          </p>
-          <div class="ctas" data-reveal>
-            <a
-              class="btn"
-              href="#karya"
-              data-owd-text="b0Tombol1"
-              data-owd-label="Bab 0: tombol 1"
-              >View works</a
-            ><a
-              class="btn ghost"
-              href="#kontak"
-              data-owd-text="b0Tombol2"
-              data-owd-label="Bab 0: tombol 2"
-              >Contact me</a
-            >
+
+          <div class="os" id="karya" aria-labelledby="karya-t">
+            <div class="os-bar" aria-hidden="true"><i></i><i></i><i></i>~/usam/works<span id="os-count">01 / 10</span></div>
+            <div class="os-view">
+              <div class="os-track">
+                <div class="os-head">
+                  <p class="kicker">03 · Selected works</p>
+                  <h2 id="karya-t">Latest projects</h2>
+                  <p>Institution sites, school systems, and products I have built or led. Keep scrolling to browse.</p>
+                </div>
+                <ol class="works">
+                  <li class="win">
+                    <div class="win-shot"><span class="url">um.ac.id</span><div class="ph">um.ac.id</div></div>
+                    <div class="win-body">
+                      <span class="num">01</span><small>Institution</small>
+                      <h3>Main website of Universitas Negeri Malang</h3>
+                      <p>Built with WordPress and Divi.</p>
+                      <a href="https://um.ac.id/" target="_blank" rel="noopener">Visit website ↗</a>
+                    </div>
+                  </li>
+                  <li class="win">
+                    <div class="win-shot"><span class="url">brand.um.ac.id</span><div class="ph">brand.um</div></div>
+                    <div class="win-body">
+                      <span class="num">02</span><small>Institution</small>
+                      <h3>Brand website of Universitas Negeri Malang</h3>
+                      <p>Built with WordPress and Divi.</p>
+                      <a href="https://brand.um.ac.id/" target="_blank" rel="noopener">Visit website ↗</a>
+                    </div>
+                  </li>
+                  <li class="win">
+                    <div class="win-shot"><span class="url">smkn1gedangan.sch.id</span><div class="ph">smknega.sch.id</div></div>
+                    <div class="win-body">
+                      <span class="num">03</span><small>Institution</small>
+                      <h3>Main website of SMKN 1 Gedangan</h3>
+                      <p>Built with Laravel, MySQL, Blade and Tailwind.</p>
+                      <a href="https://smkn1gedangan-malang.sch.id/" target="_blank" rel="noopener">Visit website ↗</a>
+                    </div>
+                  </li>
+                  <li class="win">
+                    <div class="win-shot"><span class="url">surveyminat.smkn1gedangan.sch</span><div class="ph">survey-smknega.sch.id</div></div>
+                    <div class="win-body">
+                      <span class="num">04</span><small>Education</small>
+                      <h3>New-student interest survey, SMKN 1 Gedangan</h3>
+                      <p>Built with Laravel, MySQL, React and Tailwind.</p>
+                      <a href="https://surveyminat.smkn1gedangan-malang.sch.id/" target="_blank" rel="noopener">Visit website ↗</a>
+                    </div>
+                  </li>
+                  <li class="win">
+                    <div class="win-shot"><span class="url">e-pklsija.smkn1gedangan-malang.sch.id</span><div class="ph">epkl-smknega.sch.id</div></div>
+                    <div class="win-body">
+                      <span class="num">05</span><small>Education</small>
+                      <h3>E-PKL: work-experience programme student data</h3>
+                      <p>Built with Laravel, MySQL, React and Tailwind.</p>
+                      <a href="https://e-pklsija.smkn1gedangan-malang.sch.id/" target="_blank" rel="noopener">Visit website ↗</a>
+                    </div>
+                  </li>
+                  <li class="win">
+                    <div class="win-shot"><span class="url">one-web-dev-tools.vercel.app</span><div class="ph">OneWebDev</div></div>
+                    <div class="win-body">
+                      <span class="num">06</span><small>SaaS</small>
+                      <h3>SaaS where users pick a template, customise it, and deploy</h3>
+                      <p>Built with React, Tailwind, NestJS, PostgreSQL, Python and Django.</p>
+                      <a href="https://one-web-dev-tools.vercel.app/" target="_blank" rel="noopener">Visit website ↗</a>
+                    </div>
+                  </li>
+                  <li class="win">
+                    <div class="win-shot"><span class="url">imamuslim.vercel.app</span><div class="ph">Imamuslim</div></div>
+                    <div class="win-body">
+                      <span class="num">07</span><small>Web app</small>
+                      <h3>Read the Quran, hadiths, prayers and Asmaul Husna</h3>
+                      <p>Built with a local API, React and Tailwind.</p>
+                      <a href="https://imamuslim.vercel.app/" target="_blank" rel="noopener">Visit website ↗</a>
+                    </div>
+                  </li>
+                  <li class="win">
+                    <div class="win-shot"><span class="url">reacts-movie.vercel.app</span><div class="ph">Reacts-movie</div></div>
+                    <div class="win-body">
+                      <span class="num">08</span><small>Web app</small>
+                      <h3>Movie search, similar to IMDb</h3>
+                      <p>Built with a movie API, React and Tailwind.</p>
+                      <a href="https://reacts-movie.vercel.app/" target="_blank" rel="noopener">Visit website ↗</a>
+                    </div>
+                  </li>
+                  <li class="win">
+                    <div class="win-shot"><span class="url">terraetloka.id</span><div class="ph">terraetloka</div></div>
+                    <div class="win-body">
+                      <span class="num">09</span><small>Community</small>
+                      <h3>Faculty research website focused on community service</h3>
+                      <p>Built with Laravel, MySQL, React and Tailwind.</p>
+                      <a href="https://terraetloka.id/" target="_blank" rel="noopener">Visit website ↗</a>
+                    </div>
+                  </li>
+                  <li class="win">
+                    <div class="win-shot"><span class="url">brand.um.ac.id · guideline 2026</span><div class="ph">Guideline<br />2026</div></div>
+                    <div class="win-body">
+                      <span class="num">10</span><small>Institution</small>
+                      <h3>Contributor to the UM 2026 website branding guidelines</h3>
+                      <p>Standards for every faculty and unit website at UM.</p>
+                      <a href="https://brand.um.ac.id/wp-content/uploads/2026/08/GUIDELINE-WEBSITE-BRANDING-2026-1.pdf" target="_blank" rel="noopener">Open document ↗</a>
+                    </div>
+                  </li>
+                </ol>
+
+                <div class="stats-box" id="angka">
+                  <p class="cmd"><b>$</b> usam --stats</p>
+                  <dl class="stats">
+                    <div><dt data-count>20</dt><dd>projects completed</dd></div>
+                    <div><dt data-count>10</dt><dd>as the lead developer</dd></div>
+                    <div><dt data-count>5</dt><dd>years of experience</dd></div>
+                  </dl>
+                </div>
+                <p class="os-end">// keep scrolling to step back out ↓</p>
+              </div>
+            </div>
           </div>
         </div>
-        <a class="scroll-hint" href="#profil"><span></span></a>
       </section>
-      <section
-        class="ch code-ch a-left"
-        id="profil"
-        data-ch="1"
-        aria-labelledby="profil-t"
-      >
-        <div class="stack">
-          <div class="panel" data-reveal>
-            <p
-              class="kicker"
-              data-owd-text="b1Label"
-              data-owd-label="Bab 2: label kecil"
-            >
-              01 · About Me
-            </p>
-            <h2
-              id="profil-t"
-              data-owd-text="b1Judul"
-              data-owd-label="Bab 2: judul"
-            >
-              how I work
-            </h2>
-            <p
-              data-owd-text="b1Teks1"
-              data-owd-label="Bab 2: paragraf 1"
-              data-owd-multi
-            >
-              I build websites, apps, and cloud-based applications that are
-              fast, polished, and a pleasure to use.
-            </p>
-          </div>
-          <figure
-            class="code-win mirror"
-            aria-label="Biodata dalam bentuk kode"
-            style="margin: 0"
-          >
-            <div class="bar" aria-hidden="true">
-              <i></i><i></i><i></i
-              ><span
-                id="berkas"
-                data-owd-text="namaBerkas"
-                data-owd-label="Nama berkas kode"
-                >biodata.js</span
-              >
-            </div>
-            <pre><code id="kode"><!--owd:render name="code"--><span class="ln"><span class="tk-com">// Hello! Here is my profile.</span></span><span class="ln"><span class="tk-kw">const </span><span class="tk-var">hajir</span><span class="tk-pun"> = {</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">nama</span><span class="tk-pun">: </span><span class="tk-str">&quot;Usam Muhazir&quot;</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">peran</span><span class="tk-pun">: </span><span class="tk-str">&quot;Full-stack Developer&quot;</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">kota</span><span class="tk-pun">: </span><span class="tk-str">&quot;Malang&quot;</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">pengalaman</span><span class="tk-pun">: </span><span class="tk-str">&quot;5 tahun&quot;</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">keahlian</span><span class="tk-pun">: </span><span class="tk-pun">[</span><span class="tk-str">&quot;Html&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Css&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Javscript&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Node.js&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Php&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Python&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;React&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Tailwind&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;NestJs&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Three.js&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Laravel&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Django&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Exoress&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Mysql&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Django&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Redis&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Git&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Wordpress&quot;</span><span class="tk-pun">, </span><span class="tk-str">&quot;Divi&quot;</span><span class="tk-pun">]</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">  </span><span class="tk-key">status</span><span class="tk-pun">: </span><span class="tk-str">&quot;Open to projects&quot;</span><span class="tk-pun">,</span></span><span class="ln"><span class="tk-pun">};</span></span><!--owd:end--></code></pre>
-          </figure>
-        </div>
-      </section>
-      <section
-        class="ch text-ch a-right"
-        id="cerita"
-        data-ch="2"
-        aria-labelledby="cerita-t"
-      >
-        <div class="panel" data-reveal>
-          <p
-            class="kicker"
-            data-owd-text="b2Label"
-            data-owd-label="Bab 3: label kecil"
-          >
-            02 · That I Have Developed
-          </p>
-          <h2 class="sr" id="cerita-t">Prinsip kerja</h2>
-          <p
-            class="statement"
-            data-owd-text="b2Kalimat"
-            data-owd-label="Bab 3: kalimat besar"
-            data-owd-multi
-          >
-            carry out various web and application development projects so that
-            many clients can benefit from them
-          </p>
-        </div>
-      </section>
-      <section
-        class="ch cards-ch a-left"
-        id="karya"
-        data-ch="3"
-        aria-labelledby="karya-t"
-      >
-        <div class="panel" data-reveal>
-          <p
-            class="kicker"
-            data-owd-text="b3Label"
-            data-owd-label="Bab 4: label kecil"
-          >
-            03 · Selected Works
-          </p>
-          <h2
-            id="karya-t"
-            data-owd-text="b3Judul"
-            data-owd-label="Bab 4: judul"
-          >
-            Latest Project
-          </h2>
 
-          <ul class="cards" data-stagger>
-            <li>
-              <small
-                data-owd-text="b3Item1Tag"
-                data-owd-label="Bab 4: kartu 1 label"
-                >Institution</small
-              ><b
-                data-owd-text="b3Item1Judul"
-                data-owd-label="Bab 4: kartu 1 judul"
-                >Main Website of Malang State University</b
-              ><span
-                data-owd-text="b3Item1Teks"
-                data-owd-label="Bab 4: kartu 1 teks"
-                data-owd-multi
-                >Built using WordPress and Divi</span
-              >
-              <a href="https://um.ac.id/" target="_blank">Website in here...</a>
-            </li>
-            <li>
-              <small
-                data-owd-text="b3Item2Tag"
-                data-owd-label="Bab 4: kartu 2 label"
-                >Institution</small
-              ><b
-                data-owd-text="b3Item2Judul"
-                data-owd-label="Bab 4: kartu 2 judul"
-                >Brand Website of Malang State University</b
-              ><span
-                data-owd-text="b3Item2Teks"
-                data-owd-label="Bab 4: kartu 2 teks"
-                data-owd-multi
-                >Built using WordPress and Divi</span
-              >
-              <a href="https://brand.um.ac.id/" target="_blank"
-                >Website in here...</a
-              >
-            </li>
-            <li>
-              <small
-                data-owd-text="b3Item3Tag"
-                data-owd-label="Bab 4: kartu 3 label"
-                >Institution</small
-              ><b
-                data-owd-text="b3Item3Judul"
-                data-owd-label="Bab 4: kartu 3 judul"
-                >Main Website of Smkn 1 Gedangan</b
-              ><span
-                data-owd-text="b3Item3Teks"
-                data-owd-label="Bab 4: kartu 3 teks"
-                data-owd-multi
-                >Built using Laravel, Mysql, Blade and Tailwind</span
-              >
-              <a href="https://smkn1gedangan-malang.sch.id/" target="_blank"
-                >Website in here...</a
-              >
-            </li>
-            <li>
-              <small
-                data-owd-text="b3Item4Tag"
-                data-owd-label="Bab 4: kartu 4 label"
-                >Education</small
-              ><b
-                data-owd-text="b3Item4Judul"
-                data-owd-label="Bab 4: kartu 4 judul"
-                >Survey on New Students’ Interests in SMKN 1 Gedangan</b
-              ><span
-                data-owd-text="b3Item4Teks"
-                data-owd-label="Bab 4: kartu 4 teks"
-                data-owd-multi
-                >Built using Laravel, Mysql, React and Tailwind</span
-              >
-              <a
-                href="https://surveyminat.smkn1gedangan-malang.sch.id/"
-                target="_blank"
-                >Website in here...</a
-              >
-            </li>
-            <li>
-              <small
-                data-owd-text="b3Item3Tag"
-                data-owd-label="Bab 4: kartu 5 label"
-                >Education</small
-              ><b
-                data-owd-text="b3Item5Judul"
-                data-owd-label="Bab 4: kartu 5 judul"
-                >Summary of Work Experience Program Student Data at SMKN 1
-                Gedangan</b
-              ><span
-                data-owd-text="b3Item3Teks"
-                data-owd-label="Bab 4: kartu 5 teks"
-                data-owd-multi
-                >Built using Laravel, Mysql, React and Tailwind</span
-              >
-              <a
-                href="https://e-pklsija.smkn1gedangan-malang.sch.id/"
-                target="_blank"
-                >Website in here...</a
-              >
-            </li>
-            <li>
-              <small
-                data-owd-text="b3Item7Tag"
-                data-owd-label="Bab 4: kartu 7 label"
-                >Sass</small
-              ><b
-                data-owd-text="b3Item6Judul"
-                data-owd-label="Bab 4: kartu 7 judul"
-                >To develop a Sass project that simplifies web development,
-                users search for templates, make modifications, and deploy
-                them</b
-              ><span
-                data-owd-text="b3Item6Teks"
-                data-owd-label="Bab 4: kartu 7 teks"
-                data-owd-multi
-                >Built using React, Tailwind, Nest.js, PostgreSQL, Python, and
-                Django</span
-              >
-              <a href="https://one-web-dev-tools.vercel.app/" target="_blank"
-                >Website in here...</a
-              >
-            </li>
-            <li>
-              <small
-                data-owd-text="b3Item7Tag"
-                data-owd-label="Bab 4: kartu 7 label"
-                >Sass</small
-              ><b
-                data-owd-text="b3Item6Judul"
-                data-owd-label="Bab 4: kartu 7 judul"
-                >Develop a website where users can read the Quran, hadiths,
-                prayers, and the Beautiful Names of Allah</b
-              ><span
-                data-owd-text="b3Item6Teks"
-                data-owd-label="Bab 4: kartu 7 teks"
-                data-owd-multi
-                >Built using local API, React and Tailwind</span
-              >
-              <a href="https://imamuslim.vercel.app/" target="_blank"
-                >Website in here...</a
-              >
-            </li>
-            <li>
-              <small
-                data-owd-text="b3Item7Tag"
-                data-owd-label="Bab 4: kartu 7 label"
-                >Sass</small
-              ><b
-                data-owd-text="b3Item6Judul"
-                data-owd-label="Bab 4: kartu 7 judul"
-                >Develop a website where users can search for movie information, similar to IMDb</b
-              ><span
-                data-owd-text="b3Item6Teks"
-                data-owd-label="Bab 4: kartu 7 teks"
-                data-owd-multi
-                >Built using local API, React and Tailwind</span
-              >
-              <a href="https://reacts-movie.vercel.app/" target="_blank"
-                >Website in here...</a
-              >
-            </li>
-            <li>
-              <small
-                data-owd-text="b3Item7Tag"
-                data-owd-label="Bab 4: kartu 7 label"
-                >Community</small
-              ><b
-                data-owd-text="b3Item6Judul"
-                data-owd-label="Bab 4: kartu 7 judul"
-                >Developing a faculty research website with a focus on community service</b
-              ><span
-                data-owd-text="b3Item6Teks"
-                data-owd-label="Bab 4: kartu 7 teks"
-                data-owd-multi
-                >Built using Laravel, Mysql, React and Tailwind</span
-              >
-              <a href="https://terraetloka.id/" target="_blank"
-                >Website in here...</a
-              >
-            </li>
-            <li>
-              <small
-                data-owd-text="b3Item7Tag"
-                data-owd-label="Bab 4: kartu 7 label"
-                >Institution</small
-              ><b
-                data-owd-text="b3Item6Judul"
-                data-owd-label="Bab 4: kartu 7 judul"
-                >In addition to the website, I also contributed to the UM 2026 website guidelines</b
-              >
-              <a href="https://brand.um.ac.id/wp-content/uploads/2026/08/GUIDELINE-WEBSITE-BRANDING-2026-1.pdf/" target="_blank"
-                >Document in here...</a
-              >
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section
-        class="ch stats-ch a-right"
-        id="angka"
-        data-ch="4"
-        aria-labelledby="angka-t"
-      >
+      <section class="contact" id="kontak" aria-labelledby="kontak-t">
         <div class="panel" data-reveal>
-          <p
-            class="kicker"
-            data-owd-text="b4Label"
-            data-owd-label="Bab 5: label kecil"
-          >
-            04 · By the numbers
-          </p>
-          <h2
-            id="angka-t"
-            data-owd-text="b4Judul"
-            data-owd-label="Bab 5: judul"
-          >
-            Five years, in short.
-          </h2>
-
-          <dl class="stats" data-stagger>
-            <div>
-              <dt
-                data-count
-                data-owd-text="b4Angka1"
-                data-owd-label="Bab 5: angka 1"
-              >
-                20
-              </dt>
-              <dd
-                data-owd-text="b4Ket1"
-                data-owd-label="Bab 5: keterangan angka 1"
-              >
-                project completed
-              </dd>
-            </div>
-            <div>
-              <dt
-                data-count
-                data-owd-text="b4Angka2"
-                data-owd-label="Bab 5: angka 2"
-              >
-                10
-              </dt>
-              <dd
-                data-owd-text="b4Ket2"
-                data-owd-label="Bab 5: keterangan angka 2"
-              >
-                as the lead developer
-              </dd>
-            </div>
-            <div>
-              <dt
-                data-count
-                data-owd-text="b4Angka3"
-                data-owd-label="Bab 5: angka 3"
-              >
-                5
-              </dt>
-              <dd
-                data-owd-text="b4Ket3"
-                data-owd-label="Bab 5: keterangan angka 3"
-              >
-                years of experience
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </section>
-      <section
-        class="ch contact-ch a-left"
-        id="kontak"
-        data-ch="5"
-        aria-labelledby="kontak-t"
-      >
-        <div class="panel" data-reveal>
-          <p
-            class="kicker"
-            data-owd-text="b5Label"
-            data-owd-label="Bab 6: label kecil"
-          >
-            05 · Contact
-          </p>
-          <h2
-            id="kontak-t"
-            data-owd-text="b5Judul"
-            data-owd-label="Bab 6: judul"
-          >
-            Got an idea? Let's talk.
-          </h2>
-          <p
-            data-owd-text="b5Teks1"
-            data-owd-label="Bab 6: paragraf 1"
-            data-owd-multi
-          >
-            I'm currently taking on new projects for this quarter. I usually
-            respond within 24 hours.
-          </p>
-          <a
-            class="mail"
-            href="mailto:halo@raka.dev"
-            data-owd-href="email"
-            data-owd-href-label="Tautan email (mailto:alamat)"
-            data-owd-text="emailTeks"
-            data-owd-label="Alamat email yang ditampilkan"
-            >usammuhajir047@gmail.com</a
-          >
+          <p class="kicker">05 · Contact</p>
+          <h2 id="kontak-t">Got an idea? Let's talk.</h2>
+          <p>I'm currently taking on new projects. I usually respond within 24 hours.</p>
+          <a class="mail" href="mailto:usammuhajir047@gmail.com">usammuhajir047@gmail.com</a>
           <div class="ctas">
-            <a
-              class="btn"
-              href="mailto:halo@raka.dev"
-              data-owd-href="email"
-              data-owd-href-label="Tautan email (mailto:alamat)"
-              data-owd-text="tombolEmail"
-              data-owd-label="Tombol email"
-              >Send email</a
-            ><a
-              class="btn ghost"
-              href="https://wa.me/6285606522246?text=Halo%20Raka%2C%20saya%20ingin%20diskusi%20proyek."
-              data-owd-href="whatsapp"
-              data-owd-href-label="Tautan WhatsApp (https://wa.me/62…)"
-              target="_blank"
-              rel="noopener"
-              data-owd-text="tombolWa"
-              data-owd-label="Tombol WhatsApp"
-              >Chat WhatsApp</a
-            >
+            <a class="btn" href="mailto:usammuhajir047@gmail.com">Send email</a>
+            <a class="btn ghost" href="https://wa.me/6285606522246?text=Halo%20Usam%2C%20saya%20ingin%20diskusi%20proyek." target="_blank" rel="noopener">Chat WhatsApp</a>
           </div>
+          <div class="socials"><a href="https://github.com/hajir1" target="_blank" rel="noopener">GitHub</a></div>
         </div>
       </section>
     </main>
     <footer>
-      <span data-owd-text="merek" data-owd-label="Nama merek">Usam Muhazir</span
-      ><span data-owd-text="catatanKaki" data-owd-label="Catatan kaki"
-        >© 2026 Usam Muhazir · Three.js, GSAP &amp; Motion</span
-      >
+      <span>Usam Muhazir</span><span>© <span id="yr">2026</span> · Built with Three.js</span>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script>
-    <script type="module">
-      import * as THREE from "three";
-      import Lenis from "lenis";
-
-      /* ==== BIODATA & TEKS LAYAR: ubah di sini (atau lewat editor OneWebDev) ==== */
-      const CONFIG =
-        /*owd:data name="CONFIG" label="Biodata &amp; layar" hide="bahasa"*/ {
-          komentar: "Hello! Here is my profile.",
-          variabel: "hajir",
-          bahasa: "js",
-          profil: {
-            nama: "Usam Muhazir",
-            peran: "Full-stack Developer",
-            kota: "Malang",
-            pengalaman: "5 years",
-            keahlian: [
-              "Tailwind",
-              "Javascript",
-              "React",
-              "Node.js",
-              "Express",
-              "NestJs",
-              "Express",
-              "Php",
-              "Laravel",
-              "Python",
-              "Django",
-              "Mysql",
-              "PostgreSQL",
-              "Redis",
-              "Wordpress",
-              "Divi",
-              "Git",
-            ],
-            status: "Open to projects",
-          },
-          layarTeks: "Let's build something.",
-          layarSub: "usammuhajir.dev",
-        }; /*owd:end*/
-      /* ========================================================================= */
-      /* Nama merek di layar/objek 3D = teks merek di navigasi (ikut berubah bila diedit). */
-      const BRAND =
-        (
-          (document.querySelector(".nav .brand") || {}).textContent || ""
-        ).trim() || "Raka.dev";
-      /* Pose kamera & objek per bab (urutan sama dengan section data-ch). */
-      const POSES = [
-        {
-          cx: 0,
-          cy: 0.6,
-          cz: 11,
-          lx: 0,
-          ly: 0,
-          lz: 0,
-          px: 2.4,
-          py: -0.1,
-          pz: 0,
-          rx: 0.12,
-          ry: -0.5,
-          rz: 0,
-          s: 0.8,
-          glow: 0,
-          keys: 0,
-          screen: "logo",
-        },
-        {
-          cx: 0,
-          cy: 0.4,
-          cz: 8,
-          lx: 0,
-          ly: 0.2,
-          lz: 0,
-          px: 1.65,
-          py: 0.05,
-          pz: 1.2,
-          rx: 0.04,
-          ry: -0.16,
-          rz: 0,
-          s: 1,
-          glow: 1,
-          keys: 1,
-          screen: "code",
-        },
-        {
-          cx: 0,
-          cy: 0.6,
-          cz: 11,
-          lx: 0,
-          ly: 0,
-          lz: 0,
-          px: -2.5,
-          py: 0,
-          pz: 0,
-          rx: 0.1,
-          ry: 0.55,
-          rz: 0,
-          s: 0.8,
-          glow: 0.6,
-          keys: 0.3,
-          screen: "ui",
-        },
-        {
-          cx: 0,
-          cy: 0.6,
-          cz: 11,
-          lx: 0,
-          ly: 0,
-          lz: 0,
-          px: 2.5,
-          py: -0.2,
-          pz: 0,
-          rx: 0.15,
-          ry: -0.8,
-          rz: 0.04,
-          s: 0.75,
-          glow: 0.5,
-          keys: 0.2,
-          screen: "ui",
-        },
-        {
-          cx: 0,
-          cy: 0.6,
-          cz: 11,
-          lx: 0,
-          ly: 0,
-          lz: 0,
-          px: -2.5,
-          py: 0.1,
-          pz: 0,
-          rx: -0.05,
-          ry: 0.85,
-          rz: 0,
-          s: 0.72,
-          glow: 0.4,
-          keys: 0,
-          screen: "ui",
-        },
-        {
-          cx: 0,
-          cy: 0.6,
-          cz: 11,
-          lx: 0,
-          ly: 0,
-          lz: 0,
-          px: 2.4,
-          py: 0,
-          pz: 0,
-          rx: 0.1,
-          ry: -0.35,
-          rz: 0,
-          s: 0.8,
-          glow: 0.6,
-          keys: 0,
-          screen: "text",
-        },
-      ];
-      function escHtml(s) {
-        return String(s)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
-      }
-      /* Baris kode berwarna dari CONFIG: [[kelas, teks], ...] per baris. Bahasa: js, py, json. */
-      function bioLines(cfg) {
-        var c = cfg || {},
-          p = c.profil && typeof c.profil === "object" ? c.profil : {};
-        var lang = c.bahasa === "py" || c.bahasa === "json" ? c.bahasa : "js";
-        var name =
-          String(c.variabel || "profil").replace(/[^\w$]/g, "") || "profil";
-        var q = function (s) {
-          return (
-            '"' + String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"'
-          );
-        };
-        var val = function (v) {
-          if (Array.isArray(v)) {
-            var out = [["pun", "["]];
-            v.forEach(function (x, i) {
-              if (i) out.push(["pun", ", "]);
-              out.push(["str", q(x)]);
-            });
-            out.push(["pun", "]"]);
-            return out;
-          }
-          if (typeof v === "number") return [["num", String(v)]];
-          if (typeof v === "boolean")
-            return [["kw", lang === "py" ? (v ? "True" : "False") : String(v)]];
-          return [["str", q(v == null ? "" : v)]];
-        };
-        var lines = [];
-        if (c.komentar)
-          lines.push([["com", (lang === "py" ? "# " : "// ") + c.komentar]]);
-        if (lang === "js")
-          lines.push([
-            ["kw", "const "],
-            ["var", name],
-            ["pun", " = {"],
-          ]);
-        else if (lang === "py")
-          lines.push([
-            ["var", name],
-            ["pun", " = {"],
-          ]);
-        else lines.push([["pun", "{"]]);
-        var keys = Object.keys(p);
-        keys.forEach(function (k, i) {
-          var key =
-            lang === "js" && /^[A-Za-z_$][\w$]*$/.test(k)
-              ? [["key", k]]
-              : [["str", q(k)]];
-          var last = i === keys.length - 1;
-          lines.push(
-            [["pun", lang === "py" ? "    " : "  "]].concat(
-              key,
-              [["pun", ": "]],
-              val(p[k]),
-              last && lang === "json" ? [] : [["pun", ","]],
-            ),
-          );
-        });
-        lines.push([["pun", lang === "js" ? "};" : "}"]]);
-        return lines;
-      }
-      function bioText(cfg) {
-        return bioLines(cfg)
-          .map(function (l) {
-            return l
-              .map(function (t) {
-                return t[1];
-              })
-              .join("");
-          })
-          .join("\n");
-      }
-      function bioHtml(cfg) {
-        return bioLines(cfg)
-          .map(function (l) {
-            return (
-              '<span class="ln">' +
-              l
-                .map(function (t) {
-                  return (
-                    '<span class="tk-' + t[0] + '">' + escHtml(t[1]) + "</span>"
-                  );
-                })
-                .join("") +
-              "</span>"
-            );
-          })
-          .join("");
-      }
-
-      /* Objek 3D (prosedural, tanpa model/tekstur eksternal). */
-      function rrShape(THREE, w, h, r) {
-        const s = new THREE.Shape(),
-          x = -w / 2,
-          y = -h / 2;
-        s.moveTo(x + r, y);
-        s.lineTo(x + w - r, y);
-        s.quadraticCurveTo(x + w, y, x + w, y + r);
-        s.lineTo(x + w, y + h - r);
-        s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-        s.lineTo(x + r, y + h);
-        s.quadraticCurveTo(x, y + h, x, y + h - r);
-        s.lineTo(x, y + r);
-        s.quadraticCurveTo(x, y, x + r, y);
-        return s;
-      }
-      /* Lempeng bersudut bulat (lebar w, tinggi h, tebal d) berpusat di titik asal. */
-      function slabGeo(THREE, w, h, d, r, b) {
-        const g = new THREE.ExtrudeGeometry(
-          rrShape(THREE, w - 2 * b, h - 2 * b, Math.max(0.002, r - b)),
-          {
-            depth: Math.max(0.002, d - 2 * b),
-            bevelEnabled: b > 0,
-            bevelThickness: b,
-            bevelSize: b,
-            bevelSegments: 3,
-            curveSegments: 8,
-          },
-        );
-        g.translate(0, 0, -(d - 2 * b) / 2);
-        return g;
-      }
-      function mat(THREE, color, o) {
-        return new THREE.MeshStandardMaterial(
-          Object.assign(
-            { color: color, roughness: 0.45, metalness: 0.2 },
-            o || {},
-          ),
-        );
-      }
-      function screenMesh(THREE, tex, w, h) {
-        return new THREE.Mesh(
-          new THREE.PlaneGeometry(w, h),
-          new THREE.MeshBasicMaterial({ map: tex, toneMapped: false }),
-        );
-      }
-      function glowSprite(THREE, tex, color, size, opacity) {
-        const s = new THREE.Sprite(
-          new THREE.SpriteMaterial({
-            map: tex,
-            color: color,
-            transparent: true,
-            opacity: opacity,
-            depthWrite: false,
-            blending: THREE.AdditiveBlending,
-          }),
-        );
-        s.scale.setScalar(size);
-        return s;
-      }
-      function clamp01(v) {
-        return v < 0 ? 0 : v > 1 ? 1 : v;
-      }
-      function lerp(a, b, t) {
-        return a + (b - a) * t;
-      }
-      function buildObject({ THREE, COL, makeScreen, glowTexture }) {
-        const group = new THREE.Group();
-        const body = mat(THREE, COL.obj, { roughness: 0.35, metalness: 0.55 });
-        const dark = mat(THREE, "#05070c", { roughness: 0.5, metalness: 0.1 });
-        const glowTex = glowTexture();
-
-        const mon = new THREE.Group();
-        mon.position.y = 0.35;
-        group.add(mon);
-        mon.add(
-          new THREE.Mesh(slabGeo(THREE, 3.5, 2.24, 0.12, 0.08, 0.03), body),
-        );
-        const back = new THREE.Mesh(
-          slabGeo(THREE, 2.4, 1.4, 0.22, 0.2, 0.06),
-          body,
-        );
-        back.position.z = -0.14;
-        mon.add(back);
-        const bezel = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 2.14), dark);
-        bezel.position.z = 0.061;
-        mon.add(bezel);
-        const scr = screenMesh(
-          THREE,
-          makeScreen(1024, 640, "dark"),
-          3.26,
-          2.04,
-        );
-        scr.position.z = 0.064;
-        mon.add(scr);
-        const led = new THREE.Mesh(
-          new THREE.BoxGeometry(0.34, 0.018, 0.02),
-          new THREE.MeshBasicMaterial({ color: COL.accent }),
-        );
-        led.position.set(0, -1.09, 0.06);
-        mon.add(led);
-
-        const neck = new THREE.Mesh(
-          slabGeo(THREE, 0.36, 1.25, 0.12, 0.06, 0.02),
-          body,
-        );
-        neck.position.set(0, -0.92, -0.3);
-        neck.rotation.x = -0.12;
-        group.add(neck);
-        const base = new THREE.Mesh(
-          slabGeo(THREE, 1.5, 0.95, 0.06, 0.32, 0.02),
-          body,
-        );
-        base.rotation.x = -Math.PI / 2;
-        base.position.set(0, -1.56, -0.25);
-        group.add(base);
-
-        /* Keyboard dengan tombol yang menyala saat "mengetik". */
-        const kb = new THREE.Group();
-        kb.position.set(-0.2, -1.56, 1.15);
-        group.add(kb);
-        const kbBase = new THREE.Mesh(
-          slabGeo(THREE, 2.75, 0.92, 0.07, 0.08, 0.02),
-          body,
-        );
-        kbBase.rotation.x = -Math.PI / 2;
-        kb.add(kbBase);
-        const COLS = 14,
-          ROWS = 4,
-          N = COLS * ROWS;
-        const keys = new THREE.InstancedMesh(
-          new THREE.BoxGeometry(0.15, 0.05, 0.15),
-          new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.55 }),
-          N,
-        );
-        const m4 = new THREE.Matrix4(),
-          cold = new THREE.Color(COL.obj2),
-          hot = new THREE.Color(COL.accent),
-          tmp = new THREE.Color(),
-          heat = new Float32Array(N);
-        for (let r = 0, i = 0; r < ROWS; r++)
-          for (let c = 0; c < COLS; c++, i++) {
-            m4.makeTranslation(-1.17 + c * 0.18, 0.06, -0.28 + r * 0.187);
-            keys.setMatrixAt(i, m4);
-            keys.setColorAt(i, cold);
-          }
-        kb.add(keys);
-        const mouse = new THREE.Mesh(
-          new THREE.SphereGeometry(0.2, 20, 14),
-          body,
-        );
-        mouse.scale.set(0.75, 0.35, 1.1);
-        mouse.position.set(1.65, -1.52, 1.2);
-        group.add(mouse);
-
-        const glow = glowSprite(THREE, glowTex, COL.accent, 7.5, 0.2);
-        glow.position.set(0, 0.4, -0.8);
-        group.add(glow);
-        let acc = 0;
-        return {
-          group,
-          floor: -1.6,
-          update(t, dt, P) {
-            const k = P.keys || 0;
-            glow.material.opacity = 0.1 + 0.35 * (P.glow || 0);
-            acc += dt;
-            if (k > 0.05 && acc > 0.07) {
-              acc = 0;
-              heat[(Math.random() * N) | 0] = 1;
-              if (Math.random() < k) heat[(Math.random() * N) | 0] = 1;
-            }
-            let dirty = false;
-            for (let i = 0; i < N; i++)
-              if (heat[i] > 0) {
-                heat[i] = Math.max(0, heat[i] - dt * 2.4);
-                tmp.copy(cold).lerp(hot, heat[i]);
-                keys.setColorAt(i, tmp);
-                dirty = true;
-              }
-            if (dirty) keys.instanceColor.needsUpdate = true;
-            mouse.position.x = 1.65 + Math.sin(t * 1.3) * 0.05 * k;
-          },
-        };
-      }
-      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const root = document.documentElement;
-      const G = window.gsap,
-        ST = window.ScrollTrigger,
-        M = window.Motion;
-      const hasG = !!(G && ST);
-      const cssv = (n) => getComputedStyle(root).getPropertyValue(n).trim();
-      const COL = {
-        bg: cssv("--bg"),
-        bg2: cssv("--bg-2"),
-        ink: cssv("--ink"),
-        inkSoft: cssv("--ink-soft"),
-        accent: cssv("--accent"),
-        accent2: cssv("--accent-2"),
-        obj: cssv("--obj"),
-        obj2: cssv("--obj-2"),
-        panel: cssv("--panel"),
-      };
-      const sections = Array.prototype.slice.call(
-        document.querySelectorAll("[data-ch]"),
-      );
-      const navLinks = Array.prototype.slice.call(
-        document.querySelectorAll(".nav ul a"),
-      );
-      const P = Object.assign({}, POSES[0]);
-      let screenMode = POSES[0].screen,
-        screenDirty = true,
-        current = 0;
-
-      /* 1) Biodata kode dari CONFIG; diketik mengikuti scroll. */
-      const codeEl = document.getElementById("kode");
-      if (codeEl) codeEl.innerHTML = bioHtml(CONFIG);
-      const LINES = bioLines(CONFIG);
-      const lineEls = codeEl
-        ? Array.prototype.slice.call(codeEl.querySelectorAll(".ln"))
-        : [];
-      const LEN = LINES.map((l) => l.reduce((n, t) => n + t[1].length, 0) + 1);
-      const TOTAL = LEN.reduce((a, b) => a + b, 0);
-      let typed = TOTAL;
-      function setTyped(chars) {
-        const next = Math.max(0, Math.min(TOTAL, Math.round(chars)));
-        if (next === typed) return;
-        typed = next;
-        let start = 0;
-        lineEls.forEach((el, i) => {
-          el.classList.toggle("on", typed > start);
-          el.classList.toggle(
-            "cur",
-            typed > start && typed <= start + LEN[i] && typed < TOTAL,
-          );
-          start += LEN[i];
-        });
-        screenDirty = true;
-      }
-      const berkas =
-        (document.getElementById("berkas") || {}).textContent || "biodata";
-
-      /* 2) Pecah judul & kalimat besar jadi kata (untuk animasi per kata). */
-      function splitWords(el) {
-        const words = el.textContent.trim().split(/\s+/);
-        el.setAttribute("aria-label", el.textContent.trim());
-        el.textContent = "";
-        words.forEach((w, i) => {
-          const s = document.createElement("span");
-          s.className = "w";
-          s.setAttribute("aria-hidden", "true");
-          s.textContent = w;
-          el.appendChild(s);
-          if (i < words.length - 1)
-            el.appendChild(document.createTextNode(" "));
-        });
-        return Array.prototype.slice.call(el.querySelectorAll(".w"));
-      }
-      const animated = !reduce && hasG && !!M;
-      const heroWords = animated
-        ? splitWords(document.querySelector("h1"))
-        : [];
-      const statements = animated
-        ? Array.prototype.slice
-            .call(document.querySelectorAll(".statement"))
-            .map(splitWords)
-        : [];
-
-      /* 3) GSAP + Lenis: gulir halus, progres, kalimat muncul kata demi kata, pengetikan kode, pose objek per bab. */
-      let lenis = null;
-      if (hasG) G.registerPlugin(ST);
-      if (animated) {
-        root.classList.add("typing");
-        typed = -1;
-        setTyped(0);
-        lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-        lenis.on("scroll", ST.update);
-        G.ticker.add((time) => lenis.raf(time * 1000));
-        G.ticker.lagSmoothing(0);
-        document.addEventListener("click", (e) => {
-          const a = e.target.closest && e.target.closest('a[href^="#"]');
-          const el =
-            a && document.getElementById(a.getAttribute("href").slice(1));
-          if (!el) return;
-          e.preventDefault();
-          lenis.scrollTo(el, { offset: 0, duration: 1.4 });
-        });
-        G.to(".progress i", {
-          scaleX: 1,
-          ease: "none",
-          scrollTrigger: { start: 0, end: "max", scrub: true },
-        });
-        statements.forEach((words) => {
-          G.fromTo(
-            words,
-            { opacity: 0.14 },
-            {
-              opacity: 1,
-              stagger: 0.08,
-              ease: "none",
-              scrollTrigger: {
-                trigger: words[0].parentNode,
-                start: "top 82%",
-                end: "bottom 48%",
-                scrub: true,
-              },
-            },
-          );
-        });
-        const codeSec = codeEl && codeEl.closest("[data-ch]");
-        if (codeSec)
-          ST.create({
-            trigger: codeSec,
-            start: "top 62%",
-            end: "bottom 85%",
-            scrub: true,
-            onUpdate: (st) => setTyped(st.progress * TOTAL * 1.12),
-          });
-        for (let i = 1; i < sections.length; i++) {
-          const from = Object.assign({}, POSES[i - 1]),
-            to = Object.assign({}, POSES[i]);
-          delete from.screen;
-          delete to.screen;
-          G.timeline({
-            scrollTrigger: {
-              trigger: sections[i],
-              start: "top bottom",
-              end: "top 18%",
-              scrub: 1,
-            },
-          }).fromTo(
-            P,
-            from,
-            Object.assign(to, { ease: "power2.inOut", immediateRender: false }),
-          );
-        }
-        sections.forEach((sec, i) =>
-          ST.create({
-            trigger: sec,
-            start: "top 55%",
-            end: "bottom 55%",
-            onToggle: (st) => {
-              if (st.isActive) setChapter(i);
-            },
-          }),
-        );
-      } else {
-        // Tanpa animasi (kurangi gerak / library gagal dimuat): semua konten tampil, layar menunjukkan kode lengkap.
-        const ci = POSES.findIndex((p) => p.screen === "code");
-        if (ci > 0 && !reduce) Object.assign(P, POSES[ci]);
-        screenMode = ci >= 0 ? "code" : screenMode;
-        if ("IntersectionObserver" in window) {
-          const io = new IntersectionObserver(
-            (en) =>
-              en.forEach((e) => {
-                if (e.isIntersecting) setNav(sections.indexOf(e.target));
-              }),
-            { rootMargin: "-50% 0px -50% 0px" },
-          );
-          sections.forEach((s) => io.observe(s));
-        }
-      }
-      function setNav(i) {
-        navLinks.forEach((a) =>
-          a.classList.toggle(
-            "active",
-            a.getAttribute("href") === "#" + sections[i].id,
-          ),
-        );
-      }
-      function setChapter(i) {
-        if (i === current) return;
-        current = i;
-        setNav(i);
-        screenMode = POSES[i].screen || screenMode;
-        screenDirty = true;
-      }
-
-      /* 4) Motion: judul per kata, panel muncul, kartu bertahap, angka menghitung, tombol magnetis. */
-      if (animated) {
-        const { animate, inView, stagger } = M;
-        const ease = [0.2, 0.7, 0.2, 1];
-        animate(
-          heroWords,
-          { opacity: [0, 1], y: [36, 0], rotate: [4, 0] },
-          { delay: stagger(0.07, { startDelay: 0.25 }), duration: 0.9, ease },
-        );
-        document.querySelectorAll("[data-reveal]").forEach((el) => {
-          el.style.opacity = "0";
-          inView(
-            el,
-            () => {
-              animate(
-                el,
-                { opacity: [0, 1], y: [28, 0] },
-                { duration: 0.8, ease },
-              );
-            },
-            { amount: 0.2 },
-          );
-        });
-        document.querySelectorAll("[data-stagger]").forEach((el) => {
-          const kids = Array.prototype.slice.call(el.children);
-          kids.forEach((k) => {
-            k.style.opacity = "0";
-          });
-          inView(
-            el,
-            () => {
-              animate(
-                kids,
-                { opacity: [0, 1], y: [30, 0], scale: [0.96, 1] },
-                { delay: stagger(0.1), duration: 0.7, ease },
-              );
-            },
-            { amount: 0.2 },
-          );
-        });
-        document.querySelectorAll("[data-count]").forEach((el) => {
-          const m = /^(\D*)(\d+(?:[.,]\d+)?)(.*)$/.exec(el.textContent.trim());
-          if (!m) return;
-          const target = parseFloat(m[2].replace(",", ".")),
-            dec = (m[2].split(/[.,]/)[1] || "").length,
-            sep = m[2].indexOf(",") >= 0 ? "," : ".";
-          inView(
-            el,
-            () => {
-              animate(0, target, {
-                duration: 1.8,
-                ease,
-                onUpdate: (v) => {
-                  el.textContent =
-                    m[1] + v.toFixed(dec).replace(".", sep) + m[3];
-                },
-              });
-            },
-            { amount: 0.6 },
-          );
-        });
-        if (matchMedia("(pointer: fine)").matches)
-          document.querySelectorAll(".btn").forEach((b) => {
-            b.addEventListener("pointermove", (e) => {
-              const r = b.getBoundingClientRect();
-              animate(
-                b,
-                {
-                  x: (e.clientX - r.left - r.width / 2) * 0.22,
-                  y: (e.clientY - r.top - r.height / 2) * 0.3,
-                },
-                { type: "spring", stiffness: 320, damping: 18 },
-              );
-            });
-            b.addEventListener("pointerleave", () => {
-              animate(
-                b,
-                { x: 0, y: 0 },
-                { type: "spring", stiffness: 260, damping: 14 },
-              );
-            });
-          });
-      }
-
-      /* 5) Three.js */
-      function fail(reason) {
-        root.classList.add("no-webgl");
-        root.classList.remove("loading");
-        console.warn("[owd] 3D tidak aktif:", reason);
-      }
-      function hasWebGL() {
-        try {
-          const c = document.createElement("canvas");
-          return !!(
-            window.WebGLRenderingContext &&
-            (c.getContext("webgl2") || c.getContext("webgl"))
-          );
-        } catch (e) {
-          return false;
-        }
-      }
-      const canvas = document.getElementById("gl");
-      if (!hasWebGL()) fail("WebGL tidak tersedia");
-      else {
-        try {
-          start();
-        } catch (e) {
-          fail(e && e.message ? e.message : String(e));
-        }
-      }
-
-      function start() {
-        const renderer = new THREE.WebGLRenderer({
-          canvas,
-          antialias: true,
-          alpha: true,
-          powerPreference: "high-performance",
-        });
-        let dpr = Math.min(window.devicePixelRatio || 1, 2);
-        renderer.setPixelRatio(dpr);
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.05;
-        const scene = new THREE.Scene();
-        scene.fog = new THREE.Fog(COL.bg, 16, 40);
-        const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 120);
-        const look = new THREE.Vector3();
-
-        scene.add(
-          new THREE.HemisphereLight(0xffffff, COL.bg2 || 0x222233, 1.15),
-        );
-        const key = new THREE.DirectionalLight(0xffffff, 2.4);
-        key.position.set(4, 7, 6);
-        scene.add(key);
-        const rim = new THREE.DirectionalLight(COL.accent, 2.6);
-        rim.position.set(-6, 2, -5);
-        scene.add(rim);
-        const fill = new THREE.PointLight(COL.accent2, 18, 26, 1.6);
-        fill.position.set(4, -1, 5);
-        scene.add(fill);
-
-        /* Tekstur bantu: cahaya bulat & teks. */
-        const textures = [];
-        function glowTexture() {
-          const c = document.createElement("canvas");
-          c.width = c.height = 128;
-          const g = c.getContext("2d"),
-            r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
-          r.addColorStop(0, "rgba(255,255,255,1)");
-          r.addColorStop(0.35, "rgba(255,255,255,.35)");
-          r.addColorStop(1, "rgba(255,255,255,0)");
-          g.fillStyle = r;
-          g.fillRect(0, 0, 128, 128);
-          const t = new THREE.CanvasTexture(c);
-          textures.push(t);
-          return t;
-        }
-        function textTexture(draw, w, h) {
-          const c = document.createElement("canvas");
-          c.width = w;
-          c.height = h;
-          draw(c.getContext("2d"), w, h);
-          const t = new THREE.CanvasTexture(c);
-          t.colorSpace = THREE.SRGBColorSpace;
-          t.anisotropy = 4;
-          textures.push(t);
-          return t;
-        }
-        const screens = [];
-        function makeScreen(w, h, style) {
-          const c = document.createElement("canvas");
-          c.width = w;
-          c.height = h;
-          const tex = new THREE.CanvasTexture(c);
-          tex.colorSpace = THREE.SRGBColorSpace;
-          tex.anisotropy = 8;
-          screens.push({
-            c,
-            g: c.getContext("2d"),
-            tex,
-            style: style || "dark",
-          });
-          textures.push(tex);
-          return tex;
-        }
-
-        const api = buildObject({
-          THREE,
-          COL,
-          makeScreen,
-          glowTexture,
-          textTexture,
-          brand: BRAND,
-        });
-        scene.add(api.group);
-        const floor = typeof api.floor === "number" ? api.floor : -1.9;
-
-        /* Bayangan lembut & debu cahaya. */
-        const shadow = new THREE.Mesh(
-          new THREE.PlaneGeometry(6, 6),
-          new THREE.MeshBasicMaterial({
-            map: glowTexture(),
-            color: 0x000000,
-            transparent: true,
-            opacity: 0.35,
-            depthWrite: false,
-          }),
-        );
-        shadow.rotation.x = -Math.PI / 2;
-        scene.add(shadow);
-        const DUST = 420,
-          dp = new Float32Array(DUST * 3);
-        for (let i = 0; i < DUST; i++) {
-          dp[i * 3] = (Math.random() - 0.5) * 26;
-          dp[i * 3 + 1] = (Math.random() - 0.5) * 14;
-          dp[i * 3 + 2] = (Math.random() - 0.5) * 18 - 2;
-        }
-        const dg = new THREE.BufferGeometry();
-        dg.setAttribute("position", new THREE.BufferAttribute(dp, 3));
-        const dust = new THREE.Points(
-          dg,
-          new THREE.PointsMaterial({
-            color: COL.accent,
-            size: 0.05,
-            map: glowTexture(),
-            transparent: true,
-            opacity: 0.7,
-            depthWrite: false,
-            blending: THREE.AdditiveBlending,
-          }),
-        );
-        scene.add(dust);
-
-        /* Layar: logo / kode / UI / teks. */
-        const TK = {
-          dark: {
-            bg: "#0b1020",
-            kw: "#c792ea",
-            var: "#eef1ff",
-            key: COL.accent,
-            str: "#c3e88d",
-            num: "#f78c6c",
-            pun: "#8f9bb3",
-            com: "#6f789b",
-            ln: "#3c4566",
-            bar: "rgba(255,255,255,.05)",
-            ink: "#eef1ff",
-          },
-          paper: {
-            bg: "#f4ecda",
-            kw: "#7a3e9d",
-            var: "#2a2420",
-            key: "#a4442b",
-            str: "#3d6f3a",
-            num: "#a0522d",
-            pun: "#7d7468",
-            com: "#9a8f7e",
-            ln: "#c9bca2",
-            bar: "rgba(0,0,0,.05)",
-            ink: "#2a2420",
-          },
-        };
-        function wrap(g, text, maxW) {
-          const words = String(text).split(/\s+/),
-            out = [];
-          let line = "";
-          words.forEach((w) => {
-            const t = line ? line + " " + w : w;
-            if (g.measureText(t).width > maxW && line) {
-              out.push(line);
-              line = w;
-            } else line = t;
-          });
-          if (line) out.push(line);
-          return out;
-        }
-        function drawScreen(s, t) {
-          const g = s.g,
-            W = s.c.width,
-            H = s.c.height,
-            k = TK[s.style] || TK.dark,
-            paper = s.style === "paper";
-          const u = Math.min(W, H);
-          g.fillStyle = k.bg;
-          g.fillRect(0, 0, W, H);
-          if (screenMode === "code") {
-            const head = Math.round(u * 0.085);
-            g.fillStyle = k.bar;
-            g.fillRect(0, 0, W, head);
-            ["#ff5f57", "#febc2e", "#28c840"].forEach((c, i) => {
-              g.fillStyle = paper ? k.ln : c;
-              g.beginPath();
-              g.arc(head * 0.6 + i * head * 0.45, head / 2, head * 0.13, 0, 7);
-              g.fill();
-            });
-            g.fillStyle = k.pun;
-            g.font =
-              "500 " +
-              Math.round(head * 0.38) +
-              "px ui-monospace, Menlo, Consolas, monospace";
-            g.textBaseline = "middle";
-            g.fillText(berkas, head * 2.2, head / 2);
-            const n = LINES.length + 1,
-              portrait = H > W * 1.2;
-            const fs = portrait
-              ? Math.floor(W / 19)
-              : Math.floor(Math.min((H - head) / (n * 1.55), W / 34));
-            g.font =
-              "500 " + fs + "px ui-monospace, Menlo, Consolas, monospace";
-            const cw = g.measureText("M").width,
-              lh = fs * 1.55,
-              x0 = fs * 3.2,
-              maxX = W - fs * 0.6;
-            let left = typed,
-              y = head + lh * 0.9,
-              x = x0;
-            for (let i = 0; i < LINES.length && left > 0; i++) {
-              g.fillStyle = k.ln;
-              g.textAlign = "right";
-              g.fillText(String(i + 1), fs * 2.2, y);
-              g.textAlign = "left";
-              x = x0;
-              for (const tk of LINES[i]) {
-                if (left <= 0) break;
-                let txt = tk[1].slice(0, Math.max(0, left));
-                left -= tk[1].length;
-                g.fillStyle = k[tk[0]] || k.var;
-                /* Baris panjang dibungkus ke baris berikutnya (penting untuk layar tegak seperti HP). */
-                if (
-                  txt.length > (maxX - x) / cw &&
-                  txt.length <= (maxX - x0 - cw * 2) / cw &&
-                  x > x0
-                ) {
-                  y += lh;
-                  x = x0 + cw * 2;
-                }
-                while (txt.length) {
-                  if (maxX - x < cw) {
-                    y += lh;
-                    x = x0 + cw * 2;
-                  }
-                  const part = txt.slice(
-                    0,
-                    Math.max(1, Math.floor((maxX - x) / cw)),
-                  );
-                  g.fillText(part, x, y);
-                  x += cw * part.length;
-                  txt = txt.slice(part.length);
-                }
-              }
-              left -= 1;
-              if (left <= 0 && typed < TOTAL && Math.floor(t * 2) % 2 === 0) {
-                g.fillStyle = COL.accent;
-                g.fillRect(x + 2, y - fs * 0.55, fs * 0.55, fs * 1.1);
-              }
-              y += lh;
-            }
-          } else if (screenMode === "ui") {
-            const pad = u * 0.06,
-              side = W > H ? W * 0.2 : 0;
-            g.fillStyle = paper ? "rgba(0,0,0,.05)" : "rgba(255,255,255,.04)";
-            if (side) g.fillRect(0, 0, side, H);
-            g.fillStyle = COL.accent;
-            g.beginPath();
-            g.arc(
-              (side || pad * 2) / 2 + (side ? 0 : pad),
-              pad * 1.3,
-              u * 0.03,
-              0,
-              7,
-            );
-            g.fill();
-            for (let i = 0; i < 4 && side; i++) {
-              g.fillStyle =
-                i === 1
-                  ? COL.accent
-                  : paper
-                    ? "rgba(0,0,0,.12)"
-                    : "rgba(255,255,255,.12)";
-              g.fillRect(
-                pad,
-                pad * 3 + i * u * 0.09,
-                side - pad * 2,
-                u * 0.035,
-              );
-            }
-            const x0 = side + pad,
-              cw = W - x0 - pad;
-            g.fillStyle = k.ink;
-            g.font = "700 " + Math.round(u * 0.07) + "px system-ui, sans-serif";
-            g.textBaseline = "alphabetic";
-            g.fillText(BRAND, x0, pad + u * 0.07);
-            const cards = W > H ? 3 : 2,
-              gap = pad * 0.6,
-              cwid = (cw - gap * (cards - 1)) / cards,
-              ch = u * 0.2,
-              cy = pad * 1.6 + u * 0.08;
-            for (let i = 0; i < cards; i++) {
-              const x = x0 + i * (cwid + gap);
-              g.fillStyle = paper ? "rgba(0,0,0,.05)" : "rgba(255,255,255,.06)";
-              g.fillRect(x, cy, cwid, ch);
-              g.fillStyle = i % 2 ? COL.accent2 : COL.accent;
-              g.fillRect(
-                x + gap * 0.6,
-                cy + ch * 0.62,
-                cwid * (0.35 + 0.4 * (0.5 + 0.5 * Math.sin(t * 0.8 + i))),
-                ch * 0.12,
-              );
-              g.fillStyle = k.ink;
-              g.font =
-                "700 " + Math.round(ch * 0.26) + "px system-ui, sans-serif";
-              g.fillText(
-                String(
-                  Math.round(40 + 50 * (0.5 + 0.5 * Math.sin(t * 0.5 + i * 2))),
-                ) + "%",
-                x + gap * 0.6,
-                cy + ch * 0.42,
-              );
-            }
-            const by = cy + ch + gap * 1.4,
-              bh = H - by - pad,
-              bars = W > H ? 14 : 8,
-              bw = cw / bars;
-            for (let i = 0; i < bars; i++) {
-              const v = 0.3 + 0.6 * (0.5 + 0.5 * Math.sin(t * 1.2 + i * 0.7));
-              g.fillStyle = i % 3 === 0 ? COL.accent2 : COL.accent;
-              g.globalAlpha = 0.85;
-              g.fillRect(
-                x0 + i * bw + bw * 0.18,
-                by + bh * (1 - v),
-                bw * 0.64,
-                bh * v,
-              );
-            }
-            g.globalAlpha = 1;
-          } else {
-            const grad = g.createLinearGradient(0, 0, W, H);
-            grad.addColorStop(0, COL.accent);
-            grad.addColorStop(1, COL.accent2);
-            g.globalAlpha = paper ? 0.18 : 0.28;
-            g.fillStyle = grad;
-            g.fillRect(0, 0, W, H);
-            g.globalAlpha = 1;
-            const glow = g.createRadialGradient(
-              W / 2,
-              H / 2,
-              0,
-              W / 2,
-              H / 2,
-              u * 0.7,
-            );
-            glow.addColorStop(
-              0,
-              paper ? "rgba(255,255,255,.4)" : "rgba(255,255,255,.12)",
-            );
-            glow.addColorStop(1, "rgba(255,255,255,0)");
-            g.fillStyle = glow;
-            g.fillRect(0, 0, W, H);
-            const main =
-                screenMode === "logo" ? BRAND : CONFIG.layarTeks || BRAND,
-              sub =
-                screenMode === "logo"
-                  ? CONFIG.layarSub || ""
-                  : CONFIG.layarSub || "";
-            g.textAlign = "center";
-            g.textBaseline = "middle";
-            g.fillStyle = k.ink;
-            let fs = Math.round(u * (screenMode === "logo" ? 0.15 : 0.12));
-            g.font = "800 " + fs + "px system-ui, sans-serif";
-            let lines = wrap(g, main, W * 0.82);
-            while (lines.length > 3 && fs > 12) {
-              fs -= 4;
-              g.font = "800 " + fs + "px system-ui, sans-serif";
-              lines = wrap(g, main, W * 0.82);
-            }
-            const total = lines.length * fs * 1.1;
-            lines.forEach((l, i) =>
-              g.fillText(
-                l,
-                W / 2,
-                H / 2 -
-                  total / 2 +
-                  fs * 0.55 +
-                  i * fs * 1.1 -
-                  (sub ? fs * 0.3 : 0),
-              ),
-            );
-            if (sub) {
-              g.font =
-                "500 " + Math.round(fs * 0.3) + "px system-ui, sans-serif";
-              g.fillStyle = paper ? k.pun : "rgba(255,255,255,.75)";
-              g.fillText(sub, W / 2, H / 2 + total / 2 + fs * 0.35);
-            }
-            g.textAlign = "left";
-          }
-          s.tex.needsUpdate = true;
-        }
-
-        const tris = (() => {
-          let n = 0;
-          scene.traverse((o) => {
-            if (o.isMesh) {
-              const gg = o.geometry;
-              n +=
-                ((gg.index ? gg.index.count : gg.attributes.position.count) /
-                  3) *
-                (o.isInstancedMesh ? o.count : 1);
-            }
-          });
-          return Math.round(n);
-        })();
-        window.__OWD_STATS = { triangles: tris, budget: 50000, contexts: 1 };
-
-        const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
-        if (!reduce && matchMedia("(pointer: fine)").matches)
-          addEventListener(
-            "pointermove",
-            (e) => {
-              pointer.tx = e.clientX / innerWidth - 0.5;
-              pointer.ty = e.clientY / innerHeight - 0.5;
-            },
-            { passive: true },
-          );
-
-        function resize() {
-          const w = innerWidth,
-            h = innerHeight;
-          renderer.setSize(w, h, false);
-          camera.aspect = w / h;
-          camera.updateProjectionMatrix();
-        }
-        addEventListener("resize", resize);
-        resize();
-        let visible = true;
-        const io = new IntersectionObserver((en) => {
-          visible = en[0].isIntersecting;
-        });
-        io.observe(canvas);
-
-        /* Pose → kamera & objek. Layar sempit: objek ke tengah-atas, kamera mundur supaya muat. */
-        function applyPose(t) {
-          const narrow = camera.aspect < 0.9,
-            k = narrow ? Math.pow(0.9 / camera.aspect, 0.85) : 1;
-          const lx = P.lx * (narrow ? 0.1 : 1),
-            ly = P.ly - (narrow ? 0.8 + 0.55 * (k - 0.6) : 0);
-          look.set(lx, ly, P.lz);
-          camera.position.set(
-            lx + (P.cx - P.lx) * k * (narrow ? 0.4 : 1),
-            ly + (P.cy - P.ly) * k,
-            P.lz + (P.cz - P.lz) * k,
-          );
-          camera.position.x += pointer.x * 0.5;
-          camera.position.y -= pointer.y * 0.3;
-          camera.lookAt(look);
-          const g = api.group;
-          g.position.set(P.px * (narrow ? 0.1 : 1), P.py, P.pz);
-          g.rotation.set(
-            P.rx,
-            P.ry + (reduce ? 0 : Math.sin(t * 0.45) * 0.06),
-            P.rz,
-          );
-          g.scale.setScalar(P.s);
-          shadow.position.set(g.position.x, P.py + floor * P.s, g.position.z);
-          shadow.scale.setScalar(P.s);
-        }
-
-        const clock = new THREE.Clock();
-        let raf = 0,
-          first = true,
-          frames = 0,
-          slow = 0,
-          lastDraw = -1;
-        function frame() {
-          raf = requestAnimationFrame(frame);
-          const dt = Math.min(clock.getDelta(), 0.1),
-            t = clock.elapsedTime;
-          if (!visible || document.hidden) return;
-          pointer.x += (pointer.tx - pointer.x) * Math.min(1, dt * 3);
-          pointer.y += (pointer.ty - pointer.y) * Math.min(1, dt * 3);
-          applyPose(t);
-          api.update(reduce ? 0 : t, reduce ? 0 : dt, P);
-          if (!reduce) {
-            dust.rotation.y = t * 0.015;
-            dust.position.y = Math.sin(t * 0.2) * 0.2;
-          }
-          const live =
-            screenMode === "ui" || (screenMode === "code" && typed < TOTAL);
-          if (
-            screens.length &&
-            (screenDirty || (live && t - lastDraw > 0.08))
-          ) {
-            screens.forEach((s) => drawScreen(s, t));
-            screenDirty = false;
-            lastDraw = t;
-          }
-          renderer.render(scene, camera);
-          if (first) {
-            first = false;
-            root.classList.add("webgl");
-            root.classList.remove("loading");
-          }
-          frames++;
-          if (dt > 0.022) slow++;
-          if (frames === 90) {
-            if (slow > 45 && dpr > 1) {
-              dpr = Math.max(1, dpr - 0.5);
-              renderer.setPixelRatio(dpr);
-              resize();
-            }
-            frames = 0;
-            slow = 0;
-          }
-        }
-        if (window.OWD_THUMB) {
-          applyPose(0);
-          api.update(1.2, 0.016, P);
-          screens.forEach((s) => drawScreen(s, 1));
-          renderer.render(scene, camera);
-          root.classList.add("webgl");
-          root.classList.remove("loading");
-          return;
-        }
-        raf = requestAnimationFrame(frame);
-
-        function dispose() {
-          cancelAnimationFrame(raf);
-          io.disconnect();
-          if (hasG) ST.getAll().forEach((s) => s.kill());
-          if (lenis) lenis.destroy();
-          scene.traverse((o) => {
-            if (o.geometry) o.geometry.dispose();
-            const m = o.material;
-            if (m) (Array.isArray(m) ? m : [m]).forEach((mat) => mat.dispose());
-          });
-          textures.forEach((x) => x.dispose());
-          renderer.dispose();
-          renderer.forceContextLoss();
-        }
-        addEventListener("pagehide", dispose, { once: true });
-        window.__OWD_DISPOSE = dispose;
-      }
-    </script>
+    <script src="assets/app.js" defer></script>
   </body>
 </html>

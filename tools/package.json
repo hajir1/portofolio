@@ -1,0 +1,12 @@
+{
+  "name": "portofolio-tools",
+  "private": true,
+  "description": "Hanya untuk membundel src/scene.js + three.js menjadi assets/scene.min.js. Situs sendiri tidak butuh build.",
+  "scripts": {
+    "build": "esbuild ../src/scene.js --bundle --minify --format=iife --global-name=PortoScene --target=es2019 --legal-comments=none --alias:three=./node_modules/three/build/three.module.js --outfile=../assets/scene.min.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0",
+    "three": "0.169.0"
+  }
+}
