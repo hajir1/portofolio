@@ -32,14 +32,3 @@ cd tools
 npm install
 npm run build   # menulis ../assets/scene.min.js
 ```
-
-## Kenapa sekarang lebih ringan
-
-- Teks tampil langsung; tidak ada layar "Memuat" yang menunggu three.js.
-- three.js dimuat belakangan, dibundel hanya modul yang dipakai (±135 KB gzip, dari server sendiri).
-- GSAP, ScrollTrigger, Lenis, dan Motion dihapus; satu loop kecil menggantikannya.
-- Render 3D hanya saat ada perubahan (scroll, kursor, ketikan); diam ±30 fps; berhenti total saat
-  layar proyek menutupi viewport atau tab tidak terlihat.
-- Pixel ratio dibatasi (1,5 HP / 1,75 desktop) dan turun otomatis bila FPS rendah.
-- Tidak ada `backdrop-filter: blur` di atas canvas yang terus berubah.
-- Mode statis (tanpa 3D) untuk `prefers-reduced-motion`, hemat data, RAM ≤ 2 GB, atau tanpa WebGL.
